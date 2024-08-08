@@ -22,6 +22,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.eenp.bookmaster.client.util.Functions;
+
 import java.awt.Toolkit;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -31,6 +34,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Start extends JFrame {
 
@@ -38,6 +43,8 @@ public class Start extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtClave;
+	
+	Functions func = new Functions();
 
 	/**
 	 * Launch the application.
@@ -59,10 +66,11 @@ public class Start extends JFrame {
 	 * Create the frame.
 	 */
 	public Start() {
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Start.class.getResource("/com/eenp/bookmaster/client/images/book.png")));
 		setTitle("BookMaster | 1.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 300);
+		setBounds(100, 100, 332, 205);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,7 +85,7 @@ public class Start extends JFrame {
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/Apply.png")));
-		btnNewButton.setBounds(461, 208, 160, 45);
+		btnNewButton.setBounds(10, 114, 245, 45);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("");
@@ -87,7 +95,7 @@ public class Start extends JFrame {
 			}
 		});
 		btnNewButton_1.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/exit2.png")));
-		btnNewButton_1.setBounds(631, 208, 45, 45);
+		btnNewButton_1.setBounds(265, 114, 45, 45);
 		contentPane.add(btnNewButton_1);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
@@ -104,6 +112,14 @@ public class Start extends JFrame {
 		contentPane.add(lblClave);
 		
 		txtClave = new JPasswordField();
+		txtClave.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					accionIniciarSesion();
+		        }
+			}
+		});
 		txtClave.setBounds(10, 85, 300, 19);
 		contentPane.add(txtClave);
 	}
@@ -117,9 +133,22 @@ public class Start extends JFrame {
 	public void accionIniciarSesion() {
 		String usuario = this.txtUsuario.getText();
 		String clave   = this.txtClave.getText();
-		System.out.println("Usuario: " + usuario);
-		System.out.println("Clave: " + clave);
+		if(usuario.length() == 0) {
+			func.showMSG("ERROR","Debe ingresar el usuario","BookMaster...");
+			return;
+		}
+		if(clave.length() == 0) {
+			func.showMSG("ERROR","Debe ingresar su clave","BookMaster...");
+			return;
+		}
+		//System.out.println("Usuario-->" + usuario + "<--");
+		//System.out.println("Clave-->" + clave + "<--");
+		//System.out.println("ClaveMD5-->" + func.retornaMD5(clave) + "<--");
 		//TODO validar existe usuario. validar clave. errores: usuario no existe. clave incorrecta.
-		
+		//TODO enviar datos datos al servicio. validar uso de capas
+		Main link = new Main();
+		link.setVisible(true);
+		this.setVisible(false);
+		this.dispose();
 	}
 }
