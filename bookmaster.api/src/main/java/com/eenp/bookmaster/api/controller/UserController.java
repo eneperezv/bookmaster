@@ -22,6 +22,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,8 @@ import com.eenp.bookmaster.api.repository.UserRepository;
 @RestController
 @RequestMapping("/api/bookmaster")
 public class UserController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	UserRepository userRepository;
@@ -60,13 +64,13 @@ public class UserController {
 	
 	@GetMapping("/user/{usuario}")
 	public ResponseEntity<?> getUsuarioByName(@PathVariable("usuario") String usuario){
-		User result = new User();
+		User result;
 		try{
 			result = userRepository.findByUsuario(usuario);
 			if(result == null) {
-				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"NO CONTENT");
-				System.out.println(err.toString());
-				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NO_CONTENT);
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+usuario+"> no existe");
+				logger.error(err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<User>(result, HttpStatus.OK);
 		}catch(Exception e){

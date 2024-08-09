@@ -23,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.eenp.bookmaster.client.controller.UserController;
+import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.util.Functions;
 
 import java.awt.Toolkit;
@@ -43,6 +45,8 @@ public class Start extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtClave;
+	
+	private final UserController userController = new UserController();
 	
 	Functions func = new Functions();
 
@@ -141,11 +145,25 @@ public class Start extends JFrame {
 			func.showMSG("ERROR","Debe ingresar su clave","BookMaster...");
 			return;
 		}
-		//System.out.println("Usuario-->" + usuario + "<--");
-		//System.out.println("Clave-->" + clave + "<--");
-		//System.out.println("ClaveMD5-->" + func.retornaMD5(clave) + "<--");
-		//TODO validar existe usuario. validar clave. errores: usuario no existe. clave incorrecta.
-		//TODO enviar datos datos al servicio. validar uso de capas
+		validarLogin(usuario,func.retornaMD5(clave));
+	}
+	
+	public void validarLogin(String usuario, String clave) {
+		User user = userController.obtenerDatosUsuario(usuario);
+		if(user != null) {
+			if(user.getClave().equals(clave)) {
+				openMainWindow();
+			}else {
+				func.showMSG("ERROR","Clave incorrecta.","Error...");
+				return;
+			}
+		}else {
+			func.showMSG("ERROR","Usuario no reconocido.","Error...");
+			return;
+		}
+	}
+	
+	public void openMainWindow() {
 		Main link = new Main();
 		link.setVisible(true);
 		this.setVisible(false);
