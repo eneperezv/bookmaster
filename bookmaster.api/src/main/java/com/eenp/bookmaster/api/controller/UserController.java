@@ -46,7 +46,7 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@GetMapping("/allusers")
+	@GetMapping("/user/todos")
 	public ResponseEntity<?> getUsuarios(){
 		List<User> lista = new ArrayList<User>();
 		try{

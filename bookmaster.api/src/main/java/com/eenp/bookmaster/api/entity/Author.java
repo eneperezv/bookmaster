@@ -7,37 +7,27 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name="Users")
-public class User {
+@Table(name="Authors")
+public class Author {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name="IdUsuario", unique=true, nullable=false)
+	@Column(name="IdAutor", unique=true, nullable=false)
 	private Integer id;
-
-	@Column(name="usuario")
-	private String usuario;
 	
 	@Column(name="nombre")
 	private String nombre;
 	
-	@Column(name="clave")
-	private String clave;
-	
-	public User() {
+	public Author() {
 		
 	}
 
-	public User(String usuario, String nombre, String clave) {
+	public Author(String nombre) {
 		super();
-		this.usuario = usuario;
 		this.nombre = nombre;
-		this.clave = clave;
 	}
 
 	public Integer getId() {
@@ -48,14 +38,6 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -64,19 +46,9 @@ public class User {
 		this.nombre = nombre;
 	}
 
-	public String getClave() {
-		return clave;
-	}
-
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", clave=" + clave + "]";
+		return "Authors [id=" + id + ", nombre=" + nombre + "]";
 	}
-	
-	
 
 }
