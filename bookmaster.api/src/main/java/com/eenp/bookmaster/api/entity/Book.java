@@ -1,11 +1,16 @@
 package com.eenp.bookmaster.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,8 +29,18 @@ public class Book {
 	@Column(name="idautor")
 	private Integer idautor;
 	
+	@JoinColumn(name = "id_autor", nullable = false)
+	@ManyToOne(targetEntity=Author.class, fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Author author;
+	
 	@Column(name="ideditorial")
 	private Integer ideditorial;
+	
+	@JoinColumn(name = "id_publisher", nullable = false)
+	@ManyToOne(targetEntity=Publisher.class, fetch=FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Publisher publisher;
 	
 	@Column(name="aniopublicacion")
 	private Integer aniopublicacion;
@@ -66,12 +81,28 @@ public class Book {
 		this.idautor = idautor;
 	}
 
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
 	public Integer getIdeditorial() {
 		return ideditorial;
 	}
 
 	public void setIdeditorial(Integer ideditorial) {
 		this.ideditorial = ideditorial;
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	public Integer getAniopublicacion() {
@@ -84,8 +115,9 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Books [id=" + id + ", titulo=" + titulo + ", idautor=" + idautor + ", ideditorial=" + ideditorial
-				+ ", aniopublicacion=" + aniopublicacion + "]";
+		return "Book [id=" + id + ", titulo=" + titulo + ", idautor=" + idautor + ", author=" + author
+				+ ", ideditorial=" + ideditorial + ", publisher=" + publisher + ", aniopublicacion=" + aniopublicacion
+				+ "]";
 	}
 
 }

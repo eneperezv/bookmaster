@@ -11,23 +11,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Authors")
-public class Author implements Serializable {
+@Table(name="Publishers")
+public class Publisher implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name="IdAutor", unique=true, nullable=false)
+	@Column(name="IdPublisher", unique=true, nullable=false)
 	private Integer id;
 	
 	@Column(name="nombre")
 	private String nombre;
 	
-	public Author() {
+	public Publisher() {
 		
 	}
 
-	public Author(String nombre) {
+	public Publisher(String nombre) {
 		super();
 		this.nombre = nombre;
 	}
@@ -50,7 +50,7 @@ public class Author implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Authors [id=" + id + ", nombre=" + nombre + "]";
+		return "Publisher [id=" + id + ", nombre=" + nombre + "]";
 	}
 
 }
