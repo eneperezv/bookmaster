@@ -1,6 +1,7 @@
 package com.eenp.bookmaster.client.controller;
 
-import com.eenp.bookmaster.client.data.ApiService;
+import java.net.URISyntaxException;
+
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserService;
 
@@ -12,11 +13,8 @@ public class UserController {
         this.userService = new UserService();
     }
     
-    public User obtenerDatosUsuario(String nombreUsuario) {
-    	System.out.println("ENTRO A UserController");
+    public User obtenerDatosUsuario(String nombreUsuario) throws URISyntaxException {
     	return userService.getDatosUsuario(nombreUsuario);
-        // Procesa los datos y actualiza la interfaz gráfica
-        // (por ejemplo, muestra los datos en una ventana)
     }
 
 }

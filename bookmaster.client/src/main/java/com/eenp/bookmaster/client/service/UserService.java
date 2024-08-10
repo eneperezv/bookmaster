@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.service;
 
+import java.net.URISyntaxException;
+
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.User;
 
@@ -11,8 +13,7 @@ public class UserService {
         this.apiService = new ApiService();
     }
 	
-	public User getDatosUsuario(String usuario) {
-		System.out.println("ENTRO A UserService");
+	public User getDatosUsuario(String usuario) throws URISyntaxException {
 		return apiService.getDatosUsuario(usuario);
 	}
 

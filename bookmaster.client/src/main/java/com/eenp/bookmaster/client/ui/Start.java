@@ -23,8 +23,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.http.conn.HttpHostConnectException;
+
 import com.eenp.bookmaster.client.controller.UserController;
 import com.eenp.bookmaster.client.entity.User;
+import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
 
 import java.awt.Toolkit;
@@ -38,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URISyntaxException;
 
 public class Start extends JFrame {
 
@@ -85,7 +89,12 @@ public class Start extends JFrame {
 		JButton btnNewButton = new JButton("  Iniciar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				accionIniciarSesion();
+				try {
+					accionIniciarSesion();
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/Apply.png")));
@@ -120,7 +129,12 @@ public class Start extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
-					accionIniciarSesion();
+					try {
+						accionIniciarSesion();
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		        }
 			}
 		});
@@ -134,7 +148,7 @@ public class Start extends JFrame {
 		System.exit(0);
 	}
 	
-	public void accionIniciarSesion() {
+	public void accionIniciarSesion() throws URISyntaxException {
 		String usuario = this.txtUsuario.getText();
 		String clave   = this.txtClave.getText();
 		if(usuario.length() == 0) {
@@ -148,10 +162,11 @@ public class Start extends JFrame {
 		validarLogin(usuario,func.retornaMD5(clave));
 	}
 	
-	public void validarLogin(String usuario, String clave) {
+	public void validarLogin(String usuario, String clave) throws URISyntaxException {
 		User user = userController.obtenerDatosUsuario(usuario);
 		if(user != null) {
 			if(user.getClave().equals(clave)) {
+				UserSession.getInstance().setUsuario(user);
 				openMainWindow();
 			}else {
 				func.showMSG("ERROR","Clave incorrecta.","Error...");
@@ -163,7 +178,7 @@ public class Start extends JFrame {
 		}
 	}
 	
-	public void openMainWindow() {
+	public void openMainWindow() throws URISyntaxException {
 		Main link = new Main();
 		link.setVisible(true);
 		this.setVisible(false);

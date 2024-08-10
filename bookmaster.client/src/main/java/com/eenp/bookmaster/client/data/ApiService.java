@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.data;
 
+import java.net.URISyntaxException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -9,15 +11,21 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.eenp.bookmaster.client.entity.User;
 
 public class ApiService {
+
+	private static final String API_URL       = "API_URL";
+	private static final String ENDPOINT_USER = "ENDPOINT_USER";
 	
-	private static final String API_URL = "http://localhost:8080/api/bookmaster/user";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
-	public User getDatosUsuario(String usuario) {
-		System.out.println("ENTRO A ApiService");
+	ApiServiceConfig config;
+	
+	public User getDatosUsuario(String usuario) throws URISyntaxException {
+		config = ApiServiceConfig.obtenerInstancia();
         try {
             HttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet(API_URL + "/" + usuario);
+            HttpGet httpGet = new HttpGet(config.obtenerValor(API_URL) + 
+            							  config.obtenerValor(ENDPOINT_USER) + 
+            							  usuario);
             HttpResponse response = httpClient.execute(httpGet);
             if(response.getStatusLine().getStatusCode() == 200) {
             	String responseBody = EntityUtils.toString(response.getEntity());
