@@ -140,6 +140,8 @@ public class Start extends JFrame {
 		});
 		txtClave.setBounds(10, 85, 300, 19);
 		contentPane.add(txtClave);
+		
+		System.out.println("-->"+func.retornaMD5("admin")+"<--");
 	}
 	
 	public void accionSalir() {

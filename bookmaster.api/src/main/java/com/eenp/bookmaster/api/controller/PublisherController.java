@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.entity.Publisher;
+import com.eenp.bookmaster.api.entity.User;
 import com.eenp.bookmaster.api.repository.BookRepository;
 import com.eenp.bookmaster.api.repository.PublisherRepository;
 
@@ -41,6 +44,25 @@ public class PublisherController {
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+
+	
+	@PostMapping("/publisher/create")
+	public ResponseEntity<?> createEditorial(@RequestBody Publisher publisher){
+		Publisher savedPublisher;
+		try{
+			savedPublisher = publisherRepository.save(publisher);
+			if(savedPublisher == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Editorial <"+publisher+"> no existe");
+				logger.error(err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Publisher>(savedPublisher, HttpStatus.CREATED);
+		}catch(Exception e){
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
+			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

@@ -35,6 +35,14 @@ import javax.swing.border.EtchedBorder;
 
 import com.eenp.bookmaster.client.data.ApiServiceConfig;
 import com.eenp.bookmaster.client.service.UserSession;
+import com.eenp.bookmaster.client.util.Functions;
+
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
@@ -43,7 +51,13 @@ public class Main extends JFrame {
 	private JLabel lblUsuario;
 	private JButton btnNewButton;
 	private JPanel panel;
+	private JMenuBar menuBar;
+	private JMenu mnuMainMaestros;
+	private JMenuItem mnuUsuarios;
 
+	Functions func = new Functions();
+	private JMenuItem mnuMainSalir;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -77,6 +91,10 @@ public class Main extends JFrame {
 		btnNewButton = new JButton("New button");
 		panel = new JPanel();
 		lblUsuario = new JLabel("");
+		menuBar = new JMenuBar();
+		mnuMainMaestros = new JMenu("Maestros");
+		mnuUsuarios = new JMenuItem("Usuarios");
+		mnuMainSalir = new JMenuItem("Salir");
 	}
 
 	private void initComponents() {
@@ -85,6 +103,11 @@ public class Main extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
+		
+		setJMenuBar(menuBar);
+		
+		menuBar.add(mnuMainMaestros);
+		menuBar.add(mnuMainSalir);
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,18 +118,18 @@ public class Main extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(btnNewButton)
 					.addContainerGap(881, Short.MAX_VALUE))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 976, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(265, Short.MAX_VALUE)
 					.addComponent(btnNewButton)
-					.addPreferredGap(ComponentPlacement.RELATED, 485, Short.MAX_VALUE)
+					.addGap(230)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
 		
@@ -130,20 +153,34 @@ public class Main extends JFrame {
 	}
 	
 	private void initEvents() {
-		// TODO Auto-generated method stub
-		
+		mnuUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				func.showMSG("OK","HOLA","Menu Usuario");
+			}
+		});
+		mnuMainSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
 	}
 	
 	private void initData() {
+		// PAGINA PARA LOS ICONOS
+		// https://www.iconfinder.com/search/icons?family=feather
+		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
+		mnuMainMaestros.add(mnuUsuarios);
+		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getNombre() + " | " + UserSession.getInstance().getUsuario().getUsuario());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
 	}
 
 	public void obtenerConfiguracion() throws URISyntaxException {
-		ApiServiceConfig configuracion = ApiServiceConfig.obtenerInstancia();
-		String url = configuracion.obtenerValor("API_URL");
-		System.out.println("url->"+url);
-		System.out.println("usuario->"+UserSession.getInstance().getUsuario().toString());
+		//ApiServiceConfig configuracion = ApiServiceConfig.obtenerInstancia();
+		//String url = configuracion.obtenerValor("API_URL");
+		//System.out.println("url->"+url);
+		//System.out.println("usuario->"+UserSession.getInstance().getUsuario().toString());
 		
 	}
 }
