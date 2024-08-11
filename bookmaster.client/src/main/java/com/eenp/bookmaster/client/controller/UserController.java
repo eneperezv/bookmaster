@@ -13,8 +13,8 @@ public class UserController {
         this.userService = new UserService();
     }
     
-    public User obtenerDatosUsuario(String nombreUsuario) throws URISyntaxException {
-    	return userService.getDatosUsuario(nombreUsuario);
+    public User obtenerDatosUsuario(String nombreUsuario,String clave) throws URISyntaxException {
+    	return userService.getDatosUsuario(nombreUsuario,clave);
     }
 
 }

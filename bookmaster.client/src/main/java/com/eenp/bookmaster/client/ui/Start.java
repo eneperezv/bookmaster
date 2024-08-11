@@ -140,8 +140,9 @@ public class Start extends JFrame {
 		});
 		txtClave.setBounds(10, 85, 300, 19);
 		contentPane.add(txtClave);
-		
-		System.out.println("-->"+func.retornaMD5("admin")+"<--");
+
+		//System.out.println("-->"+func.retornaMD5("admin")+"<--");
+		//System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
 	}
 	
 	public void accionSalir() {
@@ -161,13 +162,14 @@ public class Start extends JFrame {
 			func.showMSG("ERROR","Debe ingresar su clave","BookMaster...");
 			return;
 		}
-		validarLogin(usuario,func.retornaMD5(clave));
+		validarLogin(usuario,clave);
 	}
 	
 	public void validarLogin(String usuario, String clave) throws URISyntaxException {
-		User user = userController.obtenerDatosUsuario(usuario);
+		User user = userController.obtenerDatosUsuario(usuario,clave);
+		user.setClaveNE(clave);
 		if(user != null) {
-			if(user.getClave().equals(clave)) {
+			if(func.checkPassword(clave,user.getClave())) {
 				UserSession.getInstance().setUsuario(user);
 				openMainWindow();
 			}else {

@@ -13,8 +13,8 @@ public class UserService {
         this.apiService = new ApiService();
     }
 	
-	public User getDatosUsuario(String usuario) throws URISyntaxException {
-		return apiService.getDatosUsuario(usuario);
+	public User getDatosUsuario(String usuario,String clave) throws URISyntaxException {
+		return apiService.getDatosUsuario(usuario,clave);
 	}
 
 }

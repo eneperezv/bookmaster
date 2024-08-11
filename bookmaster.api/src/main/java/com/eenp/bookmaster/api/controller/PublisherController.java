@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.entity.Publisher;
-import com.eenp.bookmaster.api.entity.User;
-import com.eenp.bookmaster.api.repository.BookRepository;
 import com.eenp.bookmaster.api.repository.PublisherRepository;
 
 @RestController

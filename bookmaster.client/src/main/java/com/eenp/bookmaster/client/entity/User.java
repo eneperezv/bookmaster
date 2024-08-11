@@ -6,6 +6,7 @@ public class User {
 	private String usuario;
 	private String nombre;
 	private String clave;
+	private String claveNE;
 	public Integer getId() {
 		return id;
 	}
@@ -30,9 +31,16 @@ public class User {
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
+	public String getClaveNE() {
+		return claveNE;
+	}
+	public void setClaveNE(String claveNE) {
+		this.claveNE = claveNE;
+	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", clave=" + clave + "]";
+		return "User [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", clave=" + clave + ", claveNE="
+				+ claveNE + "]";
 	}
 
 }
