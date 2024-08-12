@@ -1,11 +1,27 @@
 package com.eenp.bookmaster.client.data;
 
+/*
+ * @(#)ApiService.java 1.0 07/08/2024
+ * 
+ * El código implementado en este formulario esta protegido
+ * bajo las leyes internacionales del Derecho de Autor, sin embargo
+ * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
+ * descrita en https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+/**
+ * Servicio que conecta con la API
+ *
+ * @author eliezer.navarro
+ * @version 1.0 | 07/08/2024
+ * @since 1.0
+ */
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
@@ -14,6 +30,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+
 import com.eenp.bookmaster.client.entity.User;
 
 public class ApiService {
@@ -24,7 +41,8 @@ public class ApiService {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	ApiServiceConfig config;
-	
+	//IMPLEMENTAR RESPUESTAS Y POSIBLE USO DE RESPONSEENTITY
+	//TODOS LOS ESCENARIOS DE RESPUESTA HTTP DEBEN EMITIR UN MENSAJE ErrorDetails
 	public User getDatosUsuario(String usuario,String clave) throws URISyntaxException {
         
 		config = ApiServiceConfig.obtenerInstancia();

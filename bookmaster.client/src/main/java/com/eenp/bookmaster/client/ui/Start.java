@@ -10,7 +10,7 @@ package com.eenp.bookmaster.client.ui;
  */
 
 /**
- * Clase inicial del proyecto donde se ingresa usuario y clave para el inicio de sesión
+ * UI inicial del proyecto donde se ingresa usuario y clave para el inicio de sesión
  *
  * @author eliezer.navarro
  * @version 1.0 | 07/08/2024
