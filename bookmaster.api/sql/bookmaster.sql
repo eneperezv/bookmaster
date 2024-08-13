@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-08-2024 a las 06:19:46
+-- Tiempo de generación: 13-08-2024 a las 03:56:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,7 +29,6 @@ USE `bookmaster`;
 -- Estructura de tabla para la tabla `authors`
 --
 
-DROP TABLE IF EXISTS `authors`;
 CREATE TABLE `authors` (
   `id_autor` int(11) NOT NULL,
   `nombre` varchar(255) DEFAULT NULL
@@ -48,7 +47,6 @@ INSERT INTO `authors` (`id_autor`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `books`
 --
 
-DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `id_libro` int(11) NOT NULL,
   `aniopublicacion` int(11) DEFAULT NULL,
@@ -65,7 +63,6 @@ CREATE TABLE `books` (
 -- Estructura de tabla para la tabla `clients`
 --
 
-DROP TABLE IF EXISTS `clients`;
 CREATE TABLE `clients` (
   `id_cliente` int(11) NOT NULL,
   `correoelectronico` varchar(255) DEFAULT NULL,
@@ -74,13 +71,20 @@ CREATE TABLE `clients` (
   `telefono` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `clients`
+--
+
+INSERT INTO `clients` (`id_cliente`, `correoelectronico`, `direccion`, `nombre`, `telefono`) VALUES
+(1, 'dani@gmail.com', 'calle 4', 'Daniela Perez', '5552525'),
+(2, 'coco@correo.com', 'calle 50', 'Coco Perez', '5663636');
+
 -- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `publishers`
 --
 
-DROP TABLE IF EXISTS `publishers`;
 CREATE TABLE `publishers` (
   `id_publisher` int(11) NOT NULL,
   `nombre` varchar(255) DEFAULT NULL
@@ -99,7 +103,6 @@ INSERT INTO `publishers` (`id_publisher`, `nombre`) VALUES
 -- Estructura de tabla para la tabla `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id_usuario` int(11) NOT NULL,
   `clave` varchar(255) DEFAULT NULL,
@@ -172,7 +175,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
