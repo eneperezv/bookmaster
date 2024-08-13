@@ -73,6 +73,7 @@ public class Main extends JFrame {
 
 	Functions func = new Functions();
 	private JMenuItem mnuMainSalir;
+	private JMenuItem mnuClientes;
 	
 	/**
 	 * Launch the application.
@@ -187,6 +188,16 @@ public class Main extends JFrame {
 		// https://www.iconfinder.com/search/icons?family=feather
 		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
 		mnuMainMaestros.add(mnuUsuarios);
+		
+		mnuClientes = new JMenuItem("Clientes");
+		mnuClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClientMain link = new ClientMain();
+				link.setVisible(true);
+			}
+		});
+		mnuClientes.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666755_users_group_icon.png")));
+		mnuMainMaestros.add(mnuClientes);
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getNombre() + " | " + UserSession.getInstance().getUsuario().getUsuario());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());

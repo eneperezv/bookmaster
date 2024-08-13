@@ -18,12 +18,21 @@ package com.eenp.bookmaster.client.ui;
  */
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.net.URISyntaxException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import org.apache.http.conn.HttpHostConnectException;
 
 import com.eenp.bookmaster.client.controller.UserController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -31,19 +40,6 @@ import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
-
-import java.awt.Toolkit;
-import javax.swing.JButton;
-import java.awt.GridLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.net.URISyntaxException;
 
 public class Start extends JFrame {
 
@@ -142,9 +138,6 @@ public class Start extends JFrame {
 		});
 		txtClave.setBounds(10, 85, 300, 19);
 		contentPane.add(txtClave);
-
-		//System.out.println("-->"+func.retornaMD5("admin")+"<--");
-		//System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
 	}
 	
 	public void accionSalir() {

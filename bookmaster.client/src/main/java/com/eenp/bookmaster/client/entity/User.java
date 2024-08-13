@@ -10,10 +10,10 @@ package com.eenp.bookmaster.client.entity;
  */
 
 /**
- * Entidad para el control de Usuarios
+ * Entidad para controlar los datos del usuario
  *
  * @author eliezer.navarro
- * @version 1.0 | 07/08/2024
+ * @version 1.0 | 11/08/2024
  * @since 1.0
  */
 
