@@ -1,7 +1,7 @@
 package com.eenp.bookmaster.client.service;
 
 /*
- * @(#)UserService.java 1.0 07/08/2024
+ * @(#)UserService.java 1.0 13/08/2024
  * 
  * El código implementado en este formulario esta protegido
  * bajo las leyes internacionales del Derecho de Autor, sin embargo
@@ -9,10 +9,10 @@ package com.eenp.bookmaster.client.service;
  * descrita en https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-/** Capa de Servicio para el control de Usuarios
+/** Capa de Servicio para el control de Clientes
  *
  * @author eliezer.navarro
- * @version 1.0 | 07/08/2024
+ * @version 1.0 | 13/08/2024
  * @since 1.0
  */
 
@@ -20,18 +20,17 @@ import java.net.URISyntaxException;
 
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
-import com.eenp.bookmaster.client.entity.User;
 
-public class UserService {
+public class ClientService {
 	
 	private final ApiService apiService;
 	
-	public UserService() {
+	public ClientService() {
         this.apiService = new ApiService();
     }
 	
-	public ApiResponse<?> getDatosUsuario(String usuario,String clave) throws URISyntaxException {
-		return apiService.getDatosUsuario(usuario,clave);
+	public ApiResponse<?> getClientes() throws URISyntaxException {
+		return apiService.getClientes();
 	}
 
 }

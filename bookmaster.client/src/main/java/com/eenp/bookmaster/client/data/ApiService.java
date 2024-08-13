@@ -19,6 +19,7 @@ package com.eenp.bookmaster.client.data;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -30,16 +31,20 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
+import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class ApiService {
-
-	private static final String API_URL       = "API_URL";
-	private static final String ENDPOINT_USER = "ENDPOINT_USER";
+	//ORGANIZAR ESTAS CONSTANTES EN UNA CLASE APARTE
+	private static final String API_URL                 = "API_URL";
+	private static final String ENDPOINT_USER           = "ENDPOINT_USER";
+	private static final String ENDPOINT_CLIENTES_TODOS = "ENDPOINT_CLIENTES_TODOS";
 	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -66,6 +71,36 @@ public class ApiService {
             if(response.getStatusLine().getStatusCode() == 200) {
             	String responseBody = EntityUtils.toString(response.getEntity());
             	return new ApiResponse<User>(response.getStatusLine(),objectMapper.readValue(responseBody, User.class));
+            }else {
+            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+	public ApiResponse<?> getClientes() throws URISyntaxException {
+
+		config = ApiServiceConfig.obtenerInstancia();
+		
+		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_CLIENTES_TODOS);
+        URI uri = new URI(url);
+        
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpUriRequest request = RequestBuilder.get()
+                    .setUri(uri)
+                    .setHeader(new BasicScheme().authenticate(
+                            new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
+                            new HttpGet(uri), null))
+                    .build();
+            HttpResponse response = httpClient.execute(request);
+            
+            if(response.getStatusLine().getStatusCode() == 200) {
+            	String responseBody = EntityUtils.toString(response.getEntity());
+            	return new ApiResponse<List<Client>>(response.getStatusLine(),(List<Client>) objectMapper.readValue(responseBody, new TypeReference<List<Client>>() {}));
             }else {
             	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
             	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);

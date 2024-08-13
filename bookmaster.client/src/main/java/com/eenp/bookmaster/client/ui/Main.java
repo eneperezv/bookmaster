@@ -17,48 +17,27 @@ package com.eenp.bookmaster.client.ui;
  */
 
 import java.awt.Color;
-
-/*
- * @(#)Main.java 1.0 07/08/2024
- * 
- * El código implementado en este formulario esta protegido
- * bajo las leyes internacionales del Derecho de Autor, sin embargo
- * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
- * descrita en https://www.gnu.org/licenses/gpl-3.0.html
- */
-
-/**
- * Clase principal del proyecto donde se incluyen llaman las funcionalidades del sistema
- *
- * @author eliezer.navarro
- * @version 1.0 | 07/08/2024
- * @since 1.0
- */
-
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
-import com.eenp.bookmaster.client.data.ApiServiceConfig;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Main extends JFrame {
 
@@ -179,6 +158,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				dispose();
+				System.exit(0);
 			}
 		});
 	}
