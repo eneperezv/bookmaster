@@ -19,6 +19,7 @@ package com.eenp.bookmaster.client.service;
 import java.net.URISyntaxException;
 
 import com.eenp.bookmaster.client.data.ApiService;
+import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.User;
 
 public class UserService {
@@ -29,7 +30,7 @@ public class UserService {
         this.apiService = new ApiService();
     }
 	
-	public User getDatosUsuario(String usuario,String clave) throws URISyntaxException {
+	public ApiResponse getDatosUsuario(String usuario,String clave) throws URISyntaxException {
 		return apiService.getDatosUsuario(usuario,clave);
 	}
 

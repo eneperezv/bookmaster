@@ -31,7 +31,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
+import com.eenp.bookmaster.client.util.Functions;
 
 public class ApiService {
 
@@ -40,11 +43,12 @@ public class ApiService {
 	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
+	Functions func = new Functions();
+	
 	ApiServiceConfig config;
-	//IMPLEMENTAR RESPUESTAS Y POSIBLE USO DE RESPONSEENTITY
-	//TODOS LOS ESCENARIOS DE RESPUESTA HTTP DEBEN EMITIR UN MENSAJE ErrorDetails
-	public User getDatosUsuario(String usuario,String clave) throws URISyntaxException {
-        
+
+	public ApiResponse<?> getDatosUsuario(String usuario,String clave) throws URISyntaxException {
+
 		config = ApiServiceConfig.obtenerInstancia();
 		
 		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_USER) + usuario;
@@ -58,13 +62,15 @@ public class ApiService {
                             new HttpGet(uri), null))
                     .build();
             HttpResponse response = httpClient.execute(request);
-
+            
             if(response.getStatusLine().getStatusCode() == 200) {
             	String responseBody = EntityUtils.toString(response.getEntity());
-            	return objectMapper.readValue(responseBody, User.class);
+            	return new ApiResponse<User>(response.getStatusLine(),objectMapper.readValue(responseBody, User.class));
             }else {
-            	return null;
+            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

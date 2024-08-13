@@ -26,6 +26,8 @@ import javax.swing.border.EmptyBorder;
 import org.apache.http.conn.HttpHostConnectException;
 
 import com.eenp.bookmaster.client.controller.UserController;
+import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
@@ -166,9 +168,10 @@ public class Start extends JFrame {
 	}
 	
 	public void validarLogin(String usuario, String clave) throws URISyntaxException {
-		User user = userController.obtenerDatosUsuario(usuario,clave);
-		user.setClaveNE(clave);
-		if(user != null) {
+		ApiResponse<?> response = userController.obtenerDatosUsuario(usuario,clave);
+		if(response.getHttpResponse().getStatusCode() == 200) {
+			User user = (User) response.getResponse();
+			user.setClaveNE(clave);
 			if(func.checkPassword(clave,user.getClave())) {
 				UserSession.getInstance().setUsuario(user);
 				openMainWindow();
@@ -177,7 +180,9 @@ public class Start extends JFrame {
 				return;
 			}
 		}else {
-			func.showMSG("ERROR","Usuario no reconocido.","Error...");
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
 			return;
 		}
 	}

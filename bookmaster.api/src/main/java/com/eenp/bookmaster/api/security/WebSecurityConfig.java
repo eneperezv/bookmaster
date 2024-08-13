@@ -48,7 +48,7 @@ public class WebSecurityConfig {
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/publisher/todos").hasRole("USER")
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/publisher/create").hasRole("USER")
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/client/todos").hasRole("USER")
-            // Allow access to Swagger UI and API docs without authentication
+
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()
 			);
