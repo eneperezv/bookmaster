@@ -12,7 +12,7 @@
 	<artifactId>bookmaster.api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>bookmaster.api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>APIREST para gestión de la aplicación de escritorio BOOKMASTER</description>
 	<url/>
 	<licenses>
 		<license/>
