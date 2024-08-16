@@ -40,6 +40,11 @@ import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class Start extends JFrame {
 
@@ -76,13 +81,30 @@ public class Start extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Start.class.getResource("/com/eenp/bookmaster/client/images/book.png")));
 		setTitle("BookMaster | 1.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 332, 205);
+		setBounds(100, 100, 807, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/logo_main_test.png")));
+		lblNewLabel_1.setBounds(400, 0, 400, 563);
+		contentPane.add(lblNewLabel_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(41, 91, 300, 361);
+		contentPane.add(panel);
+		
+		JButton btnNewButton_1 = new JButton("  Salir");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				accionSalir();
+			}
+		});
+		btnNewButton_1.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/exit2.png")));
 		
 		JButton btnNewButton = new JButton("  Iniciar");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -96,31 +118,6 @@ public class Start extends JFrame {
 			}
 		});
 		btnNewButton.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/Apply.png")));
-		btnNewButton.setBounds(10, 114, 245, 45);
-		contentPane.add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				accionSalir();
-			}
-		});
-		btnNewButton_1.setIcon(new ImageIcon(Start.class.getResource("/com/eenp/bookmaster/client/images/exit2.png")));
-		btnNewButton_1.setBounds(265, 114, 45, 45);
-		contentPane.add(btnNewButton_1);
-		
-		JLabel lblNewLabel = new JLabel("Usuario:");
-		lblNewLabel.setBounds(10, 10, 300, 13);
-		contentPane.add(lblNewLabel);
-		
-		txtUsuario = new JTextField();
-		txtUsuario.setBounds(10, 33, 300, 19);
-		contentPane.add(txtUsuario);
-		txtUsuario.setColumns(10);
-		
-		JLabel lblClave = new JLabel("Clave:");
-		lblClave.setBounds(10, 62, 300, 13);
-		contentPane.add(lblClave);
 		
 		txtClave = new JPasswordField();
 		txtClave.addKeyListener(new KeyAdapter() {
@@ -136,8 +133,52 @@ public class Start extends JFrame {
 		        }
 			}
 		});
-		txtClave.setBounds(10, 85, 300, 19);
-		contentPane.add(txtClave);
+		
+		JLabel lblClave = new JLabel("Clave:");
+		
+		txtUsuario = new JTextField();
+		txtUsuario.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Usuario:");
+		
+		JLabel lblNewLabel_2 = new JLabel("Bienvenid@");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnNewButton_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+						.addComponent(lblClave, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+						.addComponent(txtClave, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+						.addComponent(txtUsuario, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel_2)
+					.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblClave)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtClave, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addGap(104)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		panel.setLayout(gl_panel);
 	}
 	
 	public void accionSalir() {
