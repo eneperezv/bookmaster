@@ -38,6 +38,7 @@ import javax.swing.border.EtchedBorder;
 
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Main extends JFrame {
 
@@ -53,6 +54,7 @@ public class Main extends JFrame {
 	Functions func = new Functions();
 	private JMenuItem mnuMainSalir;
 	private JMenuItem mnuClientes;
+	private JLabel lblNewLabel;
 	
 	/**
 	 * Launch the application.
@@ -111,6 +113,8 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		
+		lblNewLabel = new JLabel("New label");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -119,11 +123,17 @@ public class Main extends JFrame {
 					.addContainerGap()
 					.addComponent(btnNewButton)
 					.addContainerGap(881, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(85)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(846, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(265, Short.MAX_VALUE)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(79)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
 					.addComponent(btnNewButton)
 					.addGap(230)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
