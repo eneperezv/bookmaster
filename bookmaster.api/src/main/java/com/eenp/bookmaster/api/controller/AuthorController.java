@@ -1,5 +1,22 @@
 package com.eenp.bookmaster.api.controller;
 
+/*
+ * @(#)AuthorController.java 1.0 13/08/2024
+ * 
+ * El código implementado en este formulario esta protegido
+ * bajo las leyes internacionales del Derecho de Autor, sin embargo
+ * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
+ * descrita en https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+/**
+ * Clase controller para Autores
+ *
+ * @author eliezer.navarro
+ * @version 1.0 | 13/08/2024
+ * @since 1.0
+ */
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eenp.bookmaster.api.entity.Author;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
-import com.eenp.bookmaster.api.entity.User;
 import com.eenp.bookmaster.api.repository.AuthorRepository;
 
 @RestController
