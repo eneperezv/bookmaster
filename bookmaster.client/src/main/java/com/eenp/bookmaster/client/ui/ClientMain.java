@@ -114,7 +114,7 @@ public class ClientMain extends JFrame {
         
         JScrollPane scrollPane = new JScrollPane(table);
         
-        JLabel lblNewLabel = new JLabel("Nombre:");
+        JLabel lblNewLabel = new JLabel("Nombre completo:");
         
         txtNombre = new JTextField();
         txtNombre.setColumns(10);

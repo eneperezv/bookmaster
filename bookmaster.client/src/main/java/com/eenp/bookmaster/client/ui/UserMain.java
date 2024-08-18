@@ -36,6 +36,13 @@ import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.util.Functions;
+import javax.swing.JButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class UserMain extends JFrame {
 
@@ -47,6 +54,12 @@ public class UserMain extends JFrame {
     private final UserController userController = new UserController();
 	
 	Functions func = new Functions();
+	private JButton btnGuardar;
+	private JButton btnSalir;
+	private JLabel lblNewLabel;
+	private JTextField txtNombre;
+	private JTextField txtUsuario;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -104,17 +117,70 @@ public class UserMain extends JFrame {
         columnModel.getColumn(0).setPreferredWidth(0);
         
         JScrollPane scrollPane = new JScrollPane(table);
+		
+		btnGuardar = new JButton(" Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+        		if(validarCampos()) {
+        			guardarInformacion();
+        		}
+			}
+		});
+		btnGuardar.setIcon(new ImageIcon(UserMain.class.getResource("/com/eenp/bookmaster/client/images/Save2.png")));
+		
+		btnSalir = new JButton(" Salir");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+		btnSalir.setIcon(new ImageIcon(UserMain.class.getResource("/com/eenp/bookmaster/client/images/exit2.png")));
+		
+		lblNewLabel = new JLabel("Nombre completo: ");
+		
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		
+		txtUsuario = new JTextField();
+		txtUsuario.setColumns(10);
+		
+		lblNewLabel_1 = new JLabel("Usuario:");
         
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtUsuario, 212, 212, 212)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
+					.addGap(329)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
 				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addContainerGap(232, Short.MAX_VALUE)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel)
+								.addComponent(lblNewLabel_1))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(6)
+					.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -138,6 +204,27 @@ public class UserMain extends JFrame {
 					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
 			return;
 		}
+	}
+	
+	private void limpiarCampos() {
+    	txtNombre.setText("");
+    	txtUsuario.setText("");
+    }
+	
+	private boolean validarCampos() {
+		if(txtNombre.getText().equals("") || 
+				txtUsuario.getText().equals("")
+					){
+				func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Usuarios...");
+				return false;
+			}else {
+				return true;
+			}
+	}
+	
+	private void guardarInformacion() {
+		
+		limpiarCampos();
 	}
 
 }
