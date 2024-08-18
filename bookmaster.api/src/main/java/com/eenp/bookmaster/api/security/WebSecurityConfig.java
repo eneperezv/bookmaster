@@ -48,6 +48,7 @@ public class WebSecurityConfig {
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/publisher/todos").hasRole("USER")
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/publisher/create").hasRole("USER")
 			.requestMatchers(HttpMethod.GET,"/api/bookmaster/client/todos").hasRole("USER")
+			.requestMatchers(HttpMethod.POST,"/api/bookmaster/client/create").hasRole("USER")
 
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()

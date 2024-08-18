@@ -27,12 +27,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eenp.bookmaster.api.entity.Client;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
+import com.eenp.bookmaster.api.entity.User;
 import com.eenp.bookmaster.api.repository.ClientRepository;
 
 @RestController
@@ -57,6 +59,23 @@ public class ClientController {
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/client/create")
+	public ResponseEntity<?> createUsuario(@RequestBody Client client){
+		Client savedClient;
+		try{
+			savedClient = clientRepository.save(client);
+			if(savedClient == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Cliente <"+client+"> no existe");
+				logger.error(err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Client>(savedClient, HttpStatus.CREATED);
+		}catch(Exception e){
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
+			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

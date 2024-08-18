@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Client;
 
 public class ClientService {
 	
@@ -31,6 +32,10 @@ public class ClientService {
 	
 	public ApiResponse<?> getClientes() throws URISyntaxException {
 		return apiService.getClientes();
+	}
+	
+	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException{
+		return apiService.setClienteNuevo(cliente);
 	}
 
 }
