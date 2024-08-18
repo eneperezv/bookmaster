@@ -48,6 +48,7 @@ public class ApiService {
 	private static final String API_URL                  = "API_URL";
 	private static final String ENDPOINT_USER            = "ENDPOINT_USER";
 	private static final String ENDPOINT_USER_TODOS      = "ENDPOINT_USER_TODOS";
+	private static final String ENDPOINT_USER_CREATE     = "ENDPOINT_USER_CREATE";
 	private static final String ENDPOINT_CLIENTES_TODOS  = "ENDPOINT_CLIENTES_TODOS";
 	private static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
 	
@@ -120,6 +121,39 @@ public class ApiService {
             return null;
         }
     }
+	
+	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
+	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_USER_CREATE);
+	        String url = apiUrl + endpointClientesCreate;
+	        URI uri = new URI(url);
+
+	        String jsonCliente = objectMapper.writeValueAsString(user);
+
+	        HttpUriRequest request = RequestBuilder.post()
+	                .setUri(uri)
+	                .setHeader(new BasicScheme().authenticate(
+	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
+	                        new HttpPost(uri), null))
+	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
+	                .build();
+
+	        HttpResponse response = httpClient.execute(request);
+
+	        if (response.getStatusLine().getStatusCode() == 200) {
+	            String responseBody = EntityUtils.toString(response.getEntity());
+	            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
+	        } else {
+	            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+	            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 	
 	/*
 	 * CLIENTES

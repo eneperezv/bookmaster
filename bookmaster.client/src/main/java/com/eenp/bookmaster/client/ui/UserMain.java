@@ -122,7 +122,12 @@ public class UserMain extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		if(validarCampos()) {
-        			guardarInformacion();
+        			try {
+						guardarInformacion();
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
         		}
 			}
 		});
@@ -222,9 +227,26 @@ public class UserMain extends JFrame {
 			}
 	}
 	
-	private void guardarInformacion() {
+	private void guardarInformacion() throws URISyntaxException {
+		User user = new User();
+		user.setId(null);
+		user.setUsuario(txtUsuario.getText());
+		user.setNombre(txtNombre.getText());
+		user.setClave(func.retornaHashBCrypt("123456"));
 		
-		limpiarCampos();
+		ApiResponse<?> response = userController.setUsuarioNuevo(user);
+		if(response.getHttpResponse().getStatusCode() == 201) {
+    		func.showMSG("OK","El cliente se creó correctamente.","BookMaster...");
+    		limpiarCampos();
+    		cargarDatosUsuarios();
+    		return;
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			limpiarCampos();
+			return;
+		}
 	}
 
 }
