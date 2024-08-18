@@ -92,6 +92,7 @@ public class Main extends JFrame {
 		menuBar = new JMenuBar();
 		mnuMainMaestros = new JMenu("Maestros");
 		mnuUsuarios = new JMenuItem("Usuarios");
+		mnuClientes = new JMenuItem("Clientes");
 		mnuMainSalir = new JMenuItem("Salir");
 	}
 
@@ -161,7 +162,14 @@ public class Main extends JFrame {
 	private void initEvents() {
 		mnuUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				func.showMSG("OK","HOLA","Menu Usuario");
+				UserMain link = new UserMain();
+				link.setVisible(true);
+			}
+		});
+		mnuClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClientMain link = new ClientMain();
+				link.setVisible(true);
 			}
 		});
 		mnuMainSalir.addActionListener(new ActionListener() {
@@ -178,14 +186,6 @@ public class Main extends JFrame {
 		// https://www.iconfinder.com/search/icons?family=feather
 		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
 		mnuMainMaestros.add(mnuUsuarios);
-		
-		mnuClientes = new JMenuItem("Clientes");
-		mnuClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ClientMain link = new ClientMain();
-				link.setVisible(true);
-			}
-		});
 		mnuClientes.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666755_users_group_icon.png")));
 		mnuMainMaestros.add(mnuClientes);
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));

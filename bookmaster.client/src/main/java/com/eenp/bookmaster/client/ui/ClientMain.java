@@ -1,7 +1,7 @@
 package com.eenp.bookmaster.client.ui;
 
 /*
- * @(#)ClientMain.java 1.0 07/08/2024
+ * @(#)ClientMain.java 1.0 17/08/2024
  * 
  * El código implementado en este formulario esta protegido
  * bajo las leyes internacionales del Derecho de Autor, sin embargo
@@ -12,7 +12,7 @@ package com.eenp.bookmaster.client.ui;
 /** UI Principal del control de Clientes
  *
  * @author eliezer.navarro
- * @version 1.0 | 07/08/2024
+ * @version 1.0 | 17/08/2024
  * @since 1.0
  */
 

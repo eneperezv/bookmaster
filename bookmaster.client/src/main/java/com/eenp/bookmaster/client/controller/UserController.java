@@ -33,5 +33,9 @@ public class UserController {
     public ApiResponse<?> obtenerDatosUsuario(String nombreUsuario,String clave) throws URISyntaxException {
     	return userService.getDatosUsuario(nombreUsuario,clave);
     }
+    
+    public ApiResponse<?> getUsuarios() throws URISyntaxException {
+		return userService.getUsuarios();
+	}
 
 }

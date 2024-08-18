@@ -47,6 +47,7 @@ public class ApiService {
 	//ORGANIZAR ESTAS CONSTANTES EN UNA CLASE APARTE
 	private static final String API_URL                  = "API_URL";
 	private static final String ENDPOINT_USER            = "ENDPOINT_USER";
+	private static final String ENDPOINT_USER_TODOS      = "ENDPOINT_USER_TODOS";
 	private static final String ENDPOINT_CLIENTES_TODOS  = "ENDPOINT_CLIENTES_TODOS";
 	private static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
 	
@@ -55,7 +56,10 @@ public class ApiService {
 	Functions func = new Functions();
 	
 	ApiServiceConfig config;
-
+	
+	/*
+	 * USUARIOS
+	 * */
 	public ApiResponse<?> getDatosUsuario(String usuario,String clave) throws URISyntaxException {
 
 		config = ApiServiceConfig.obtenerInstancia();
@@ -85,7 +89,42 @@ public class ApiService {
             return null;
         }
     }
+	
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> getUsuarios() throws URISyntaxException {
 
+		config = ApiServiceConfig.obtenerInstancia();
+		
+		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_USER_TODOS);
+        URI uri = new URI(url);
+        
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpUriRequest request = RequestBuilder.get()
+                    .setUri(uri)
+                    .setHeader(new BasicScheme().authenticate(
+                            new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
+                            new HttpGet(uri), null))
+                    .build();
+            HttpResponse response = httpClient.execute(request);
+            
+            if(response.getStatusLine().getStatusCode() == 200) {
+            	String responseBody = EntityUtils.toString(response.getEntity());
+            	return new ApiResponse<List<User>>(response.getStatusLine(),(List<User>) objectMapper.readValue(responseBody, new TypeReference<List<User>>() {}));
+            }else {
+            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
+	/*
+	 * CLIENTES
+	 * */
+	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getClientes() throws URISyntaxException {
 
 		config = ApiServiceConfig.obtenerInstancia();
@@ -118,16 +157,14 @@ public class ApiService {
 	
 	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException {
 	    try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-	        // Configuración de la URL y la autenticación
+
 	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
 	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_CLIENTES_CREATE);
 	        String url = apiUrl + endpointClientesCreate;
 	        URI uri = new URI(url);
 
-	        // Crear objeto JSON con los datos del cliente
 	        String jsonCliente = objectMapper.writeValueAsString(cliente);
 
-	        // Crear solicitud HTTP POST
 	        HttpUriRequest request = RequestBuilder.post()
 	                .setUri(uri)
 	                .setHeader(new BasicScheme().authenticate(
@@ -136,7 +173,6 @@ public class ApiService {
 	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
 	                .build();
 
-	        // Ejecutar la solicitud
 	        HttpResponse response = httpClient.execute(request);
 
 	        if (response.getStatusLine().getStatusCode() == 200) {
@@ -152,40 +188,4 @@ public class ApiService {
 	    }
 	}
 	
-	
-	
-	
-	
-	/*
-	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException{
-		
-		config = ApiServiceConfig.obtenerInstancia();
-		
-		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_CLIENTES_CREATE);
-        URI uri = new URI(url);
-        
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpUriRequest request = RequestBuilder.get()
-                    .setUri(uri)
-                    .setHeader(new BasicScheme().authenticate(
-                            new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
-                            new HttpGet(uri), null))
-                    .build();
-            HttpResponse response = httpClient.execute(request);
-            
-            if(response.getStatusLine().getStatusCode() == 200) {
-            	String responseBody = EntityUtils.toString(response.getEntity());
-            	return new ApiResponse<List<Client>>(response.getStatusLine(),(List<Client>) objectMapper.readValue(responseBody, new TypeReference<List<Client>>() {}));
-            }else {
-            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
-            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-		
-	}
-	*/
 }
