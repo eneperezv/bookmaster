@@ -41,5 +41,9 @@ public class UserService {
 	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
 		return apiService.setUsuarioNuevo(user);
 	}
+	
+	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
+		return apiService.setUsuarioUpdate(user);
+	}
 
 }

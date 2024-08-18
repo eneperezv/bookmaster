@@ -29,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,5 +96,49 @@ public class UserController {
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PutMapping("/user/update")
+	public ResponseEntity<?> updateUsuario(@RequestBody User user) {
+		//IMPLEMENTAR REINICIO DE LA API CON ACTUATOR. SOLO CUANDO SE ACTUALICE EL USUARIO
+	    try {
+	        User result = userRepository.findByUsuario(user.getUsuario());
+	        if (result == null) {
+	            ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.NOT_FOUND.toString(), "Usuario <" + user.getUsuario() + "> no existe");
+	            logger.error(err.toString());
+	            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+	        }
+	        result.setClave(user.getClave());
 
+	        User savedUser = userRepository.save(result);
+	        if(savedUser == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+user+"> no existe");
+				logger.error(err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+	    } catch (Exception e) {
+	        ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.toString(), "INTERNAL SERVER ERROR");
+	        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
+	
+	
+	/*
+	public ResponseEntity<?> updateUsuario(@PathVariable("usuario") String usuario,User user){
+		User result;
+		try{
+			result = userRepository.findByUsuario(usuario);
+			if(result == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+usuario+"> no existe");
+				logger.error(err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<User>(result, HttpStatus.OK);
+		}catch(Exception e){
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
+			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	*/
 }

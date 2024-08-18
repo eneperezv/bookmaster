@@ -25,6 +25,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
@@ -49,6 +50,7 @@ public class ApiService {
 	private static final String ENDPOINT_USER            = "ENDPOINT_USER";
 	private static final String ENDPOINT_USER_TODOS      = "ENDPOINT_USER_TODOS";
 	private static final String ENDPOINT_USER_CREATE     = "ENDPOINT_USER_CREATE";
+	private static final String ENDPOINT_USER_UPDATE     = "ENDPOINT_USER_UPDATE";
 	private static final String ENDPOINT_CLIENTES_TODOS  = "ENDPOINT_CLIENTES_TODOS";
 	private static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
 	
@@ -137,6 +139,39 @@ public class ApiService {
 	                .setHeader(new BasicScheme().authenticate(
 	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
 	                        new HttpPost(uri), null))
+	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
+	                .build();
+
+	        HttpResponse response = httpClient.execute(request);
+
+	        if (response.getStatusLine().getStatusCode() == 200) {
+	            String responseBody = EntityUtils.toString(response.getEntity());
+	            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
+	        } else {
+	            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+	            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
+	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
+		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
+	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_USER_UPDATE);
+	        String url = apiUrl + endpointClientesCreate;
+	        URI uri = new URI(url);
+
+	        String jsonCliente = objectMapper.writeValueAsString(user);
+
+	        HttpUriRequest request = RequestBuilder.post()
+	                .setUri(uri)
+	                .setHeader(new BasicScheme().authenticate(
+	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsuario(), UserSession.getInstance().getUsuario().getClaveNE()),
+	                        new HttpPut(uri), null))
 	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
 	                .build();
 

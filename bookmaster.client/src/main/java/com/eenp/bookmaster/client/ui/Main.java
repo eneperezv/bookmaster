@@ -83,10 +83,21 @@ public class Main extends JFrame {
 		initData();
 		initComponents();
 		initEvents();
+		
+		if(UserSession.getInstance().getUsuario().getClaveNE().equals("123456")) {
+			UserMainPwdUpdate link = new UserMainPwdUpdate(null,true);
+			link.setVisible(true);
+		}
 	}
 
 	private void initObjects() {
 		btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//UserMainPwdUpdate link = new UserMainPwdUpdate(null,true);
+				//link.setVisible(true);
+			}
+		});
 		panel = new JPanel();
 		lblUsuario = new JLabel("");
 		menuBar = new JMenuBar();
