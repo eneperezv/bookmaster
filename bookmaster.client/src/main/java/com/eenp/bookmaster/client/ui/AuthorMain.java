@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+
+import org.apache.http.ParseException;
 
 import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -74,16 +77,16 @@ public class AuthorMain extends JFrame {
         initialize();
         try {
 			cargarDatosAutores();
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException | ParseException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void cargarDatosAutores() throws URISyntaxException {
+	@SuppressWarnings("unchecked")
+	private void cargarDatosAutores() throws URISyntaxException, ParseException, IOException {
 		ApiResponse<?> response = authorController.getAutores();
     	if(response.getHttpResponse().getStatusCode() == 200) {
-    		@SuppressWarnings("unchecked")
 			List<Author> autores = (List<Author>) response.getResponse();
     		tableModel.setNumRows(0);
     		for (Author autor : autores) {

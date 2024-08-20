@@ -1,6 +1,9 @@
 package com.eenp.bookmaster.client.service;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+
+import org.apache.http.ParseException;
 
 /*
  * @(#)AuthorService.java 1.0 20/08/2024
@@ -29,7 +32,7 @@ public class AuthorService {
 		this.apiService = new ApiService();
 	}
 
-	public ApiResponse<?> getAutores() throws URISyntaxException {
+	public ApiResponse<?> getAutores() throws URISyntaxException, ParseException, IOException {
 		return apiService.getAutores();
 	}
 

@@ -15,7 +15,7 @@ public class ApiDataService {
 	
 	private final CloseableHttpClient httpClient = HttpClients.createDefault();
 	
-	public HttpResponse connectToApi(String url, String method) throws URISyntaxException {
+	public HttpResponse connectToApi(String url, String method, String token) throws URISyntaxException {
         URI uri = new URI(url);
         try {
             HttpUriRequest request = null;
@@ -23,10 +23,12 @@ public class ApiDataService {
                 case "GET":
                     request = RequestBuilder.get()
                         .setUri(uri)
-    	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
+    	                //.setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
+    	                .setHeader("Authorization", "Bearer " + token)
                         .build();
                     break;
                 case "POST":
+                	
                 	break;
                 case "PUT":
                 	break;

@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
@@ -33,6 +34,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.http.ParseException;
 
 import com.eenp.bookmaster.client.controller.UserController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -112,7 +115,7 @@ public class Start extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					accionIniciarSesion();
-				} catch (URISyntaxException e1) {
+				} catch (URISyntaxException | ParseException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -127,7 +130,7 @@ public class Start extends JFrame {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					try {
 						accionIniciarSesion();
-					} catch (URISyntaxException e1) {
+					} catch (URISyntaxException | ParseException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -190,7 +193,7 @@ public class Start extends JFrame {
 		System.exit(0);
 	}
 	
-	public void accionIniciarSesion() throws URISyntaxException {
+	public void accionIniciarSesion() throws URISyntaxException, ParseException, IOException {
 		String usuario = this.txtUsuario.getText();
 		String clave   = this.txtClave.getText();
 		if(usuario.length() == 0) {
@@ -204,7 +207,7 @@ public class Start extends JFrame {
 		validarLogin(usuario,clave);
 	}
 	
-	public void validarLogin(String usuario, String clave) throws URISyntaxException {
+	public void validarLogin(String usuario, String clave) throws URISyntaxException, ParseException, IOException {
 		User user = new User();
 		user.setUsername(usuario);
 		user.setPassword(clave);

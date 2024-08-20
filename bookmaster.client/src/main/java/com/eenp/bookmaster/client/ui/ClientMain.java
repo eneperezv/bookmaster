@@ -32,6 +32,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.http.ParseException;
+
 import com.eenp.bookmaster.client.controller.ClientController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Client;
@@ -44,6 +46,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
@@ -85,7 +88,7 @@ public class ClientMain extends JFrame {
         initialize();
         try {
 			cargarDatosClientes();
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException | ParseException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -211,7 +214,7 @@ public class ClientMain extends JFrame {
         contentPane.setLayout(groupLayout);
     }
 
-    private void cargarDatosClientes() throws URISyntaxException {
+    private void cargarDatosClientes() throws URISyntaxException, ParseException, IOException {
     	ApiResponse<?> response = clientController.getClientes();
     	if(response.getHttpResponse().getStatusCode() == 200) {
     		@SuppressWarnings("unchecked")
@@ -266,7 +269,12 @@ public class ClientMain extends JFrame {
 		if(response.getHttpResponse().getStatusCode() == 201) {
     		func.showMSG("OK","El cliente se creó correctamente.","BookMaster...");
     		limpiarCampos();
-    		cargarDatosClientes();
+    		try {
+				cargarDatosClientes();
+			} catch (ParseException | URISyntaxException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
     		return;
 		}else {
 			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();

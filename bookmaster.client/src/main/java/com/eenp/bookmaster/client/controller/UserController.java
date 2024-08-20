@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.controller;
 
+import java.io.IOException;
+
 /*
  * @(#)UserController.java 1.0 07/08/2024
  * 
@@ -19,6 +21,8 @@ package com.eenp.bookmaster.client.controller;
 
 import java.net.URISyntaxException;
 
+import org.apache.http.ParseException;
+
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserService;
@@ -35,11 +39,11 @@ public class UserController {
     	return userService.getToken(user);
     }
     
-    public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException {
+    public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException, ParseException, IOException {
     	return userService.getDatosUsuario(req);
     }
     
-    public ApiResponse<?> getUsuarios() throws URISyntaxException {
+    public ApiResponse<?> getUsuarios() throws URISyntaxException, ParseException, IOException {
 		return userService.getUsuarios();
 	}
     

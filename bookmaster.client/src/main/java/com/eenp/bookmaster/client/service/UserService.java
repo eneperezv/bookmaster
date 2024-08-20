@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.service;
 
+import java.io.IOException;
+
 /*
  * @(#)UserService.java 1.0 07/08/2024
  * 
@@ -18,6 +20,8 @@ package com.eenp.bookmaster.client.service;
 
 import java.net.URISyntaxException;
 
+import org.apache.http.ParseException;
+
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.User;
@@ -34,11 +38,11 @@ public class UserService {
 		return apiService.getToken(user);
 	}
 	
-	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException {
+	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException, ParseException, IOException {
 		return apiService.getDatosUsuario(req);
 	}
 	
-	public ApiResponse<?> getUsuarios() throws URISyntaxException {
+	public ApiResponse<?> getUsuarios() throws URISyntaxException, ParseException, IOException {
 		return apiService.getUsuarios();
 	}
 	

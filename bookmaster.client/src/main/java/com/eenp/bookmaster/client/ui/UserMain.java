@@ -31,6 +31,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.http.ParseException;
+
 import com.eenp.bookmaster.client.controller.UserController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
@@ -42,6 +44,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class UserMain extends JFrame {
@@ -89,7 +92,7 @@ public class UserMain extends JFrame {
         initialize();
         try {
 			cargarDatosUsuarios();
-		} catch (URISyntaxException e) {
+		} catch (URISyntaxException | ParseException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -124,7 +127,7 @@ public class UserMain extends JFrame {
         		if(validarCampos()) {
         			try {
 						guardarInformacion();
-					} catch (URISyntaxException e1) {
+					} catch (URISyntaxException | ParseException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -193,7 +196,7 @@ public class UserMain extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
-	private void cargarDatosUsuarios() throws URISyntaxException {
+	private void cargarDatosUsuarios() throws URISyntaxException, ParseException, IOException {
 		ApiResponse<?> response = userController.getUsuarios();
     	if(response.getHttpResponse().getStatusCode() == 200) {
     		@SuppressWarnings("unchecked")
@@ -230,7 +233,7 @@ public class UserMain extends JFrame {
 			}
 	}
 	
-	private void guardarInformacion() throws URISyntaxException {
+	private void guardarInformacion() throws URISyntaxException, ParseException, IOException {
 		User user = new User();
 		user.setId(null);
 		user.setUsername(txtUsuario.getText());

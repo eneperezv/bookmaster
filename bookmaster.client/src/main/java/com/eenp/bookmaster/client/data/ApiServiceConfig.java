@@ -41,9 +41,14 @@ public class ApiServiceConfig {
         }
     }
     
-    public static ApiServiceConfig obtenerInstancia() throws URISyntaxException {
+    public static ApiServiceConfig obtenerInstancia() {
         if (instancia == null) {
-            instancia = new ApiServiceConfig();
+            try {
+				instancia = new ApiServiceConfig();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
         return instancia;
     }

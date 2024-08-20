@@ -89,7 +89,6 @@ public class PublisherMain extends JFrame {
 			List<Publisher> editoriales = (List<Publisher>) response.getResponse();
     		tableModel.setNumRows(0);
     		for (Publisher editorial : editoriales) {
-    			System.out.println("EDITORIAL->"+editorial.toString());
                 tableModel.addRow(new Object[]{
                 		editorial.getId(),
                 		editorial.getNombre()
