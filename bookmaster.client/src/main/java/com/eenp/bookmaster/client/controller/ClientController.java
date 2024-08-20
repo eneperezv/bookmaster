@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Client;
@@ -39,7 +41,7 @@ public class ClientController {
     	return clientService.getClientes();
     }
 	
-	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException{
+	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException{
 		return clientService.setClienteNuevo(cliente);
 	}
 

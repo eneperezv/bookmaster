@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -35,6 +36,8 @@ import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -47,7 +50,6 @@ import com.eenp.bookmaster.client.entity.Token;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
-import com.eenp.bookmaster.client.data.ApiDataService;
 
 public class ApiService {
 	
@@ -104,7 +106,7 @@ public class ApiService {
 	 * */
 	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException, ParseException, IOException {
 		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER) + req.getUsername();
-		HttpResponse response = apiDataService.connectToApi(url,"GET",req.getToken());
+		HttpResponse response = apiDataService.connectToApi(url,"GET",req.getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
             return new ApiResponse<User>(response.getStatusLine(), objectMapper.readValue(responseBody, User.class));
@@ -117,7 +119,7 @@ public class ApiService {
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getUsuarios() throws URISyntaxException, ParseException, IOException {
 		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_TODOS);
-		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken());
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<User>>(response.getStatusLine(),(List<User>) objectMapper.readValue(responseBody, new TypeReference<List<User>>() {}));
@@ -127,66 +129,42 @@ public class ApiService {
         }
     }
 	
-	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
-		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_CREATE);
-	        String url = apiUrl + endpointClientesCreate;
-	        URI uri = new URI(url);
-
-	        String jsonCliente = objectMapper.writeValueAsString(user);
-
-	        HttpUriRequest request = RequestBuilder.post()
-	                .setUri(uri)
-	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
-	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
-	                .build();
-
-	        HttpResponse response = httpClient.execute(request);
-
-	        if (response.getStatusLine().getStatusCode() == 200) {
-	            String responseBody = EntityUtils.toString(response.getEntity());
-	            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
-	        } else {
-	            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
-	            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
+		String jsonCliente = objectMapper.writeValueAsString(user);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 201) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<User>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<User>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
 	}
 	
-	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
-		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_UPDATE);
-	        String url = apiUrl + endpointClientesCreate;
-	        URI uri = new URI(url);
-
-	        String jsonCliente = objectMapper.writeValueAsString(user);
-
-	        HttpUriRequest request = RequestBuilder.post()
-	                .setUri(uri)
-	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
-	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
-	                .build();
-
-	        HttpResponse response = httpClient.execute(request);
-
-	        if (response.getStatusLine().getStatusCode() == 200) {
-	            String responseBody = EntityUtils.toString(response.getEntity());
-	            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
-	        } else {
-	            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
-	            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
+		String jsonCliente = objectMapper.writeValueAsString(user);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_UPDATE);
+		HttpResponse response = apiDataService.connectToApi(url,"PUT",user.getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+			User userAuth = (User) response.getEntity();
+			User usuarioNuevo = new User();
+			usuarioNuevo.setUsername(userAuth.getUsername());
+			usuarioNuevo.setPassword(userAuth.getPassword());
+			usuarioNuevo.setName(userAuth.getName());
+			usuarioNuevo.setClaveNE(user.getClaveNE());
+			ApiResponse<?> leeNuevoToken = getToken(usuarioNuevo);
+			if(leeNuevoToken.getHttpResponse().getStatusCode() == 200) {
+				Token token = (Token) leeNuevoToken.getResponse();
+				usuarioNuevo.setToken(token.getToken());
+			}
+			System.out.println("USUARIONUEVO->"+usuarioNuevo.toString());
+            String responseBody = EntityUtils.toString((HttpEntity) usuarioNuevo);
+            return new ApiResponse<User>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<User>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
 	}
 	
 	/*
@@ -195,7 +173,7 @@ public class ApiService {
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getClientes() throws URISyntaxException, ParseException, IOException {
 		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_CLIENTES_TODOS);
-		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken());
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<Client>>(response.getStatusLine(),(List<Client>) objectMapper.readValue(responseBody, new TypeReference<List<Client>>() {}));
@@ -205,35 +183,17 @@ public class ApiService {
         }
     }
 	
-	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException {
-	    try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_CLIENTES_CREATE);
-	        String url = apiUrl + endpointClientesCreate;
-	        URI uri = new URI(url);
-
-	        String jsonCliente = objectMapper.writeValueAsString(cliente);
-
-	        HttpUriRequest request = RequestBuilder.post()
-	                .setUri(uri)
-	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
-	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
-	                .build();
-
-	        HttpResponse response = httpClient.execute(request);
-
-	        if (response.getStatusLine().getStatusCode() == 200) {
-	            String responseBody = EntityUtils.toString(response.getEntity());
-	            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
-	        } else {
-	            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
-	            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return null;
-	    }
+	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
+		String jsonCliente = objectMapper.writeValueAsString(cliente);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_CLIENTES_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Client>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Client>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
 	}
 	
 	/*
@@ -242,7 +202,7 @@ public class ApiService {
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getAutores() throws URISyntaxException, ParseException, IOException {
 		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_AUTORES_TODOS);
-		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken());
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<Author>>(response.getStatusLine(),(List<Author>) objectMapper.readValue(responseBody, new TypeReference<List<Author>>() {}));
@@ -258,7 +218,7 @@ public class ApiService {
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getEditoriales() throws URISyntaxException, ParseException, IOException {
 		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_PUBLISHER_TODOS);
-		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken());
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<Publisher>>(response.getStatusLine(),(List<Publisher>) objectMapper.readValue(responseBody, new TypeReference<List<Publisher>>() {}));

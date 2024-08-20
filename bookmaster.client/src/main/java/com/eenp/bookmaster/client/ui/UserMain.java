@@ -239,6 +239,7 @@ public class UserMain extends JFrame {
 		user.setUsername(txtUsuario.getText());
 		user.setName(txtNombre.getText());
 		user.setPassword(func.retornaHashBCrypt("123456"));
+		user.setRole("USER");
 		
 		ApiResponse<?> response = userController.setUsuarioNuevo(user);
 		if(response.getHttpResponse().getStatusCode() == 201) {

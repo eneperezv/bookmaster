@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+
 import com.eenp.bookmaster.client.controller.UserController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
@@ -23,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.awt.event.ActionEvent;
 
@@ -111,7 +115,7 @@ public class UserMainPwdUpdate extends JDialog {
 						if(validarDatos()) {
 							try {
 								guardarInformacion();
-							} catch (URISyntaxException e1) {
+							} catch (URISyntaxException | IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
@@ -128,6 +132,7 @@ public class UserMainPwdUpdate extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						setVisible(false);
 						dispose();
+						System.exit(0);
 					}
 				});
 				cancelButton.setActionCommand("Cancelar");
@@ -152,14 +157,14 @@ public class UserMainPwdUpdate extends JDialog {
 		}
 	}
 	
-	private void guardarInformacion() throws URISyntaxException {
+	private void guardarInformacion() throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
 		User nuevosDatosUsuario = new User();
 		nuevosDatosUsuario.setId(UserSession.getInstance().getUsuario().getId());
 		nuevosDatosUsuario.setUsername(UserSession.getInstance().getUsuario().getUsername());
 		nuevosDatosUsuario.setName(UserSession.getInstance().getUsuario().getName());
 		nuevosDatosUsuario.setClaveNE(txtPwd1.getText());
 		nuevosDatosUsuario.setPassword(func.retornaHashBCrypt(txtPwd1.getText()));
-		
+		//VALIDAR FUNCIONALIDAD Y LOGICA
 		ApiResponse<?> response = userController.setUsuarioUpdate(nuevosDatosUsuario);
 		if(response.getHttpResponse().getStatusCode() == 200) {
     		func.showMSG("OK","El usuario se actualizo correctamente. Inicie sesión nuevamente usando su nueva clave.","BookMaster...");

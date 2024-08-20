@@ -33,6 +33,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.controller.ClientController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -143,7 +145,7 @@ public class ClientMain extends JFrame {
         		if(validarCampos()) {
         			try {
 						guardarInformacion();
-					} catch (URISyntaxException e1) {
+					} catch (URISyntaxException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -257,7 +259,7 @@ public class ClientMain extends JFrame {
 		}
 	}
 	
-	public void guardarInformacion() throws URISyntaxException {
+	public void guardarInformacion() throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
 		Client cliente = new Client();
 		cliente.setId(null);
 		cliente.setNombre(txtNombre.getText());

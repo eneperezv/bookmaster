@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -46,11 +48,11 @@ public class UserService {
 		return apiService.getUsuarios();
 	}
 	
-	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
+	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
 		return apiService.setUsuarioNuevo(user);
 	}
 	
-	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
+	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException {
 		return apiService.setUsuarioUpdate(user);
 	}
 
