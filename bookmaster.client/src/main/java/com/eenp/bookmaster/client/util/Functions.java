@@ -1,15 +1,5 @@
 package com.eenp.bookmaster.client.util;
 
-import java.security.MessageDigest;
-import java.util.Date;
-
-import javax.swing.JOptionPane;
-
-import org.apache.http.StatusLine;
-import org.mindrot.jbcrypt.BCrypt;
-
-import com.eenp.bookmaster.client.entity.ErrorDetails;
-
 /*
  * @(#)Main.java 1.0 08/08/2024
  * 
@@ -26,6 +16,16 @@ import com.eenp.bookmaster.client.entity.ErrorDetails;
  * @version 1.0 | 08/08/2024
  * @since 1.0
  */
+
+import java.security.MessageDigest;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+
+import org.apache.http.StatusLine;
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.eenp.bookmaster.client.entity.ErrorDetails;
 
 public class Functions {
 	

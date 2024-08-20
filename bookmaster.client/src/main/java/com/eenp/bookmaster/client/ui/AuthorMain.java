@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,6 +23,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import com.eenp.bookmaster.client.controller.AuthorController;
+import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Author;
+import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class AuthorMain extends JFrame {
@@ -66,12 +72,32 @@ public class AuthorMain extends JFrame {
         setLocationRelativeTo(null);
 
         initialize();
-        cargarDatosAutores();
+        try {
+			cargarDatosAutores();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void cargarDatosAutores() {
-		// TODO Auto-generated method stub
-		
+	private void cargarDatosAutores() throws URISyntaxException {
+		ApiResponse<?> response = authorController.getAutores();
+    	if(response.getHttpResponse().getStatusCode() == 200) {
+    		@SuppressWarnings("unchecked")
+			List<Author> autores = (List<Author>) response.getResponse();
+    		tableModel.setNumRows(0);
+    		for (Author autor : autores) {
+                tableModel.addRow(new Object[]{
+                		autor.getId(),
+                		autor.getNombre()
+                });
+            }
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			return;
+		}
 	}
 
 	private void initialize() {

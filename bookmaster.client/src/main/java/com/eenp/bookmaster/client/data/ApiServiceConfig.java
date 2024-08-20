@@ -33,7 +33,6 @@ public class ApiServiceConfig {
     	File miDir = new File (".");
         properties = new Properties();
         try {
-        	System.out.println("LEE EL ARCHIVO PROPERTIES");
             properties.load(new FileInputStream(new File(miDir.getCanonicalPath() + "\\src\\main\\java\\com\\eenp\\bookmaster\\client\\resources\\apiconfig.properties")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();

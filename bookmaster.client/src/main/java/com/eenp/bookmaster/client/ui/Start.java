@@ -181,7 +181,7 @@ public class Start extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		
-		System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
+		//System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
 	}
 	
 	public void accionSalir() {
@@ -211,12 +211,10 @@ public class Start extends JFrame {
 		ApiResponse<?> resToken = userController.getToken(user);
 		if(resToken.getHttpResponse().getStatusCode() == 200) {
 			Token token = (Token) resToken.getResponse();
-			System.out.println("TOKEN->"+token.toString());
 			user.setToken(token.getToken());
 			ApiResponse<?> response = userController.getDatosUsuario(user);
 			if(response.getHttpResponse().getStatusCode() == 200) {
 				User userAuth = (User) response.getResponse();
-				System.out.println("USER-FINAL->"+userAuth.toString());
 				userAuth.setClaveNE(clave);
 				userAuth.setToken(token.getToken());
 				if(func.checkPassword(clave,userAuth.getPassword())) {

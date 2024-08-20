@@ -36,6 +36,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.Token;
@@ -53,6 +54,7 @@ public class ApiService {
 	private static final String ENDPOINT_USER_UPDATE     = "ENDPOINT_USER_UPDATE";
 	private static final String ENDPOINT_CLIENTES_TODOS  = "ENDPOINT_CLIENTES_TODOS";
 	private static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
+	private static final String ENDPOINT_AUTORES_TODOS   = "ENDPOINT_AUTORES_TODOS";
 	
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -276,6 +278,36 @@ public class ApiService {
 	        e.printStackTrace();
 	        return null;
 	    }
+	}
+	
+	/*
+	 * AUTORES
+	 * */
+	public ApiResponse<?> getAutores() throws URISyntaxException {
+		config = ApiServiceConfig.obtenerInstancia();
+		
+		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_AUTORES_TODOS);
+        URI uri = new URI(url);
+        
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpUriRequest request = RequestBuilder.get()
+                    .setUri(uri)
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
+                    .build();
+            HttpResponse response = httpClient.execute(request);
+            
+            if(response.getStatusLine().getStatusCode() == 200) {
+            	String responseBody = EntityUtils.toString(response.getEntity());
+            	return new ApiResponse<List<Author>>(response.getStatusLine(),(List<Author>) objectMapper.readValue(responseBody, new TypeReference<List<Author>>() {}));
+            }else {
+            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 	}
 	
 }
