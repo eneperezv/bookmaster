@@ -55,6 +55,8 @@ public class Main extends JFrame {
 	private JMenuItem mnuMainSalir;
 	private JMenuItem mnuClientes;
 	private JLabel lblNewLabel;
+	private JMenuItem mnuAutores;
+	private JMenuItem mnuEditoriales;
 	
 	/**
 	 * Launch the application.
@@ -104,6 +106,8 @@ public class Main extends JFrame {
 		mnuMainMaestros = new JMenu("Maestros");
 		mnuUsuarios = new JMenuItem("Usuarios");
 		mnuClientes = new JMenuItem("Clientes");
+		mnuAutores = new JMenuItem("Autores");
+		mnuEditoriales = new JMenuItem("Editoriales");
 		mnuMainSalir = new JMenuItem("Salir");
 	}
 
@@ -183,6 +187,18 @@ public class Main extends JFrame {
 				link.setVisible(true);
 			}
 		});
+		mnuAutores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AuthorMain link = new AuthorMain();
+				link.setVisible(true);
+			}
+		});
+		mnuEditoriales.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PublisherMain link = new PublisherMain();
+				link.setVisible(true);
+			}
+		});
 		mnuMainSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -193,13 +209,16 @@ public class Main extends JFrame {
 	}
 	
 	private void initData() {
-		System.out.println("MAIN-USER->"+UserSession.getInstance().getUsuario().toString());
 		// PAGINA PARA LOS ICONOS
 		// https://www.iconfinder.com/search/icons?family=feather
 		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
 		mnuMainMaestros.add(mnuUsuarios);
 		mnuClientes.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666755_users_group_icon.png")));
 		mnuMainMaestros.add(mnuClientes);
+		mnuAutores.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666628_user_check_icon.png")));
+		mnuMainMaestros.add(mnuAutores);
+		mnuEditoriales.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666754_printer_print_icon.png")));
+		mnuMainMaestros.add(mnuEditoriales);
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getName() + " | " + UserSession.getInstance().getUsuario().getUsername());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
