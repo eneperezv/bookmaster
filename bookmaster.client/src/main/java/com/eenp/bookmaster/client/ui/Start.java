@@ -218,6 +218,7 @@ public class Start extends JFrame {
 				User userAuth = (User) response.getResponse();
 				System.out.println("USER-FINAL->"+userAuth.toString());
 				userAuth.setClaveNE(clave);
+				userAuth.setToken(token.getToken());
 				if(func.checkPassword(clave,userAuth.getPassword())) {
 					UserSession.getInstance().setUsuario(userAuth);
 					openMainWindow();
@@ -231,49 +232,13 @@ public class Start extends JFrame {
 						errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
 				return;
 			}
-			
-			
-			
-			/*
-			User user = (User) response.getResponse();
-			user.setClaveNE(clave);
-			if(func.checkPassword(clave,user.getPassword())) {
-				UserSession.getInstance().setUsuario(user);
-				openMainWindow();
-			}else {
-				func.showMSG("ERROR","Clave incorrecta.","Error...");
-				return;
-			}
-			*/
 		}else {
 			ErrorDetails errorDetails = (ErrorDetails) resToken.getResponse();
 			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
 					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
 			return;
 		}
-		
-		
-		
-		
-		
-		/*
-		if(response.getHttpResponse().getStatusCode() == 200) {
-			User user = (User) response.getResponse();
-			user.setClaveNE(clave);
-			if(func.checkPassword(clave,user.getPassword())) {
-				UserSession.getInstance().setUsuario(user);
-				openMainWindow();
-			}else {
-				func.showMSG("ERROR","Clave incorrecta.","Error...");
-				return;
-			}
-		}else {
-			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
-			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
-					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
-			return;
-		}
-		*/
+
 	}
 	
 	public void openMainWindow() throws URISyntaxException {

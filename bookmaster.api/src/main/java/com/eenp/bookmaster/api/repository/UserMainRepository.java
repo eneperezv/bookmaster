@@ -14,7 +14,7 @@ public interface UserMainRepository extends JpaRepository<UserMain,Long> {
 	
 	List<UserMain> findAll();
 	
-	@Query(value = "SELECT * FROM Users u WHERE u.usuario = :usuario", nativeQuery = true)
+	@Query(value = "SELECT * FROM Users u WHERE u.username = :usuario", nativeQuery = true)
 	UserMain findByUsuario(String usuario);
 
 }
