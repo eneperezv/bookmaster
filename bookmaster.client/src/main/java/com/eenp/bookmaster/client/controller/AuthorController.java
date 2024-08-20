@@ -1,7 +1,5 @@
 package com.eenp.bookmaster.client.controller;
 
-import java.net.URISyntaxException;
-
 /*
  * @(#)AuthorController.java 1.0 20/08/2024
  * 
@@ -18,6 +16,8 @@ import java.net.URISyntaxException;
  * @version 1.0 | 20/08/2024
  * @since 1.0
  */
+
+import java.net.URISyntaxException;
 
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.service.AuthorService;

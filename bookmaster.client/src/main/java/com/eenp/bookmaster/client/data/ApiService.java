@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.data;
 
+import java.io.IOException;
+
 /*
  * @(#)ApiService.java 1.0 07/08/2024
  * 
@@ -22,6 +24,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -39,28 +42,26 @@ import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.entity.Token;
 import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.service.UserSession;
 import com.eenp.bookmaster.client.util.Functions;
+import com.eenp.bookmaster.client.data.ApiDataService;
 
 public class ApiService {
-	//ORGANIZAR ESTAS CONSTANTES EN UNA CLASE APARTE
-	private static final String API_URL                  = "API_URL";
-	private static final String ENDPOINT_TOKEN           = "ENDPOINT_TOKEN";
-	private static final String ENDPOINT_USER            = "ENDPOINT_USER";
-	private static final String ENDPOINT_USER_TODOS      = "ENDPOINT_USER_TODOS";
-	private static final String ENDPOINT_USER_CREATE     = "ENDPOINT_USER_CREATE";
-	private static final String ENDPOINT_USER_UPDATE     = "ENDPOINT_USER_UPDATE";
-	private static final String ENDPOINT_CLIENTES_TODOS  = "ENDPOINT_CLIENTES_TODOS";
-	private static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
-	private static final String ENDPOINT_AUTORES_TODOS   = "ENDPOINT_AUTORES_TODOS";
 	
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	
+	private final ApiDataService apiDataService;
 	
 	Functions func = new Functions();
 	
 	ApiServiceConfig config;
+	
+	public ApiService() {
+		this.apiDataService = new ApiDataService();
+	}
 	
 	/*
 	 * LOGIN
@@ -68,8 +69,8 @@ public class ApiService {
 	public ApiResponse<?> getToken(User user) throws URISyntaxException {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
-	        String endpointGetToken = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_TOKEN);
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
+	        String endpointGetToken = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_TOKEN);
 	        String url = apiUrl + endpointGetToken;
 	        URI uri = new URI(url);
 
@@ -103,7 +104,7 @@ public class ApiService {
 	 * */
 	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException {
 	    config = ApiServiceConfig.obtenerInstancia();
-	    String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_USER) + req.getUsername();
+	    String url = config.obtenerValor(ApiServiceConstants.API_URL) + config.obtenerValor(ApiServiceConstants.ENDPOINT_USER) + req.getUsername();
 	    URI uri = new URI(url);
 
 	    try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -131,7 +132,7 @@ public class ApiService {
 
 		config = ApiServiceConfig.obtenerInstancia();
 		
-		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_USER_TODOS);
+		String url = config.obtenerValor(ApiServiceConstants.API_URL) + config.obtenerValor(ApiServiceConstants.ENDPOINT_USER_TODOS);
         URI uri = new URI(url);
         
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -158,8 +159,8 @@ public class ApiService {
 	public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_USER_CREATE);
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
+	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_CREATE);
 	        String url = apiUrl + endpointClientesCreate;
 	        URI uri = new URI(url);
 
@@ -189,8 +190,8 @@ public class ApiService {
 	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
 		try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_USER_UPDATE);
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
+	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_USER_UPDATE);
 	        String url = apiUrl + endpointClientesCreate;
 	        URI uri = new URI(url);
 
@@ -225,7 +226,7 @@ public class ApiService {
 
 		config = ApiServiceConfig.obtenerInstancia();
 		
-		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_CLIENTES_TODOS);
+		String url = config.obtenerValor(ApiServiceConstants.API_URL) + config.obtenerValor(ApiServiceConstants.ENDPOINT_CLIENTES_TODOS);
         URI uri = new URI(url);
         
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -252,8 +253,8 @@ public class ApiService {
 	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException {
 	    try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 
-	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(API_URL);
-	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ENDPOINT_CLIENTES_CREATE);
+	        String apiUrl = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL);
+	        String endpointClientesCreate = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_CLIENTES_CREATE);
 	        String url = apiUrl + endpointClientesCreate;
 	        URI uri = new URI(url);
 
@@ -283,10 +284,11 @@ public class ApiService {
 	/*
 	 * AUTORES
 	 * */
+	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getAutores() throws URISyntaxException {
 		config = ApiServiceConfig.obtenerInstancia();
 		
-		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_AUTORES_TODOS);
+		String url = config.obtenerValor(ApiServiceConstants.API_URL) + config.obtenerValor(ApiServiceConstants.ENDPOINT_AUTORES_TODOS);
         URI uri = new URI(url);
         
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -310,4 +312,20 @@ public class ApiService {
         }
 	}
 	
+	/*
+	 * EDITORIALES
+	 * */
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> getEditoriales() throws URISyntaxException, ParseException, IOException {
+		String url = ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.API_URL) + 
+				ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_PUBLISHER_TODOS);
+		HttpResponse response = apiDataService.connectToApi(url,"GET");
+		if(response.getStatusLine().getStatusCode() == 200) {
+        	String responseBody = EntityUtils.toString(response.getEntity());
+        	return new ApiResponse<List<Publisher>>(response.getStatusLine(),(List<Publisher>) objectMapper.readValue(responseBody, new TypeReference<List<Publisher>>() {}));
+        }else {
+        	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+        	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
 }

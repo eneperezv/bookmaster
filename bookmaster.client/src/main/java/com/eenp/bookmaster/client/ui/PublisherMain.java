@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,7 +23,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.http.ParseException;
+
 import com.eenp.bookmaster.client.controller.PublisherController;
+import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class PublisherMain extends JFrame {
@@ -66,12 +74,33 @@ public class PublisherMain extends JFrame {
         setLocationRelativeTo(null);
 
         initialize();
-        cargarDatosEditoriales();
+        try {
+			cargarDatosEditoriales();
+		} catch (URISyntaxException | ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	private void cargarDatosEditoriales() {
-		// TODO Auto-generated method stub
-		
+	@SuppressWarnings("unchecked")
+	private void cargarDatosEditoriales() throws URISyntaxException, ParseException, IOException {
+		ApiResponse<?> response = publisherController.getEditoriales();
+    	if(response.getHttpResponse().getStatusCode() == 200) {
+			List<Publisher> editoriales = (List<Publisher>) response.getResponse();
+    		tableModel.setNumRows(0);
+    		for (Publisher editorial : editoriales) {
+    			System.out.println("EDITORIAL->"+editorial.toString());
+                tableModel.addRow(new Object[]{
+                		editorial.getId(),
+                		editorial.getNombre()
+                });
+            }
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			return;
+		}
 	}
 
 	private void initialize() {
@@ -83,7 +112,7 @@ public class PublisherMain extends JFrame {
 
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID");
-        tableModel.addColumn("Autor");
+        tableModel.addColumn("Editorial");
 
         table = new JTable(tableModel);
         
