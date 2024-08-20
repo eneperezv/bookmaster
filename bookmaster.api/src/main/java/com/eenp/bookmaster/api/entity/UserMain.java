@@ -23,6 +23,8 @@ public class UserMain {
     private String password;
 	@Column(name="role")
     private String role; //Eg: ADMIN,USER
+	@Column(name="name")
+    private String name;
 	public Long getId() {
 		return id;
 	}
@@ -47,7 +49,15 @@ public class UserMain {
 	public void setRole(String role) {
 		this.role = role;
 	}
-    
-    
-
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public String toString() {
+		return "UserMain [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + ", name="
+				+ name + "]";
+	}
 }

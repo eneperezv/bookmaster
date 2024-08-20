@@ -193,6 +193,7 @@ public class Main extends JFrame {
 	}
 	
 	private void initData() {
+		System.out.println("MAIN-USER->"+UserSession.getInstance().getUsuario().toString());
 		// PAGINA PARA LOS ICONOS
 		// https://www.iconfinder.com/search/icons?family=feather
 		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
@@ -200,7 +201,7 @@ public class Main extends JFrame {
 		mnuClientes.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666755_users_group_icon.png")));
 		mnuMainMaestros.add(mnuClientes);
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
-		lblUsuario.setText(UserSession.getInstance().getUsuario().getNombre() + " | " + UserSession.getInstance().getUsuario().getUsuario());
+		lblUsuario.setText(UserSession.getInstance().getUsuario().getName() + " | " + UserSession.getInstance().getUsuario().getUsername());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
 	}
 

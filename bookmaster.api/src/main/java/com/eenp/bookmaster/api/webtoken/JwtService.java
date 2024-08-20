@@ -19,7 +19,9 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 	
-	private static final String SECRET = "C40112FEBE19BE80A60192D3995B92CCEBDEE6BEED6895C2C6ACA76703B2F5D0556DD998A48DAD26F5F1B25776A3EFA12E238E99FEDCE2EF56F93D695BCE2E2E";
+	//KEY FOR AUTHENTICATION
+	//Use generateSecretKey method from de test folder to generate a new key
+	private static final String API_ACCESS = "C40112FEBE19BE80A60192D3995B92CCEBDEE6BEED6895C2C6ACA76703B2F5D0556DD998A48DAD26F5F1B25776A3EFA12E238E99FEDCE2EF56F93D695BCE2E2E";
 	private static final long VALIDITY = TimeUnit.MINUTES.toMillis(60);
 	
 	public String generateToken(UserDetails userDetails) {
@@ -35,7 +37,7 @@ public class JwtService {
 	}
 	
 	private SecretKey generateKey() {
-		byte[] decodedKey = Base64.getDecoder().decode(SECRET);
+		byte[] decodedKey = Base64.getDecoder().decode(API_ACCESS);
 		return Keys.hmacShaKeyFor(decodedKey);
 	}
 	

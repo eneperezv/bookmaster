@@ -29,9 +29,13 @@ public class UserService {
 	public UserService() {
         this.apiService = new ApiService();
     }
+
+	public ApiResponse<?> getToken(User user) throws URISyntaxException {
+		return apiService.getToken(user);
+	}
 	
-	public ApiResponse<?> getDatosUsuario(String usuario,String clave) throws URISyntaxException {
-		return apiService.getDatosUsuario(usuario,clave);
+	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException {
+		return apiService.getDatosUsuario(req);
 	}
 	
 	public ApiResponse<?> getUsuarios() throws URISyntaxException {

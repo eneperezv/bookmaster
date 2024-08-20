@@ -202,8 +202,8 @@ public class UserMain extends JFrame {
     		for (User usuario : usuarios) {
                 tableModel.addRow(new Object[]{
                 		usuario.getId(),
-                		usuario.getUsuario(),
-                		usuario.getNombre()
+                		usuario.getUsername(),
+                		usuario.getName()
                 });
             }
 		}else {
@@ -233,9 +233,9 @@ public class UserMain extends JFrame {
 	private void guardarInformacion() throws URISyntaxException {
 		User user = new User();
 		user.setId(null);
-		user.setUsuario(txtUsuario.getText());
-		user.setNombre(txtNombre.getText());
-		user.setClave(func.retornaHashBCrypt("123456"));
+		user.setUsername(txtUsuario.getText());
+		user.setName(txtNombre.getText());
+		user.setPassword(func.retornaHashBCrypt("123456"));
 		
 		ApiResponse<?> response = userController.setUsuarioNuevo(user);
 		if(response.getHttpResponse().getStatusCode() == 201) {

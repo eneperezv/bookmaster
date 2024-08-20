@@ -20,33 +20,35 @@ package com.eenp.bookmaster.client.entity;
 public class User {
 	
 	private Integer id;
-	private String usuario;
-	private String nombre;
-	private String clave;
+	private String username;
+	private String name;
+	private String password;
 	private String claveNE;
+	private String role;
+	private String token;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getUsuario() {
-		return usuario;
+	public String getUsername() {
+		return username;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getClave() {
-		return clave;
+	public String getPassword() {
+		return password;
 	}
-	public void setClave(String clave) {
-		this.clave = clave;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getClaveNE() {
 		return claveNE;
@@ -54,10 +56,22 @@ public class User {
 	public void setClaveNE(String claveNE) {
 		this.claveNE = claveNE;
 	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", usuario=" + usuario + ", nombre=" + nombre + ", clave=" + clave + ", claveNE="
-				+ claveNE + "]";
+		return "User [id=" + id + ", username=" + username + ", name=" + name + ", password=" + password + ", claveNE="
+				+ claveNE + ", role=" + role + ", token=" + token + "]";
 	}
-
+	
 }

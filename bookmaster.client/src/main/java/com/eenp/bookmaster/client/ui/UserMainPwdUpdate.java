@@ -155,10 +155,10 @@ public class UserMainPwdUpdate extends JDialog {
 	private void guardarInformacion() throws URISyntaxException {
 		User nuevosDatosUsuario = new User();
 		nuevosDatosUsuario.setId(UserSession.getInstance().getUsuario().getId());
-		nuevosDatosUsuario.setUsuario(UserSession.getInstance().getUsuario().getUsuario());
-		nuevosDatosUsuario.setNombre(UserSession.getInstance().getUsuario().getNombre());
+		nuevosDatosUsuario.setUsername(UserSession.getInstance().getUsuario().getUsername());
+		nuevosDatosUsuario.setName(UserSession.getInstance().getUsuario().getName());
 		nuevosDatosUsuario.setClaveNE(txtPwd1.getText());
-		nuevosDatosUsuario.setClave(func.retornaHashBCrypt(txtPwd1.getText()));
+		nuevosDatosUsuario.setPassword(func.retornaHashBCrypt(txtPwd1.getText()));
 		
 		ApiResponse<?> response = userController.setUsuarioUpdate(nuevosDatosUsuario);
 		if(response.getHttpResponse().getStatusCode() == 201) {
