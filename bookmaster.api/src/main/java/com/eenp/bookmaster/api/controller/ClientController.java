@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eenp.bookmaster.api.entity.Client;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
-import com.eenp.bookmaster.api.entity.User;
 import com.eenp.bookmaster.api.repository.ClientRepository;
 
 @RestController

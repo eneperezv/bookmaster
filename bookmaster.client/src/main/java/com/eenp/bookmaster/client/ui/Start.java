@@ -179,6 +179,8 @@ public class Start extends JFrame {
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
+		
+		System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
 	}
 	
 	public void accionSalir() {

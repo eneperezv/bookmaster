@@ -1,17 +1,20 @@
 package com.eenp.bookmaster.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.eenp.bookmaster.api.entity.User;
+import com.eenp.bookmaster.api.entity.UserMain;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserMainRepository extends JpaRepository<UserMain,Long> {
 	
-	List<User> findAll();
+	Optional<UserMain> findByUsername(String username);
+	
+	List<UserMain> findAll();
 	
 	@Query(value = "SELECT * FROM Users u WHERE u.usuario = :usuario", nativeQuery = true)
-	User findByUsuario(String usuario);
+	UserMain findByUsuario(String usuario);
 
 }

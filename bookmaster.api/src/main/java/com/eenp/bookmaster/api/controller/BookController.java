@@ -27,7 +27,7 @@ public class BookController {
 	BookRepository bookRepository;
 	
 	@GetMapping("/book/todos")
-	public ResponseEntity<?> getAutores(){
+	public ResponseEntity<?> getLibros(){
 		List<Book> lista = new ArrayList<Book>();
 		try{
 			bookRepository.findAll().forEach(lista::add);

@@ -42,5 +42,9 @@ public class UserController {
     public ApiResponse<?> setUsuarioNuevo(User user) throws URISyntaxException {
 		return userService.setUsuarioNuevo(user);
 	}
+	
+	public ApiResponse<?> setUsuarioUpdate(User user) throws URISyntaxException {
+		return userService.setUsuarioUpdate(user);
+	}
 
 }

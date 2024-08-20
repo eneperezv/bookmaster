@@ -35,8 +35,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eenp.bookmaster.api.entity.ErrorDetails;
-import com.eenp.bookmaster.api.entity.User;
-import com.eenp.bookmaster.api.repository.UserRepository;
+import com.eenp.bookmaster.api.entity.UserMain;
+import com.eenp.bookmaster.api.repository.UserMainRepository;
 
 @RestController
 @RequestMapping("/api/bookmaster")
@@ -45,13 +45,13 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	UserRepository userRepository;
+	UserMainRepository userMainRepository;
 	
 	@GetMapping("/user/todos")
 	public ResponseEntity<?> getUsuarios(){
-		List<User> lista = new ArrayList<User>();
+		List<UserMain> lista = new ArrayList<UserMain>();
 		try{
-			userRepository.findAll().forEach(lista::add);
+			userMainRepository.findAll().forEach(lista::add);
 			if(lista.isEmpty()) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"NO CONTENT");
 				return new ResponseEntity<>(err,HttpStatus.NO_CONTENT);
@@ -65,15 +65,15 @@ public class UserController {
 	
 	@GetMapping("/user/{usuario}")
 	public ResponseEntity<?> getUsuarioByName(@PathVariable("usuario") String usuario){
-		User result;
+		UserMain result;
 		try{
-			result = userRepository.findByUsuario(usuario);
+			result = userMainRepository.findByUsuario(usuario);
 			if(result == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+usuario+"> no existe");
 				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<User>(result, HttpStatus.OK);
+			return new ResponseEntity<UserMain>(result, HttpStatus.OK);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,16 +81,16 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/create")
-	public ResponseEntity<?> createUsuario(@RequestBody User user){
-		User savedUser;
+	public ResponseEntity<?> createUsuario(@RequestBody UserMain user){
+		UserMain savedUser;
 		try{
-			savedUser = userRepository.save(user);
+			savedUser = userMainRepository.save(user);
 			if(savedUser == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+user+"> no existe");
 				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+			return new ResponseEntity<UserMain>(savedUser, HttpStatus.CREATED);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -98,47 +98,29 @@ public class UserController {
 	}
 	
 	@PutMapping("/user/update")
-	public ResponseEntity<?> updateUsuario(@RequestBody User user) {
+	public ResponseEntity<?> updateUsuario(@RequestBody UserMain user) {
 		//IMPLEMENTAR REINICIO DE LA API CON ACTUATOR. SOLO CUANDO SE ACTUALICE EL USUARIO
 	    try {
-	        User result = userRepository.findByUsuario(user.getUsuario());
+	    	UserMain result = userMainRepository.findByUsuario(user.getUsername());
 	        if (result == null) {
-	            ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.NOT_FOUND.toString(), "Usuario <" + user.getUsuario() + "> no existe");
+	            ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.NOT_FOUND.toString(), "Usuario <" + user.getUsername() + "> no existe");
 	            logger.error(err.toString());
 	            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 	        }
-	        result.setClave(user.getClave());
+	        result.setPassword(user.getPassword());
+//	        result.setClave(user.getClave());
 
-	        User savedUser = userRepository.save(result);
+	        UserMain savedUser = userMainRepository.save(user);
 	        if(savedUser == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+user+"> no existe");
 				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+			return new ResponseEntity<UserMain>(savedUser, HttpStatus.CREATED);
 	    } catch (Exception e) {
 	        ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.toString(), "INTERNAL SERVER ERROR");
 	        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}
 	
-	
-	
-	/*
-	public ResponseEntity<?> updateUsuario(@PathVariable("usuario") String usuario,User user){
-		User result;
-		try{
-			result = userRepository.findByUsuario(usuario);
-			if(result == null) {
-				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+usuario+"> no existe");
-				logger.error(err.toString());
-				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
-			}
-			return new ResponseEntity<User>(result, HttpStatus.OK);
-		}catch(Exception e){
-			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
-			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	*/
 }
