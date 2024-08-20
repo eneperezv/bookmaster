@@ -161,7 +161,7 @@ public class UserMainPwdUpdate extends JDialog {
 		nuevosDatosUsuario.setPassword(func.retornaHashBCrypt(txtPwd1.getText()));
 		
 		ApiResponse<?> response = userController.setUsuarioUpdate(nuevosDatosUsuario);
-		if(response.getHttpResponse().getStatusCode() == 201) {
+		if(response.getHttpResponse().getStatusCode() == 200) {
     		func.showMSG("OK","El usuario se actualizo correctamente. Inicie sesión nuevamente usando su nueva clave.","BookMaster...");
     		System.exit(0);
 		}else {

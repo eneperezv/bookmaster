@@ -99,7 +99,6 @@ public class UserController {
 	
 	@PutMapping("/user/update")
 	public ResponseEntity<?> updateUsuario(@RequestBody UserMain user) {
-		//IMPLEMENTAR REINICIO DE LA API CON ACTUATOR. SOLO CUANDO SE ACTUALICE EL USUARIO
 	    try {
 	    	UserMain result = userMainRepository.findByUsuario(user.getUsername());
 	        if (result == null) {
@@ -108,7 +107,6 @@ public class UserController {
 	            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 	        }
 	        result.setPassword(user.getPassword());
-//	        result.setClave(user.getClave());
 
 	        UserMain savedUser = userMainRepository.save(user);
 	        if(savedUser == null) {
@@ -116,7 +114,7 @@ public class UserController {
 				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<UserMain>(savedUser, HttpStatus.CREATED);
+			return new ResponseEntity<UserMain>(savedUser, HttpStatus.OK);
 	    } catch (Exception e) {
 	        ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.INTERNAL_SERVER_ERROR.toString(), "INTERNAL SERVER ERROR");
 	        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);

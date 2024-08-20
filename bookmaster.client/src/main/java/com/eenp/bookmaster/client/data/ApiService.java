@@ -23,9 +23,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
@@ -74,7 +72,6 @@ public class ApiService {
 	        URI uri = new URI(url);
 
 	        String jsonCliente = objectMapper.writeValueAsString(user);
-	        System.out.println("JSON->"+jsonCliente);
 
 	        HttpUriRequest request = RequestBuilder.post()
 	                .setUri(uri)
@@ -110,7 +107,7 @@ public class ApiService {
 	    try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
 	        HttpUriRequest request = RequestBuilder.get()
 	                .setUri(uri)
-	                .setHeader("Authorization", "Bearer " + req.getToken()) // Agrega el token Bearer aquí
+	                .setHeader("Authorization", "Bearer " + req.getToken())
 	                .build();
 	        HttpResponse response = httpClient.execute(request);
 
@@ -127,41 +124,6 @@ public class ApiService {
 	    }
 	}
 	
-	
-	
-	
-	/*
-	public ApiResponse<?> getDatosUsuario(User req) throws URISyntaxException {
-		
-		config = ApiServiceConfig.obtenerInstancia();
-		
-		String url = config.obtenerValor(API_URL) + config.obtenerValor(ENDPOINT_USER) + usuario;
-        URI uri = new URI(url);
-        
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpUriRequest request = RequestBuilder.get()
-                    .setUri(uri)
-                    .setHeader(new BasicScheme().authenticate(
-                            new UsernamePasswordCredentials(usuario, clave),
-                            new HttpGet(uri), null))
-                    .build();
-            HttpResponse response = httpClient.execute(request);
-            
-            if(response.getStatusLine().getStatusCode() == 200) {
-            	String responseBody = EntityUtils.toString(response.getEntity());
-            	return new ApiResponse<User>(response.getStatusLine(),objectMapper.readValue(responseBody, User.class));
-            }else {
-            	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
-            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    */
-	
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getUsuarios() throws URISyntaxException {
 
@@ -173,9 +135,7 @@ public class ApiService {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpUriRequest request = RequestBuilder.get()
                     .setUri(uri)
-                    .setHeader(new BasicScheme().authenticate(
-                            new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsername(), UserSession.getInstance().getUsuario().getClaveNE()),
-                            new HttpGet(uri), null))
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
                     .build();
             HttpResponse response = httpClient.execute(request);
             
@@ -205,9 +165,7 @@ public class ApiService {
 
 	        HttpUriRequest request = RequestBuilder.post()
 	                .setUri(uri)
-	                .setHeader(new BasicScheme().authenticate(
-	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsername(), UserSession.getInstance().getUsuario().getClaveNE()),
-	                        new HttpPost(uri), null))
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
 	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
 	                .build();
 
@@ -238,9 +196,7 @@ public class ApiService {
 
 	        HttpUriRequest request = RequestBuilder.post()
 	                .setUri(uri)
-	                .setHeader(new BasicScheme().authenticate(
-	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsername(), UserSession.getInstance().getUsuario().getClaveNE()),
-	                        new HttpPut(uri), null))
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
 	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
 	                .build();
 
@@ -273,9 +229,7 @@ public class ApiService {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpUriRequest request = RequestBuilder.get()
                     .setUri(uri)
-                    .setHeader(new BasicScheme().authenticate(
-                            new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsername(), UserSession.getInstance().getUsuario().getClaveNE()),
-                            new HttpGet(uri), null))
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
                     .build();
             HttpResponse response = httpClient.execute(request);
             
@@ -305,9 +259,7 @@ public class ApiService {
 
 	        HttpUriRequest request = RequestBuilder.post()
 	                .setUri(uri)
-	                .setHeader(new BasicScheme().authenticate(
-	                        new UsernamePasswordCredentials(UserSession.getInstance().getUsuario().getUsername(), UserSession.getInstance().getUsuario().getClaveNE()),
-	                        new HttpPost(uri), null))
+	                .setHeader("Authorization", "Bearer " + UserSession.getInstance().getUsuario().getToken())
 	                .setEntity(new StringEntity(jsonCliente, ContentType.APPLICATION_JSON))
 	                .build();
 
