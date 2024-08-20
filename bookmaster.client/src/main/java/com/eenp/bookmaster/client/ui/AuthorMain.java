@@ -1,6 +1,7 @@
 package com.eenp.bookmaster.client.ui;
 
 import java.awt.EventQueue;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,12 +32,23 @@ public class AuthorMain extends JFrame {
 	 * Create the frame.
 	 */
 	public AuthorMain() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setTitle("BookMaster | 1.0 | Autores");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setBounds(100, 100, 768, 500);
+        setLocationRelativeTo(null);
 
-		setContentPane(contentPane);
+        initialize();
+        cargarDatosUsuarios();
+	}
+
+	private void cargarDatosUsuarios() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initialize() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
