@@ -1,7 +1,5 @@
 package com.eenp.bookmaster.client.controller;
 
-import java.io.IOException;
-
 /*
  * @(#)ClientController.java 1.0 13/08/2024
  * 
@@ -18,6 +16,8 @@ import java.io.IOException;
  * @version 1.0 | 13/08/2024
  * @since 1.0
  */
+
+import java.io.IOException;
 
 import java.net.URISyntaxException;
 

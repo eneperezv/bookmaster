@@ -1,5 +1,22 @@
 package com.eenp.bookmaster.client.data;
 
+/*
+ * @(#)ApiDataService.java 1.0 07/08/2024
+ * 
+ * El código implementado en este formulario esta protegido
+ * bajo las leyes internacionales del Derecho de Autor, sin embargo
+ * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
+ * descrita en https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+/**
+ * Servicio que realiza la conexion con la API
+ *
+ * @author eliezer.navarro
+ * @version 1.0 | 07/08/2024
+ * @since 1.0
+ */
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -10,8 +27,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-
-import com.eenp.bookmaster.client.service.UserSession;
 
 public class ApiDataService {
 	

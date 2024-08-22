@@ -1,7 +1,5 @@
 package com.eenp.bookmaster.client.data;
 
-import java.io.IOException;
-
 /*
  * @(#)ApiService.java 1.0 07/08/2024
  * 
@@ -12,12 +10,14 @@ import java.io.IOException;
  */
 
 /**
- * Servicio que conecta con la API
+ * Servicio que llama la conexion con la API
  *
  * @author eliezer.navarro
  * @version 1.0 | 07/08/2024
  * @since 1.0
  */
+
+import java.io.IOException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
