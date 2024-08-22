@@ -1,5 +1,21 @@
 package com.eenp.bookmaster.client.ui;
 
+/*
+ * @(#)AuthorMain.java 1.0 17/08/2024
+ * 
+ * El código implementado en este formulario esta protegido
+ * bajo las leyes internacionales del Derecho de Autor, sin embargo
+ * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
+ * descrita en https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+/** UI Principal del control de Autores
+ *
+ * @author eliezer.navarro
+ * @version 1.0 | 17/08/2024
+ * @since 1.0
+ */
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -29,7 +45,6 @@ import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
-import com.eenp.bookmaster.client.entity.User;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class AuthorMain extends JFrame {
