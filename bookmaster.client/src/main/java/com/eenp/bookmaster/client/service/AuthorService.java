@@ -1,10 +1,5 @@
 package com.eenp.bookmaster.client.service;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import org.apache.http.ParseException;
-
 /*
  * @(#)AuthorService.java 1.0 20/08/2024
  * 
@@ -20,6 +15,11 @@ import org.apache.http.ParseException;
  * @version 1.0 | 20/08/2024
  * @since 1.0
  */
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import org.apache.http.ParseException;
 
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
