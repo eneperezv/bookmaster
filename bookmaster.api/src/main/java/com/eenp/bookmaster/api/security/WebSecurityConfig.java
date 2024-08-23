@@ -65,14 +65,15 @@ public class WebSecurityConfig {
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/user/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/user/**").hasRole("USER");
                     registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/user/create").hasRole("USER");
+                    registry.requestMatchers(HttpMethod.PUT, "/api/bookmaster/user/update").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/author/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/author/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/book/todos").hasRole("USER");
+                    registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/book/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/publisher/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/publisher/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/client/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/client/create").hasRole("USER");
-                    registry.requestMatchers(HttpMethod.PUT, "/api/bookmaster/user/update").hasRole("USER");
                     registry.anyRequest().authenticated();
                 })
                 .formLogin(login -> login
