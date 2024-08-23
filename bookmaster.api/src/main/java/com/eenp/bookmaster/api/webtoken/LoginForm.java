@@ -1,7 +1,7 @@
 package com.eenp.bookmaster.api.webtoken;
 
 /*
- * @(#)JwtService.java 1.0 07/08/2024
+ * @(#)LoginForm.java 1.0 07/08/2024
  * 
  * El código implementado en este formulario esta protegido
  * bajo las leyes internacionales del Derecho de Autor, sin embargo
