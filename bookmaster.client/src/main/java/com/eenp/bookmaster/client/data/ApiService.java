@@ -43,6 +43,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Author;
+import com.eenp.bookmaster.client.entity.Book;
 import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.Publisher;
@@ -222,6 +223,22 @@ public class ApiService {
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<Publisher>>(response.getStatusLine(),(List<Publisher>) objectMapper.readValue(responseBody, new TypeReference<List<Publisher>>() {}));
+        }else {
+        	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+        	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
+	
+	/*
+	 * LIBROS
+	 * */
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> getLibros() throws URISyntaxException, ParseException, IOException {
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_PUBLISHER_TODOS);
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
+		if(response.getStatusLine().getStatusCode() == 200) {
+        	String responseBody = EntityUtils.toString(response.getEntity());
+        	return new ApiResponse<List<Book>>(response.getStatusLine(),(List<Book>) objectMapper.readValue(responseBody, new TypeReference<List<Book>>() {}));
         }else {
         	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
