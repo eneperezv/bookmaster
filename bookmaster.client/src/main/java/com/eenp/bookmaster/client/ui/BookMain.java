@@ -43,11 +43,14 @@ import org.apache.http.ParseException;
 
 import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.controller.BookController;
+import com.eenp.bookmaster.client.controller.PublisherController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Book;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.util.Functions;
+import javax.swing.JComboBox;
 
 public class BookMain extends JFrame {
 
@@ -57,14 +60,19 @@ public class BookMain extends JFrame {
     private DefaultTableModel tableModel;
     
     private final BookController bookController = new BookController();
+    
+    private final AuthorController authorController = new AuthorController();
+    private final PublisherController publisherController = new PublisherController();
 	
 	Functions func = new Functions();
 	private JButton btnGuardar;
 	private JButton btnSalir;
 	private JLabel lblNewLabel;
-	private JTextField txtNombre;
-	private JTextField txtUsuario;
+	private JTextField txtTitulo;
+	private JTextField txtAnioPublicacion;
 	private JLabel lblNewLabel_1;
+	private JComboBox cmbAutores;
+	private JComboBox cmbEditoriales;
 
 	/**
 	 * Launch the application.
@@ -165,60 +173,130 @@ public class BookMain extends JFrame {
 		});
 		btnSalir.setIcon(new ImageIcon(UserMain.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666736_x_circle_icon.png")));
 		
-		lblNewLabel = new JLabel("Nombre completo: ");
+		lblNewLabel = new JLabel("Titulo:");
 		
-		txtNombre = new JTextField();
-		txtNombre.setColumns(10);
+		txtTitulo = new JTextField();
+		txtTitulo.setColumns(10);
 		
-		txtUsuario = new JTextField();
-		txtUsuario.setColumns(10);
+		txtAnioPublicacion = new JTextField();
+		txtAnioPublicacion.setColumns(10);
 		
-		lblNewLabel_1 = new JLabel("Usuario:");
+		lblNewLabel_1 = new JLabel("Año de Publicación:");
+		
+		JLabel lblNewLabel_2 = new JLabel("Autor:");
+		
+		JLabel lblNewLabel_3 = new JLabel("Editorial:");
+		
+		cmbAutores = new JComboBox();
+		
+		cmbEditoriales = new JComboBox();
+		
+		try {
+			cargarDatosInicial();
+		} catch (ParseException | URISyntaxException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(cmbAutores, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(txtTitulo, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtUsuario, 212, 212, 212)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtAnioPublicacion, 212, 212, Short.MAX_VALUE)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cmbEditoriales, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
-				.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnGuardar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel)
 								.addComponent(lblNewLabel_1))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(58))
+								.addComponent(txtTitulo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtAnioPublicacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_3))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(cmbAutores, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cmbEditoriales, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void cargarDatosInicial() throws ParseException, URISyntaxException, IOException {
+		cmbAutores.removeAllItems();
+		cmbAutores.addItem("Seleccione uno.");
+		cmbEditoriales.removeAllItems();
+		cmbEditoriales.addItem("Seleccione uno.");
+		ApiResponse<?> responseAutores = authorController.getAutores();
+    	if(responseAutores.getHttpResponse().getStatusCode() == 200) {
+			List<Author> autores = (List<Author>) responseAutores.getResponse();
+    		tableModel.setNumRows(0);
+    		for (Author autor : autores) {
+    			cmbAutores.addItem(autor.getId() + "|" + autor.getNombre());
+            }
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) responseAutores.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			return;
+		}
+    	ApiResponse<?> responseEditoriales = publisherController.getEditoriales();
+    	if(responseEditoriales.getHttpResponse().getStatusCode() == 200) {
+			List<Publisher> editoriales = (List<Publisher>) responseEditoriales.getResponse();
+    		tableModel.setNumRows(0);
+    		for (Publisher editorial : editoriales) {
+    			cmbEditoriales.addItem(editorial.getId() + "|" + editorial.getNombre());
+                tableModel.addRow(new Object[]{
+                		editorial.getId(),
+                		editorial.getNombre()
+                });
+            }
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) responseEditoriales.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			return;
+		}
+	}
+	
 	private void limpiarCampos() {
-    	txtNombre.setText("");
-    	txtUsuario.setText("");
+    	txtTitulo.setText("");
+    	txtAnioPublicacion.setText("");
+    	try {
+			cargarDatosInicial();
+		} catch (ParseException | URISyntaxException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	protected void guardarInformacion() {
@@ -230,5 +308,4 @@ public class BookMain extends JFrame {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }
