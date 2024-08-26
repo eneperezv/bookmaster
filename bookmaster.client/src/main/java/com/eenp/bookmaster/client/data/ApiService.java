@@ -234,7 +234,7 @@ public class ApiService {
 	 * */
 	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getLibros() throws URISyntaxException, ParseException, IOException {
-		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_PUBLISHER_TODOS);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_BOOK_TODOS);
 		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());

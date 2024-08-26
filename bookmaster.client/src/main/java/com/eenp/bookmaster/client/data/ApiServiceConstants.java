@@ -29,5 +29,6 @@ public class ApiServiceConstants {
 	static final String ENDPOINT_CLIENTES_CREATE = "ENDPOINT_CLIENTES_CREATE";
 	static final String ENDPOINT_AUTORES_TODOS   = "ENDPOINT_AUTORES_TODOS";
 	static final String ENDPOINT_PUBLISHER_TODOS = "ENDPOINT_PUBLISHER_TODOS";
+	static final String ENDPOINT_BOOK_TODOS      = "ENDPOINT_BOOK_TODOS";
 
 }

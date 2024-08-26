@@ -203,7 +203,8 @@ public class Main extends JFrame {
 		});
 		mnuLibros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				BookMain link = new BookMain();
+				link.setVisible(true);
 			}
 		});
 		mnuMainSalir.addActionListener(new ActionListener() {
