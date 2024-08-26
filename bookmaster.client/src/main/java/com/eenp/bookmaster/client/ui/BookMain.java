@@ -300,12 +300,39 @@ public class BookMain extends JFrame {
     }
 
 	protected void guardarInformacion() {
-		// TODO Auto-generated method stub
+		Author author = new Author();
+		String[] dtAuthor = cmbAutores.getSelectedItem().toString().split("|");
+		author.setId(Integer.parseInt(dtAuthor[0]));
+		author.setNombre(dtAuthor[0]);
 		
+		Publisher publisher = new Publisher();
+		String[] dtPublisher = cmbEditoriales.getSelectedItem().toString().split("|");
+		publisher.setId(Integer.parseInt(dtPublisher[0]));
+		publisher.setNombre(dtPublisher[0]);
+		
+		Book book = new Book();
+		book.setId(null);
+		book.setTitulo(txtTitulo.getText());
+		book.setIdautor(Integer.parseInt(dtAuthor[0]));
+		book.setAuthor(author);
+		book.setIdeditorial(Integer.parseInt(dtPublisher[0]));
+		book.setPublisher(publisher);
+		book.setAniopublicacion(Integer.parseInt(txtAnioPublicacion.getText()));
+		
+		System.out.println(book.toString());
+		//IMPLEMENTAR ENVIO A LA API
 	}
 
 	protected boolean validarCampos() {
-		// TODO Auto-generated method stub
-		return false;
+		if(txtTitulo.getText().equals("") || 
+				txtAnioPublicacion.getText().equals("") || 
+				cmbAutores.getSelectedItem().toString().equals("Seleccione uno.") || 
+				cmbEditoriales.getSelectedItem().toString().equals("Seleccione uno.")
+					){
+				func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Libros");
+				return false;
+			}else {
+				return true;
+			}
 	}
 }
