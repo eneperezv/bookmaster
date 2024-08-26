@@ -57,6 +57,7 @@ public class Main extends JFrame {
 	private JLabel lblNewLabel;
 	private JMenuItem mnuAutores;
 	private JMenuItem mnuEditoriales;
+	private JMenuItem mnuLibros;
 	
 	/**
 	 * Launch the application.
@@ -108,6 +109,7 @@ public class Main extends JFrame {
 		mnuClientes = new JMenuItem("Clientes");
 		mnuAutores = new JMenuItem("Autores");
 		mnuEditoriales = new JMenuItem("Editoriales");
+		mnuLibros = new JMenuItem("Libros");
 		mnuMainSalir = new JMenuItem("Salir");
 	}
 
@@ -199,6 +201,11 @@ public class Main extends JFrame {
 				link.setVisible(true);
 			}
 		});
+		mnuLibros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		mnuMainSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -219,6 +226,9 @@ public class Main extends JFrame {
 		mnuMainMaestros.add(mnuAutores);
 		mnuEditoriales.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666754_printer_print_icon.png")));
 		mnuMainMaestros.add(mnuEditoriales);
+		
+		mnuLibros.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666783_book_education_icon.png")));
+		mnuMainMaestros.add(mnuLibros);
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getName() + " | " + UserSession.getInstance().getUsuario().getUsername());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
