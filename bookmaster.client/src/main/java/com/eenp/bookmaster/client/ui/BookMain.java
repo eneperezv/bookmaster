@@ -108,6 +108,7 @@ public class BookMain extends JFrame {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void cargarDatosLibros() throws ParseException, URISyntaxException, IOException {
 		ApiResponse<?> response = bookController.getLibros();
     	if(response.getHttpResponse().getStatusCode() == 200) {
@@ -158,7 +159,12 @@ public class BookMain extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		if(validarCampos()) {
-        			guardarInformacion();
+        			try {
+						guardarInformacion();
+					} catch (ParseException | URISyntaxException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
         		}
 			}
 		});
@@ -259,7 +265,6 @@ public class BookMain extends JFrame {
 		ApiResponse<?> responseAutores = authorController.getAutores();
     	if(responseAutores.getHttpResponse().getStatusCode() == 200) {
 			List<Author> autores = (List<Author>) responseAutores.getResponse();
-    		tableModel.setNumRows(0);
     		for (Author autor : autores) {
     			cmbAutores.addItem(autor.getId() + "|" + autor.getNombre());
             }
@@ -272,13 +277,8 @@ public class BookMain extends JFrame {
     	ApiResponse<?> responseEditoriales = publisherController.getEditoriales();
     	if(responseEditoriales.getHttpResponse().getStatusCode() == 200) {
 			List<Publisher> editoriales = (List<Publisher>) responseEditoriales.getResponse();
-    		tableModel.setNumRows(0);
     		for (Publisher editorial : editoriales) {
     			cmbEditoriales.addItem(editorial.getId() + "|" + editorial.getNombre());
-                tableModel.addRow(new Object[]{
-                		editorial.getId(),
-                		editorial.getNombre()
-                });
             }
 		}else {
 			ErrorDetails errorDetails = (ErrorDetails) responseEditoriales.getResponse();
@@ -299,7 +299,7 @@ public class BookMain extends JFrame {
 		}
     }
 
-	protected void guardarInformacion() {
+	protected void guardarInformacion() throws ParseException, URISyntaxException, IOException {
 		Author author = new Author();
 		String[] dtAuthor = cmbAutores.getSelectedItem().toString().split("|");
 		author.setId(Integer.parseInt(dtAuthor[0]));
@@ -319,8 +319,19 @@ public class BookMain extends JFrame {
 		book.setPublisher(publisher);
 		book.setAniopublicacion(Integer.parseInt(txtAnioPublicacion.getText()));
 		
-		System.out.println(book.toString());
-		//IMPLEMENTAR ENVIO A LA API
+		ApiResponse<?> response = bookController.setLibroNuevo(book);
+		if(response.getHttpResponse().getStatusCode() == 201) {
+    		func.showMSG("OK","El Libro se creó correctamente.","BookMaster...");
+    		limpiarCampos();
+    		cargarDatosLibros();
+    		return;
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			limpiarCampos();
+			return;
+		}
 	}
 
 	protected boolean validarCampos() {

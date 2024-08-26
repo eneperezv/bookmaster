@@ -244,4 +244,17 @@ public class ApiService {
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
         }
 	}
+
+	public ApiResponse<?> setLibroNuevo(Book book) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		String jsonCliente = objectMapper.writeValueAsString(book);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_BOOK_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Book>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Book>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
+	}
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-08-2024 a las 19:56:11
+-- Tiempo de generación: 13-08-2024 a las 03:56:43
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -39,9 +39,7 @@ CREATE TABLE `authors` (
 --
 
 INSERT INTO `authors` (`id_autor`, `nombre`) VALUES
-(1, 'Laura Ribas'),
-(2, 'J.K.Rowling'),
-(3, 'George R.R. Martin');
+(1, 'Anne Rice');
 
 -- --------------------------------------------------------
 
@@ -59,16 +57,6 @@ CREATE TABLE `books` (
   `id_publisher` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `books`
---
-
-INSERT INTO `books` (`id_libro`, `aniopublicacion`, `idautor`, `ideditorial`, `titulo`, `id_autor`, `id_publisher`) VALUES
-(1, 2024, 1, 1, 'El Hechizo de una Marca', 1, 1),
-(2, 1996, 3, 3, 'Juego de Tronos 1: Canción de Hielo y Fuego', 3, 3),
-(3, 1990, 2, 2, 'Harry Potter y la Piedra Filosofal', 2, 2),
-(4, 1992, 2, 2, 'Harry Potter y la Camara Secreta', 2, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -82,6 +70,14 @@ CREATE TABLE `clients` (
   `nombre` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clients`
+--
+
+INSERT INTO `clients` (`id_cliente`, `correoelectronico`, `direccion`, `nombre`, `telefono`) VALUES
+(1, 'dani@gmail.com', 'calle 4', 'Daniela Perez', '5552525'),
+(2, 'coco@correo.com', 'calle 50', 'Coco Perez', '5663636');
 
 -- --------------------------------------------------------
 
@@ -99,9 +95,7 @@ CREATE TABLE `publishers` (
 --
 
 INSERT INTO `publishers` (`id_publisher`, `nombre`) VALUES
-(1, 'Conecta'),
-(2, 'Salamandra'),
-(3, 'DeBolsillo');
+(1, 'Zeta');
 
 -- --------------------------------------------------------
 
@@ -110,19 +104,20 @@ INSERT INTO `publishers` (`id_publisher`, `nombre`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id_usuario` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL
+  `id_usuario` int(11) NOT NULL,
+  `clave` varchar(255) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `usuario` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_usuario`, `name`, `password`, `role`, `username`) VALUES
-(1, 'Eliezer Navarro', '$2a$10$DRtD6u4iWycTIrKGcrYuTOITp0JZq88lClhTIgzJ3YMvzlB7LnWOG', 'USER', 'enp');
+INSERT INTO `users` (`id_usuario`, `clave`, `nombre`, `usuario`, `token`) VALUES
+(3, '$2a$10$P3eS1mvAedeP6Egmnc.iGebAejdJdGXmmmJneaGLQih0o265hmBmG', 'Eliezer Navarro Perez', 'enp', NULL),
+(4, '$2a$10$P3eS1mvAedeP6Egmnc.iGebAejdJdGXmmmJneaGLQih0o265hmBmG', 'Rayme Velandia', 'raymevg', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -168,31 +163,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `books`
 --
 ALTER TABLE `books`
-  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
 --
 ALTER TABLE `publishers`
-  MODIFY `id_publisher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_publisher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
