@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-08-2024 a las 06:40:53
+-- Tiempo de generación: 26-08-2024 a las 19:56:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -41,9 +41,7 @@ CREATE TABLE `authors` (
 INSERT INTO `authors` (`id_autor`, `nombre`) VALUES
 (1, 'Laura Ribas'),
 (2, 'J.K.Rowling'),
-(3, 'George R.R. Martin'),
-(4, 'Anne Rice'),
-(5, 'Anne Ribas');
+(3, 'George R.R. Martin');
 
 -- --------------------------------------------------------
 
@@ -58,22 +56,18 @@ CREATE TABLE `books` (
   `ideditorial` int(11) DEFAULT NULL,
   `titulo` varchar(255) DEFAULT NULL,
   `id_autor` int(11) NOT NULL,
-  `id_publisher` int(11) NOT NULL,
-  `disponible` int(11) DEFAULT NULL
+  `id_publisher` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `books`
 --
 
-INSERT INTO `books` (`id_libro`, `aniopublicacion`, `idautor`, `ideditorial`, `titulo`, `id_autor`, `id_publisher`, `disponible`) VALUES
-(1, 2024, 1, 1, 'El Hechizo de una Marca', 1, 1, 1),
-(2, 1996, 3, 3, 'Juego de Tronos 1: Canción de Hielo y Fuego', 3, 3, 1),
-(3, 1990, 2, 2, 'Harry Potter y la Piedra Filosofal', 2, 2, 1),
-(4, 1992, 2, 2, 'Harry Potter y la Camara Secreta', 2, 2, 1),
-(5, 1996, 4, 4, 'Armand El Vampiro', 4, 4, 1),
-(6, 2024, 5, 2, 'El caballo soñador', 5, 2, 1),
-(7, 1994, 2, 2, 'Harry Potter y el Prisionero de Askaban', 2, 2, 1);
+INSERT INTO `books` (`id_libro`, `aniopublicacion`, `idautor`, `ideditorial`, `titulo`, `id_autor`, `id_publisher`) VALUES
+(1, 2024, 1, 1, 'El Hechizo de una Marca', 1, 1),
+(2, 1996, 3, 3, 'Juego de Tronos 1: Canción de Hielo y Fuego', 3, 3),
+(3, 1990, 2, 2, 'Harry Potter y la Piedra Filosofal', 2, 2),
+(4, 1992, 2, 2, 'Harry Potter y la Camara Secreta', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -88,14 +82,6 @@ CREATE TABLE `clients` (
   `nombre` varchar(255) DEFAULT NULL,
   `telefono` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `clients`
---
-
-INSERT INTO `clients` (`id_cliente`, `correoelectronico`, `direccion`, `nombre`, `telefono`) VALUES
-(1, 'coco@gmail.com', 'Calle 40', 'Gladys Pérez', '5558989'),
-(2, 'nela@gmail.com', 'Calle 41', 'Daniela Sanchez', '8559696');
 
 -- --------------------------------------------------------
 
@@ -115,8 +101,7 @@ CREATE TABLE `publishers` (
 INSERT INTO `publishers` (`id_publisher`, `nombre`) VALUES
 (1, 'Conecta'),
 (2, 'Salamandra'),
-(3, 'DeBolsillo'),
-(4, 'Zeta');
+(3, 'DeBolsillo');
 
 -- --------------------------------------------------------
 
@@ -183,25 +168,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `books`
 --
 ALTER TABLE `books`
-  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
 --
 ALTER TABLE `publishers`
-  MODIFY `id_publisher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_publisher` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
