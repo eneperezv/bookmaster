@@ -62,6 +62,9 @@ public class Book {
 	@Column(name="aniopublicacion")
 	private Integer aniopublicacion;
 	
+	@Column(name="disponible")
+	private Integer disponible;
+	
 	public Book() {
 		
 	}
@@ -130,11 +133,19 @@ public class Book {
 		this.aniopublicacion = aniopublicacion;
 	}
 
+	public Integer getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Integer disponible) {
+		this.disponible = disponible;
+	}
+
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", titulo=" + titulo + ", idautor=" + idautor + ", author=" + author
 				+ ", ideditorial=" + ideditorial + ", publisher=" + publisher + ", aniopublicacion=" + aniopublicacion
-				+ "]";
+				+ ", disponible=" + disponible + "]";
 	}
 
 }

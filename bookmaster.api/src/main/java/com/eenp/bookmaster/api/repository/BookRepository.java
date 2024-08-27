@@ -20,11 +20,19 @@ package com.eenp.bookmaster.api.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.eenp.bookmaster.api.entity.Book;
+import com.eenp.bookmaster.api.entity.UserMain;
 
 public interface BookRepository extends JpaRepository<Book,Long> {
 	
 	List<Book> findAll();
+	
+	@Query(value = "SELECT b.* FROM books b INNER JOIN authors a ON b.idautor = a.id_autor WHERE a.nombre LIKE %:authorName%", nativeQuery = true)
+	List<Book> findByAuthorNombre(String authorName);
+	
+	@Query(value = "SELECT b.* FROM books b WHERE b.titulo LIKE %:titulo%", nativeQuery = true)
+	List<Book> findByTitulo(String titulo);
 
 }

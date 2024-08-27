@@ -9,6 +9,7 @@ public class Book {
 	private Integer ideditorial;
 	private Publisher publisher;
 	private Integer aniopublicacion;
+	private Integer disponible;
 	public Integer getId() {
 		return id;
 	}
@@ -51,11 +52,17 @@ public class Book {
 	public void setAniopublicacion(Integer aniopublicacion) {
 		this.aniopublicacion = aniopublicacion;
 	}
+	public Integer getDisponible() {
+		return disponible;
+	}
+	public void setDisponible(Integer disponible) {
+		this.disponible = disponible;
+	}
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", titulo=" + titulo + ", idautor=" + idautor + ", author=" + author
 				+ ", ideditorial=" + ideditorial + ", publisher=" + publisher + ", aniopublicacion=" + aniopublicacion
-				+ "]";
+				+ ", disponible=" + disponible + "]";
 	}
 
 }

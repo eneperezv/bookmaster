@@ -70,6 +70,8 @@ public class WebSecurityConfig {
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/author/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/book/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/book/create").hasRole("USER");
+                    registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/book/by-author/**").hasRole("USER");
+                    registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/book/by-title/**").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/publisher/todos").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/publisher/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/client/todos").hasRole("USER");
