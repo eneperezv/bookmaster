@@ -1,32 +1,16 @@
 package com.eenp.bookmaster.client.ui;
 
-/*
- * @(#)BookMain.java 1.0 21/08/2024
- * 
- * El código implementado en este formulario esta protegido
- * bajo las leyes internacionales del Derecho de Autor, sin embargo
- * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
- * descrita en https://www.gnu.org/licenses/gpl-3.0.html
- */
-
-/** UI Principal del control de Libros
- *
- * @author eliezer.navarro
- * @version 1.0 | 21/08/2024
- * @since 1.0
- */
-
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,15 +28,9 @@ import org.apache.http.ParseException;
 import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.controller.BookController;
 import com.eenp.bookmaster.client.controller.PublisherController;
-import com.eenp.bookmaster.client.entity.ApiResponse;
-import com.eenp.bookmaster.client.entity.Author;
-import com.eenp.bookmaster.client.entity.Book;
-import com.eenp.bookmaster.client.entity.ErrorDetails;
-import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.util.Functions;
-import javax.swing.JComboBox;
 
-public class BookMain extends JFrame {
+public class LoanMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -81,7 +59,7 @@ public class BookMain extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BookMain frame = new BookMain();
+					LoanMain frame = new LoanMain();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -93,8 +71,8 @@ public class BookMain extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public BookMain() {
-		setTitle("BookMaster | 1.0 | Libros");
+	public LoanMain() {
+		setTitle("BookMaster | 1.0 | Prestamos");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setBounds(100, 100, 768, 500);
         setLocationRelativeTo(null);
@@ -102,34 +80,15 @@ public class BookMain extends JFrame {
         initialize();
         try {
 			cargarDatosLibros();
-		} catch (ParseException | URISyntaxException | IOException e) {
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
-	private void cargarDatosLibros() throws ParseException, URISyntaxException, IOException {
-		ApiResponse<?> response = bookController.getLibros();
-    	if(response.getHttpResponse().getStatusCode() == 200) {
-			List<Book> libros = (List<Book>) response.getResponse();
-    		tableModel.setNumRows(0);
-    		for (Book libro : libros) {
-                tableModel.addRow(new Object[]{
-                		libro.getId(),
-                		libro.getAuthor().getNombre(),
-                		libro.getTitulo(),
-                		libro.getPublisher().getNombre(),
-                		libro.getAniopublicacion(),
-                		libro.getDisponible() == 1 ? "SI" : "NO"
-                });
-            }
-		}else {
-			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
-			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
-					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
-			return;
-		}
+
+	private void cargarDatosLibros() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void initialize() {
@@ -163,7 +122,7 @@ public class BookMain extends JFrame {
         		if(validarCampos()) {
         			try {
 						guardarInformacion();
-					} catch (ParseException | URISyntaxException | IOException e1) {
+					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -201,7 +160,7 @@ public class BookMain extends JFrame {
 		
 		try {
 			cargarDatosInicial();
-		} catch (ParseException | URISyntaxException | IOException e1) {
+		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -257,37 +216,8 @@ public class BookMain extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-	
-	@SuppressWarnings("unchecked")
-	private void cargarDatosInicial() throws ParseException, URISyntaxException, IOException {
-		cmbAutores.removeAllItems();
-		cmbAutores.addItem("Seleccione uno.");
-		cmbEditoriales.removeAllItems();
-		cmbEditoriales.addItem("Seleccione uno.");
-		ApiResponse<?> responseAutores = authorController.getAutores();
-    	if(responseAutores.getHttpResponse().getStatusCode() == 200) {
-			List<Author> autores = (List<Author>) responseAutores.getResponse();
-    		for (Author autor : autores) {
-    			cmbAutores.addItem(autor.getId() + "|" + autor.getNombre());
-            }
-		}else {
-			ErrorDetails errorDetails = (ErrorDetails) responseAutores.getResponse();
-			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
-					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
-			return;
-		}
-    	ApiResponse<?> responseEditoriales = publisherController.getEditoriales();
-    	if(responseEditoriales.getHttpResponse().getStatusCode() == 200) {
-			List<Publisher> editoriales = (List<Publisher>) responseEditoriales.getResponse();
-    		for (Publisher editorial : editoriales) {
-    			cmbEditoriales.addItem(editorial.getId() + "|" + editorial.getNombre());
-            }
-		}else {
-			ErrorDetails errorDetails = (ErrorDetails) responseEditoriales.getResponse();
-			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
-					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
-			return;
-		}
+	private void cargarDatosInicial() {
+		
 	}
 	
 	private void limpiarCampos() {
@@ -295,47 +225,11 @@ public class BookMain extends JFrame {
     	txtAnioPublicacion.setText("");
     	try {
 			cargarDatosInicial();
-		} catch (ParseException | URISyntaxException | IOException e) {
+		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
-
-	protected void guardarInformacion() throws ParseException, URISyntaxException, IOException {
-		Author author = new Author();
-		String[] dtAuthor = cmbAutores.getSelectedItem().toString().split("|");
-		author.setId(Integer.parseInt(dtAuthor[0]));
-		author.setNombre(dtAuthor[0]);
-		
-		Publisher publisher = new Publisher();
-		String[] dtPublisher = cmbEditoriales.getSelectedItem().toString().split("|");
-		publisher.setId(Integer.parseInt(dtPublisher[0]));
-		publisher.setNombre(dtPublisher[0]);
-		
-		Book book = new Book();
-		book.setId(null);
-		book.setTitulo(txtTitulo.getText());
-		book.setIdautor(Integer.parseInt(dtAuthor[0]));
-		book.setAuthor(author);
-		book.setIdeditorial(Integer.parseInt(dtPublisher[0]));
-		book.setPublisher(publisher);
-		book.setAniopublicacion(Integer.parseInt(txtAnioPublicacion.getText()));
-		book.setDisponible(1);
-		
-		ApiResponse<?> response = bookController.setLibroNuevo(book);
-		if(response.getHttpResponse().getStatusCode() == 201) {
-    		func.showMSG("OK","El Libro se creó correctamente.","BookMaster...");
-    		limpiarCampos();
-    		cargarDatosLibros();
-    		return;
-		}else {
-			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
-			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
-					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
-			limpiarCampos();
-			return;
-		}
-	}
 
 	protected boolean validarCampos() {
 		if(txtTitulo.getText().equals("") || 
@@ -349,4 +243,9 @@ public class BookMain extends JFrame {
 				return true;
 			}
 	}
+	
+	protected void guardarInformacion() {
+		
+	}
+
 }

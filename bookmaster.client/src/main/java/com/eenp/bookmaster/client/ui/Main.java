@@ -58,6 +58,8 @@ public class Main extends JFrame {
 	private JMenuItem mnuAutores;
 	private JMenuItem mnuEditoriales;
 	private JMenuItem mnuLibros;
+	private JMenu mnuMainOperaciones;
+	private JMenuItem mnuPrestamos;
 	
 	/**
 	 * Launch the application.
@@ -110,6 +112,10 @@ public class Main extends JFrame {
 		mnuAutores = new JMenuItem("Autores");
 		mnuEditoriales = new JMenuItem("Editoriales");
 		mnuLibros = new JMenuItem("Libros");
+		
+		mnuMainOperaciones = new JMenu("Operaciones");
+		mnuPrestamos = new JMenuItem("Prestamos");
+		
 		mnuMainSalir = new JMenuItem("Salir");
 	}
 
@@ -122,8 +128,7 @@ public class Main extends JFrame {
 		
 		setJMenuBar(menuBar);
 		
-		menuBar.add(mnuMainMaestros);
-		menuBar.add(mnuMainSalir);
+		
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(0, 0, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -219,6 +224,7 @@ public class Main extends JFrame {
 	private void initData() {
 		// PAGINA PARA LOS ICONOS
 		// https://www.iconfinder.com/search/icons?family=feather
+		menuBar.add(mnuMainMaestros);
 		mnuUsuarios.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666609_user_icon.png")));
 		mnuMainMaestros.add(mnuUsuarios);
 		mnuClientes.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666755_users_group_icon.png")));
@@ -227,10 +233,18 @@ public class Main extends JFrame {
 		mnuMainMaestros.add(mnuAutores);
 		mnuEditoriales.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666754_printer_print_icon.png")));
 		mnuMainMaestros.add(mnuEditoriales);
-		
 		mnuLibros.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666783_book_education_icon.png")));
 		mnuMainMaestros.add(mnuLibros);
+
+		mnuMainOperaciones.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666615_settings_icon.png")));
+		menuBar.add(mnuMainOperaciones);
+		mnuPrestamos.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666671_briefcase_icon.png")));
+		mnuMainOperaciones.add(mnuPrestamos);
+		
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
+		menuBar.add(mnuMainSalir);
+		
+		
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getName() + " | " + UserSession.getInstance().getUsuario().getUsername());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
 	}
