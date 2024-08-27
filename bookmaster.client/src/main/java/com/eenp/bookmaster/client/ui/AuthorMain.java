@@ -207,7 +207,7 @@ public class AuthorMain extends JFrame {
 	
 	private boolean validarCampos() {
 		if(txtNombre.getText().equals("")){
-			func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Usuarios...");
+			func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Autores...");
 			return false;
 		}else {
 			return true;

@@ -60,9 +60,7 @@ public class PublisherController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 
-	
 	@PostMapping("/publisher/create")
 	public ResponseEntity<?> createEditorial(@RequestBody Publisher publisher){
 		Publisher savedPublisher;

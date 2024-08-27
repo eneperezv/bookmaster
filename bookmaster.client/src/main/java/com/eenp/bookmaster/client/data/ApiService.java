@@ -241,6 +241,19 @@ public class ApiService {
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
         }
 	}
+
+	public ApiResponse<?> setEditorialNuevo(Publisher publisher) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		String jsonCliente = objectMapper.writeValueAsString(publisher);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_PUBLISHER_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Publisher>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Publisher>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
+	}
 	
 	/*
 	 * LIBROS

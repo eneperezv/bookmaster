@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.data.ApiService;
 import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Publisher;
 
 public class PublisherService {
 	
@@ -34,6 +37,10 @@ public class PublisherService {
 
 	public ApiResponse<?> getEditoriales() throws URISyntaxException, ParseException, IOException {
 		return apiService.getEditoriales();
+	}
+
+	public ApiResponse<?> setEditorialNuevo(Publisher publisher) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		return apiService.setEditorialNuevo(publisher);
 	}
 
 }
