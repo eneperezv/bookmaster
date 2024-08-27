@@ -27,4 +27,12 @@ public class BookService {
 		return apiService.setLibroNuevo(book);
 	}
 
+	public ApiResponse<?> findByAuthor(String author) {
+		return apiService.findByAuthor(author);
+	}
+
+	public ApiResponse<?> findByTitle(String title) {
+		return apiService.findByTitle(title);
+	}
+
 }
