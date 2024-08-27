@@ -212,6 +212,12 @@ public class Main extends JFrame {
 				link.setVisible(true);
 			}
 		});
+		mnuPrestamos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoanMain link = new LoanMain();
+				link.setVisible(true);
+			}
+		});
 		mnuMainSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
