@@ -212,6 +212,19 @@ public class ApiService {
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
         }
 	}
+
+	public ApiResponse<?> setAutorNuevo(Author author) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		String jsonCliente = objectMapper.writeValueAsString(author);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_AUTORES_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Author>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Author>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
+	}
 	
 	/*
 	 * EDITORIALES

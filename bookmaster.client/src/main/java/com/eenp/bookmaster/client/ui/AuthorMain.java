@@ -40,6 +40,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
@@ -61,8 +63,6 @@ public class AuthorMain extends JFrame {
 	private JButton btnSalir;
 	private JLabel lblNewLabel;
 	private JTextField txtNombre;
-	private JTextField txtUsuario;
-	private JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -143,7 +143,12 @@ public class AuthorMain extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		if(validarCampos()) {
-        			guardarInformacion();
+        			try {
+						guardarInformacion();
+					} catch (IOException | URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
         		}
 			}
 		});
@@ -158,32 +163,23 @@ public class AuthorMain extends JFrame {
 		});
 		btnSalir.setIcon(new ImageIcon(UserMain.class.getResource("/com/eenp/bookmaster/client/images/exit2.png")));
 		
-		lblNewLabel = new JLabel("Nombre completo: ");
+		lblNewLabel = new JLabel("Nombre del Autor:");
 		
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		
-		txtUsuario = new JTextField();
-		txtUsuario.setColumns(10);
-		
-		lblNewLabel_1 = new JLabel("Usuario:");
         
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(txtUsuario, 212, 212, 212)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 329, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
-				.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -191,13 +187,9 @@ public class AuthorMain extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel)
-								.addComponent(lblNewLabel_1))
+							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(58))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
@@ -211,23 +203,41 @@ public class AuthorMain extends JFrame {
 	
 	private void limpiarCampos() {
     	txtNombre.setText("");
-    	txtUsuario.setText("");
     }
 	
 	private boolean validarCampos() {
-		if(txtNombre.getText().equals("") || 
-				txtUsuario.getText().equals("")
-					){
-				func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Usuarios...");
-				return false;
-			}else {
-				return true;
-			}
+		if(txtNombre.getText().equals("")){
+			func.showMSG("ERROR","Por favor verifique la información. Debe completar todos los campos","Usuarios...");
+			return false;
+		}else {
+			return true;
+		}
 	}
 	
-	private void guardarInformacion() {
+	private void guardarInformacion() throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		Author author = new Author();
+		author.setId(null);
+		author.setNombre(txtNombre.getText());
 		
-		limpiarCampos();
+		ApiResponse<?> response = authorController.setAutorNuevo(author);
+		if(response.getHttpResponse().getStatusCode() == 201) {
+    		func.showMSG("OK","El Autor se creó correctamente.","BookMaster...");
+    		limpiarCampos();
+    		try {
+    			cargarDatosAutores();
+    			limpiarCampos();
+			} catch (ParseException | URISyntaxException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return;
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			limpiarCampos();
+			return;
+		}
 	}
 
 }
