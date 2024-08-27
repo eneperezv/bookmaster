@@ -26,5 +26,13 @@ public class BookController {
 	public ApiResponse<?> setLibroNuevo(Book book) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
 		return bookService.setLibroNuevo(book);
 	}
+	
+	public ApiResponse<?> findByAuthor(String author){
+		return bookService.findByAuthor(author);
+	}
+	
+	public ApiResponse<?> findByTitle(String title){
+		return bookService.findByTitle(title);
+	}
 
 }
