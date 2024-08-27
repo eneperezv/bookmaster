@@ -27,11 +27,11 @@ public class BookService {
 		return apiService.setLibroNuevo(book);
 	}
 
-	public ApiResponse<?> findByAuthor(String author) {
+	public ApiResponse<?> findByAuthor(String author) throws ParseException, URISyntaxException, IOException {
 		return apiService.findByAuthor(author);
 	}
 
-	public ApiResponse<?> findByTitle(String title) {
+	public ApiResponse<?> findByTitle(String title) throws ParseException, URISyntaxException, IOException {
 		return apiService.findByTitle(title);
 	}
 

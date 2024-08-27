@@ -283,4 +283,30 @@ public class ApiService {
             return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
         }
 	}
+
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> findByAuthor(String author) throws URISyntaxException, ParseException, IOException {
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_BOOK_BYAUTHOR) + author;
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
+		if(response.getStatusLine().getStatusCode() == 200) {
+        	String responseBody = EntityUtils.toString(response.getEntity());
+        	return new ApiResponse<List<Book>>(response.getStatusLine(),(List<Book>) objectMapper.readValue(responseBody, new TypeReference<List<Book>>() {}));
+        }else {
+        	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+        	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
+
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> findByTitle(String title) throws URISyntaxException, ParseException, IOException {
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_BOOK_BYTITLE) + title;
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
+		if(response.getStatusLine().getStatusCode() == 200) {
+        	String responseBody = EntityUtils.toString(response.getEntity());
+        	return new ApiResponse<List<Book>>(response.getStatusLine(),(List<Book>) objectMapper.readValue(responseBody, new TypeReference<List<Book>>() {}));
+        }else {
+        	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+        	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
 }

@@ -33,5 +33,7 @@ public class ApiServiceConstants {
 	static final String ENDPOINT_PUBLISHER_CREATE = "ENDPOINT_PUBLISHER_CREATE";
 	static final String ENDPOINT_BOOK_TODOS       = "ENDPOINT_BOOK_TODOS";
 	static final String ENDPOINT_BOOK_CREATE      = "ENDPOINT_BOOK_CREATE";
+	static final String ENDPOINT_BOOK_BYAUTHOR    = "ENDPOINT_BOOK_BYAUTHOR";
+	static final String ENDPOINT_BOOK_BYTITLE     = "ENDPOINT_BOOK_BYTITLE";
 
 }
