@@ -45,11 +45,10 @@ public class LoanMain extends JFrame {
 	private JButton btnGuardar;
 	private JButton btnSalir;
 	private JLabel lblNewLabel;
-	private JTextField txtTitulo;
-	private JTextField txtAnioPublicacion;
+	private JTextField txtConsultaCliente;
+	private JTextField txtConsultaLibroAutor;
 	private JLabel lblNewLabel_1;
-	private JComboBox cmbAutores;
-	private JComboBox cmbEditoriales;
+	private JTextField txtConsultaLibroTitulo;
 
 	/**
 	 * Launch the application.
@@ -139,23 +138,15 @@ public class LoanMain extends JFrame {
 		});
 		btnSalir.setIcon(new ImageIcon(UserMain.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666736_x_circle_icon.png")));
 		
-		lblNewLabel = new JLabel("Titulo:");
+		lblNewLabel = new JLabel("Consultar Cliente:");
 		
-		txtTitulo = new JTextField();
-		txtTitulo.setColumns(10);
+		txtConsultaCliente = new JTextField();
+		txtConsultaCliente.setColumns(10);
 		
-		txtAnioPublicacion = new JTextField();
-		txtAnioPublicacion.setColumns(10);
+		txtConsultaLibroAutor = new JTextField();
+		txtConsultaLibroAutor.setColumns(10);
 		
-		lblNewLabel_1 = new JLabel("Año de Publicación:");
-		
-		JLabel lblNewLabel_2 = new JLabel("Autor:");
-		
-		JLabel lblNewLabel_3 = new JLabel("Editorial:");
-		
-		cmbAutores = new JComboBox();
-		
-		cmbEditoriales = new JComboBox();
+		lblNewLabel_1 = new JLabel("Consultar Libro por Autor:");
 		
 		try {
 			cargarDatosInicial();
@@ -165,6 +156,11 @@ public class LoanMain extends JFrame {
 		}
 		
 		JScrollPane scrollPane_1 = new JScrollPane((Component) null);
+		
+		txtConsultaLibroTitulo = new JTextField();
+		txtConsultaLibroTitulo.setColumns(10);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Consultar Libro por Titulo");
         
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -173,23 +169,24 @@ public class LoanMain extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(cmbAutores, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(txtTitulo, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE))
+								.addComponent(txtConsultaCliente, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+								.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblNewLabel_3, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtAnioPublicacion, 212, 212, Short.MAX_VALUE)
-								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cmbEditoriales, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtConsultaLibroAutor, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE)))
 						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.LEADING)
-							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 750, GroupLayout.PREFERRED_SIZE)))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtConsultaLibroTitulo, GroupLayout.PREFERRED_SIZE, 212, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 407, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 750, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -203,19 +200,14 @@ public class LoanMain extends JFrame {
 								.addComponent(lblNewLabel_1))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(txtTitulo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtAnioPublicacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtConsultaCliente, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtConsultaLibroAutor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_2)
-								.addComponent(lblNewLabel_3))
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(cmbAutores, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cmbEditoriales, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(lblNewLabel_1_1)
+							.addGap(6)
+							.addComponent(txtConsultaLibroTitulo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnSalir, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(scrollPane, 0, 0, Short.MAX_VALUE)
@@ -228,8 +220,8 @@ public class LoanMain extends JFrame {
 	}
 	
 	private void limpiarCampos() {
-    	txtTitulo.setText("");
-    	txtAnioPublicacion.setText("");
+    	txtConsultaCliente.setText("");
+    	txtConsultaLibroAutor.setText("");
     	try {
 			cargarDatosInicial();
 		} catch (ParseException e) {
@@ -239,8 +231,8 @@ public class LoanMain extends JFrame {
     }
 
 	protected boolean validarCampos() {
-		if(txtTitulo.getText().equals("") || 
-				txtAnioPublicacion.getText().equals("") || 
+		if(txtConsultaCliente.getText().equals("") || 
+				txtConsultaLibroAutor.getText().equals("") || 
 				cmbAutores.getSelectedItem().toString().equals("Seleccione uno.") || 
 				cmbEditoriales.getSelectedItem().toString().equals("Seleccione uno.")
 					){
