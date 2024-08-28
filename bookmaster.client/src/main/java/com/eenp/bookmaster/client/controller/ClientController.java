@@ -44,5 +44,9 @@ public class ClientController {
 	public ApiResponse<?> setClienteNuevo(Client cliente) throws URISyntaxException, JsonGenerationException, JsonMappingException, IOException{
 		return clientService.setClienteNuevo(cliente);
 	}
+	
+	public ApiResponse<?> findClienteByNombre(String nombre) throws ParseException, URISyntaxException, IOException{
+		return clientService.findClienteByNombre(nombre);
+	}
 
 }

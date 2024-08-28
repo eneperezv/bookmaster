@@ -27,11 +27,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.Client;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.repository.ClientRepository;
@@ -75,6 +77,22 @@ public class ClientController {
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/client/by-nombre/{nombre}")
+	public ResponseEntity<?> findClienteByNombre(@PathVariable("nombre") String nombre){
+		List<Client> lista = new ArrayList<Client>();
+		try{
+			clientRepository.findByNombre(nombre).forEach(lista::add);
+			if(lista.isEmpty()) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.OK.toString(),"NO CONTENT");
+				return new ResponseEntity<>(err,HttpStatus.OK);
+			}
+			return new ResponseEntity<>(lista, HttpStatus.OK);
+		}catch(Exception e){
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

@@ -20,11 +20,16 @@ package com.eenp.bookmaster.api.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.Client;
 
 public interface ClientRepository extends JpaRepository<Client,Long> {
 	
 	List<Client> findAll();
+	
+	@Query(value = "SELECT c.* FROM clients c WHERE c.nombre LIKE %:nombre%", nativeQuery = true)
+	List<Client> findByNombre(String nombre);
 
 }

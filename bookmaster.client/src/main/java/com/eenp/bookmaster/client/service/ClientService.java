@@ -44,4 +44,8 @@ public class ClientService {
 		return apiService.setClienteNuevo(cliente);
 	}
 
+	public ApiResponse<?> findClienteByNombre(String nombre) throws ParseException, URISyntaxException, IOException {
+		return apiService.findClienteByNombre(nombre);
+	}
+
 }
