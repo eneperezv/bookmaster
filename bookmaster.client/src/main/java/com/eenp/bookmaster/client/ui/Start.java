@@ -184,7 +184,7 @@ public class Start extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		
-		System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
+		//System.out.println("-->"+func.retornaHashBCrypt("addenp")+"<--");
 	}
 	
 	public void accionSalir() {
