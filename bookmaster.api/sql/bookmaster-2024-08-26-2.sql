@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-08-2024 a las 06:48:07
+-- Tiempo de generación: 27-08-2024 a las 06:40:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -95,8 +95,7 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id_cliente`, `correoelectronico`, `direccion`, `nombre`, `telefono`) VALUES
 (1, 'coco@gmail.com', 'Calle 40', 'Gladys Pérez', '5558989'),
-(2, 'nela@gmail.com', 'Calle 41', 'Daniela Sanchez', '8559696'),
-(3, 'daniela@hotmail.com', 'Calle50', 'Daniela Rodriguez', '4221515');
+(2, 'nela@gmail.com', 'Calle 41', 'Daniela Sanchez', '8559696');
 
 -- --------------------------------------------------------
 
@@ -196,7 +195,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT de la tabla `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
