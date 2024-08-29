@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.entity;
 
+/*Incluir documentacion*/
+
 public class Book {
 	
 	private Integer id;
