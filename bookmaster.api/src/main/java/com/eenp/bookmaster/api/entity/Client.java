@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.api.entity;
 
+import java.io.Serializable;
+
 /*
  * @(#)Client.java 1.0 07/08/2024
  * 
@@ -27,7 +29,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Clients")
-public class Client {
+public class Client implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
