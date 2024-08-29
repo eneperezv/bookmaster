@@ -7,6 +7,8 @@ package com.eenp.bookmaster.client.service;
  * bajo las leyes internacionales del Derecho de Autor, sin embargo
  * se entrega bajo las condiciones de la General Public License (GNU GPLv3)
  * descrita en https://www.gnu.org/licenses/gpl-3.0.html
+
+incluir documentacion adicional
  */
 
 /** Capa de Servicio para el control de Autores
