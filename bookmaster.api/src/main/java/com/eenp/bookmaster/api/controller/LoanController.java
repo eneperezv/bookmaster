@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
+import com.eenp.bookmaster.api.entity.Loan;
+import com.eenp.bookmaster.api.repository.LoanRepository;
 
 @RestController
 @RequestMapping("/api/bookmaster")
@@ -26,17 +27,17 @@ public class LoanController {
 	LoanRepository loanRepository;
 	
 	@GetMapping("/loan/todos")
-	public ResponseEntity<?> getLibros(){
+	public ResponseEntity<?> getPrestamos(){
 		List<Loan> lista = new ArrayList<Loan>();
 		try{
 			loanRepository.findAll().forEach(lista::add);
 			if(lista.isEmpty()) {
-				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"NO CONTENT");
-				return new ResponseEntity<>(err,HttpStatus.NO_CONTENT);
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.OK.toString(),"NO CONTENT");
+				return new ResponseEntity<>(err,HttpStatus.OK);
 			}
 			return new ResponseEntity<>(lista, HttpStatus.OK);
 		}catch(Exception e){
-			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
