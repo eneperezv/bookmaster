@@ -43,12 +43,12 @@ public class Loan {
 	@JoinColumn(name = "id_libro", nullable = false)
 	@ManyToOne(targetEntity=Book.class, fetch=FetchType.LAZY)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private Integer id_libro;
+	private Book id_libro;
 	
 	@JoinColumn(name = "id_cliente", nullable = false)
 	@ManyToOne(targetEntity=Client.class, fetch=FetchType.LAZY)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private Integer id_cliente;
+	private Client id_cliente;
 	
 	@Column(name="fecha_prestamo")
 	private String fechaPrestamo;
@@ -64,8 +64,8 @@ public class Loan {
 	public Loan() {
 		
 	}
-
-	public Loan(Integer id_libro, Integer id_cliente, String fechaPrestamo, String fechaDevolucion, String estado) {
+	
+	public Loan(Book id_libro, Client id_cliente, String fechaPrestamo, String fechaDevolucion, String estado) {
 		super();
 		this.id_libro = id_libro;
 		this.id_cliente = id_cliente;
@@ -82,19 +82,19 @@ public class Loan {
 		this.id = id;
 	}
 
-	public Integer getId_libro() {
+	public Book getId_libro() {
 		return id_libro;
 	}
 
-	public void setId_libro(Integer id_libro) {
+	public void setId_libro(Book id_libro) {
 		this.id_libro = id_libro;
 	}
 
-	public Integer getId_cliente() {
+	public Client getId_cliente() {
 		return id_cliente;
 	}
 
-	public void setId_cliente(Integer id_cliente) {
+	public void setId_cliente(Client id_cliente) {
 		this.id_cliente = id_cliente;
 	}
 

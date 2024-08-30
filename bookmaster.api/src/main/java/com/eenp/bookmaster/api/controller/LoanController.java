@@ -33,12 +33,14 @@ public class LoanController {
 			loanRepository.findAll().forEach(lista::add);
 			if(lista.isEmpty()) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.OK.toString(),"NO CONTENT");
-				return new ResponseEntity<>(err,HttpStatus.OK);
+				System.out.println("err-1->"+err.toString());
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.OK);
 			}
-			return new ResponseEntity<>(lista, HttpStatus.OK);
+			return new ResponseEntity<List<Loan>>(lista, HttpStatus.OK);
 		}catch(Exception e){
-			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR-->"+e.getMessage()+"<--");
+			System.out.println("err-2->"+err.toString());
+			return new ResponseEntity<ErrorDetails>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
