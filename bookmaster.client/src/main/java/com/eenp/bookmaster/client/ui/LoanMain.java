@@ -30,15 +30,19 @@ import com.eenp.bookmaster.client.controller.BookController;
 import com.eenp.bookmaster.client.controller.ClientController;
 import com.eenp.bookmaster.client.controller.PublisherController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Book;
 import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Loan;
+import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.util.Functions;
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -54,8 +58,6 @@ public class LoanMain extends JFrame {
     private DefaultTableModel tableModelClientes;
     
     private final BookController bookController = new BookController();
-    
-    private final AuthorController authorController = new AuthorController();
     private final ClientController clientController = new ClientController();
 	
 	Functions func = new Functions();
@@ -115,29 +117,54 @@ public class LoanMain extends JFrame {
 
 		tableModelLibros = new DefaultTableModel();
 		tableModelLibros.addColumn("ID");
+		tableModelLibros.addColumn("ID_autor");
 		tableModelLibros.addColumn("Autor");
 		tableModelLibros.addColumn("Titulo");
+		tableModelLibros.addColumn("ID_editorial");
 		tableModelLibros.addColumn("Editorial");
+		tableModelLibros.addColumn("AñoPublicacion");
 		tableModelLibros.addColumn("Disponible");
         tableLibros = new JTable(tableModelLibros);
         tableLibros.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("fila-sel->"+tableLibros.getSelectedRow());
-				System.out.println("col-sel->"+tableLibros.getSelectedColumn());
+				//System.out.println("fila-sel->"+tableLibros.getSelectedRow());
+				//System.out.println("col-sel->"+tableLibros.getSelectedColumn());
 			}
 		});
         
         TableColumnModel columnModel = tableLibros.getColumnModel();
-        columnModel.getColumn(0).setMaxWidth(0);
+        columnModel.getColumn(0).setMaxWidth(0); 						//id_libro
         columnModel.getColumn(0).setMinWidth(0);
         columnModel.getColumn(0).setPreferredWidth(0);
+        columnModel.getColumn(1).setMaxWidth(0); 						//id_autor
+        columnModel.getColumn(1).setMinWidth(0);
+        columnModel.getColumn(1).setPreferredWidth(0);
+        columnModel.getColumn(4).setMaxWidth(0); 						//id_editorial
+        columnModel.getColumn(4).setMinWidth(0);
+        columnModel.getColumn(4).setPreferredWidth(0);
+        columnModel.getColumn(6).setMaxWidth(0); 						//AñoPublicacion
+        columnModel.getColumn(6).setMinWidth(0);
+        columnModel.getColumn(6).setPreferredWidth(0);
         
         tableModelClientes = new DefaultTableModel();
         tableModelClientes.addColumn("ID");
         tableModelClientes.addColumn("Nombre");
         tableModelClientes.addColumn("Correo Electrónico");
+        tableModelClientes.addColumn("Direccion");
+        tableModelClientes.addColumn("Telefono");
         tableClientes = new JTable(tableModelClientes);
+        
+        TableColumnModel columnModelClientes = tableClientes.getColumnModel();
+        columnModelClientes.getColumn(0).setMaxWidth(0); 				//id_cliente
+        columnModelClientes.getColumn(0).setMinWidth(0);
+        columnModelClientes.getColumn(0).setPreferredWidth(0);
+        columnModelClientes.getColumn(3).setMaxWidth(0); 				//direccion
+        columnModelClientes.getColumn(3).setMinWidth(0);
+        columnModelClientes.getColumn(3).setPreferredWidth(0);
+        columnModelClientes.getColumn(4).setMaxWidth(0); 				//telefono
+        columnModelClientes.getColumn(4).setMinWidth(0);
+        columnModelClientes.getColumn(4).setPreferredWidth(0);
         
         JScrollPane scrollPaneLibros   = new JScrollPane(tableLibros);
 		JScrollPane scrollPaneClientes = new JScrollPane(tableClientes);
@@ -206,13 +233,6 @@ public class LoanMain extends JFrame {
 		txtConsultaLibroAutor.setColumns(10);
 		
 		lblNewLabel_1 = new JLabel("Busca Libro por Autor:");
-		
-		try {
-			cargarDatosInicial();
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 		txtConsultaLibroTitulo = new JTextField();
 		txtConsultaLibroTitulo.addKeyListener(new KeyAdapter() {
@@ -309,9 +329,12 @@ public class LoanMain extends JFrame {
     		for (Book libro : libros) {
     			tableModelLibros.addRow(new Object[]{
                 		libro.getId(),
+                		libro.getAuthor().getId(),
                 		libro.getAuthor().getNombre(),
                 		libro.getTitulo(),
+                		libro.getPublisher().getId(),
                 		libro.getPublisher().getNombre(),
+                		libro.getAniopublicacion(),
                 		libro.getDisponible() == 1 ? "SI" : "NO"
                 });
             }
@@ -333,7 +356,9 @@ public class LoanMain extends JFrame {
     			tableModelClientes.addRow(new Object[]{
                 		cliente.getId(),
                 		cliente.getNombre(),
-                		cliente.getCorreoelectronico()
+                		cliente.getCorreoelectronico(),
+                		cliente.getDireccion(),
+                		cliente.getTelefono()
                 });
             }
 		}else {
@@ -344,19 +369,10 @@ public class LoanMain extends JFrame {
 		}
 	}
 	
-	private void cargarDatosInicial() {
-		
-	}
-	
 	private void limpiarCampos() {
     	txtConsultaCliente.setText("");
     	txtConsultaLibroAutor.setText("");
-    	try {
-			cargarDatosInicial();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	txtConsultaLibroTitulo.setText("");
     }
 
 	protected boolean validarDatos() {
@@ -364,14 +380,51 @@ public class LoanMain extends JFrame {
 			if(tableLibros.getSelectedRow() != -1) {
 				return true;
 			}else {
+				func.showMSG("ERROR","Debe seleccionar un libro de la lista.","Prestamos...");
 				return false;
 			}
 		}else {
+			func.showMSG("ERROR","Debe seleccionar un autor de la lista.","Prestamos...");
 			return false;
 		}
 	}
 	
 	protected void guardarInformacion() {
+		int filaCliente = tableClientes.getSelectedRow();
+		int filaLibro   = tableLibros.getSelectedRow();
+		Client client = new Client();
+		client.setId(Integer.parseInt(tableClientes.getValueAt(filaCliente,0).toString()));
+		client.setNombre(tableClientes.getValueAt(filaCliente,1).toString());
+		client.setCorreoelectronico(tableClientes.getValueAt(filaCliente,2).toString());
+		client.setDireccion(tableClientes.getValueAt(filaCliente,3).toString());
+		client.setTelefono(tableClientes.getValueAt(filaCliente,4).toString());
+		
+		Author author = new Author();
+		author.setId(Integer.parseInt(tableLibros.getValueAt(filaLibro,1).toString()));
+		author.setNombre(tableLibros.getValueAt(filaLibro,2).toString());
+		
+		Publisher publisher = new Publisher();
+		publisher.setId(Integer.parseInt(tableLibros.getValueAt(filaLibro,4).toString()));
+		publisher.setNombre(tableLibros.getValueAt(filaLibro,5).toString());
+		
+		Book book = new Book();
+		book.setId(Integer.parseInt(tableLibros.getValueAt(filaLibro,0).toString()));
+		book.setTitulo(tableLibros.getValueAt(filaLibro,3).toString());
+		book.setIdautor(Integer.parseInt(tableLibros.getValueAt(filaLibro,1).toString()));
+		book.setAuthor(author);
+		book.setIdeditorial(Integer.parseInt(tableLibros.getValueAt(filaLibro,4).toString()));
+		book.setPublisher(publisher);
+		book.setAniopublicacion(Integer.parseInt(tableLibros.getValueAt(filaLibro,6).toString()));
+		book.setDisponible(tableLibros.getValueAt(filaLibro,7).toString().equals("SI") ? 1 : 0);
+		
+		Loan loan = new Loan();
+		loan.setId(null);
+		loan.setId_libro(book);
+		loan.setId_cliente(client);
+		loan.setFechaPrestamo(LocalDate.now().toString());
+		loan.setFechaDevolucion(LocalDate.now().plusDays(30).toString());
+		
+		System.out.println("LOAN-->"+loan.toString()+"<--");
 		
 	}
 }
