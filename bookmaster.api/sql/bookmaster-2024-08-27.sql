@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-08-2024 a las 07:34:06
+-- Tiempo de generación: 28-08-2024 a las 06:48:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -101,30 +101,6 @@ INSERT INTO `clients` (`id_cliente`, `correoelectronico`, `direccion`, `nombre`,
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `loans`
---
-
-CREATE TABLE `loans` (
-  `id_prestamo` int(11) NOT NULL,
-  `fecha_devolucion` varchar(255) DEFAULT NULL,
-  `fecha_prestamo` varchar(255) DEFAULT NULL,
-  `id_cliente` int(11) NOT NULL,
-  `id_libro` int(11) NOT NULL,
-  `estado` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `loans`
---
-
-INSERT INTO `loans` (`id_prestamo`, `fecha_devolucion`, `fecha_prestamo`, `id_cliente`, `id_libro`, `estado`) VALUES
-(1, '2024-08-31', '2024-08-29', 1, 1, '1'),
-(2, '2024-08-30', '2024-08-29', 2, 2, '1'),
-(3, '2024-09-01', '2024-08-29', 3, 3, '1');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `publishers`
 --
 
@@ -189,14 +165,6 @@ ALTER TABLE `clients`
   ADD PRIMARY KEY (`id_cliente`);
 
 --
--- Indices de la tabla `loans`
---
-ALTER TABLE `loans`
-  ADD PRIMARY KEY (`id_prestamo`),
-  ADD KEY `FKi5dqysjvbdnlcnipecy8hepo5` (`id_cliente`),
-  ADD KEY `FK415qais24t3ecqwb2vhk201w0` (`id_libro`);
-
---
 -- Indices de la tabla `publishers`
 --
 ALTER TABLE `publishers`
@@ -231,12 +199,6 @@ ALTER TABLE `clients`
   MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `loans`
---
-ALTER TABLE `loans`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT de la tabla `publishers`
 --
 ALTER TABLE `publishers`
@@ -258,13 +220,6 @@ ALTER TABLE `users`
 ALTER TABLE `books`
   ADD CONSTRAINT `FK9bftut1k5qf8n1muc4hv88g66` FOREIGN KEY (`id_autor`) REFERENCES `authors` (`id_autor`),
   ADD CONSTRAINT `FKix55a38nhgwihjsecwmyvl8qq` FOREIGN KEY (`id_publisher`) REFERENCES `publishers` (`id_publisher`);
-
---
--- Filtros para la tabla `loans`
---
-ALTER TABLE `loans`
-  ADD CONSTRAINT `FK415qais24t3ecqwb2vhk201w0` FOREIGN KEY (`id_libro`) REFERENCES `books` (`id_libro`),
-  ADD CONSTRAINT `FKi5dqysjvbdnlcnipecy8hepo5` FOREIGN KEY (`id_cliente`) REFERENCES `clients` (`id_cliente`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
