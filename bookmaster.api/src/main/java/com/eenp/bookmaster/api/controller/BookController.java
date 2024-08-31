@@ -69,7 +69,6 @@ public class BookController {
 			savedBook = bookRepository.save(book);
 			if(savedBook == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Libro <"+book+"> no existe");
-				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<Book>(savedBook, HttpStatus.CREATED);

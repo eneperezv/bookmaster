@@ -78,6 +78,7 @@ public class WebSecurityConfig {
                     registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/client/create").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/client/by-nombre/**").hasRole("USER");
                     registry.requestMatchers(HttpMethod.GET, "/api/bookmaster/loan/todos").hasRole("USER");
+                    registry.requestMatchers(HttpMethod.POST, "/api/bookmaster/loan/create").hasRole("USER");
                     registry.anyRequest().authenticated();
                 })
                 .formLogin(login -> login

@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.entity.Loan;
 import com.eenp.bookmaster.api.repository.LoanRepository;
@@ -41,6 +44,22 @@ public class LoanController {
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR-->"+e.getMessage()+"<--");
 			System.out.println("err-2->"+err.toString());
 			return new ResponseEntity<ErrorDetails>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/loan/create")
+	public ResponseEntity<?> setPrestamo(@RequestBody Loan loan){
+		Loan savedLoan;
+		try{
+			savedLoan = loanRepository.save(loan);
+			if(savedLoan == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+loan+"> no registrado");
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Loan>(savedLoan, HttpStatus.CREATED);
+		}catch(Exception e){
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
+			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
