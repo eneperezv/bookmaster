@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-08-2024 a las 07:34:06
+-- Tiempo de generación: 31-08-2024 a las 06:33:13
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -120,7 +120,9 @@ CREATE TABLE `loans` (
 INSERT INTO `loans` (`id_prestamo`, `fecha_devolucion`, `fecha_prestamo`, `id_cliente`, `id_libro`, `estado`) VALUES
 (1, '2024-08-31', '2024-08-29', 1, 1, '1'),
 (2, '2024-08-30', '2024-08-29', 2, 2, '1'),
-(3, '2024-09-01', '2024-08-29', 3, 3, '1');
+(3, '2024-09-01', '2024-08-29', 3, 3, '1'),
+(4, '2024-08-31', '2024-08-29', 3, 6, '1'),
+(5, '2024-08-31', '2024-08-29', 3, 6, '1');
 
 -- --------------------------------------------------------
 
@@ -234,7 +236,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT de la tabla `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
