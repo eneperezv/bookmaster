@@ -46,6 +46,7 @@ import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Book;
 import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Loan;
 import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.entity.Token;
 import com.eenp.bookmaster.client.entity.User;
@@ -317,6 +318,22 @@ public class ApiService {
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
         	return new ApiResponse<List<Book>>(response.getStatusLine(),(List<Book>) objectMapper.readValue(responseBody, new TypeReference<List<Book>>() {}));
+        }else {
+        	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+        	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
+	
+	/*
+	 * PRESTAMOS
+	 * */
+	@SuppressWarnings("unchecked")
+	public ApiResponse<?> getPrestamos() throws URISyntaxException, ParseException, IOException {
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_LOAN_TODOS);
+		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
+		if(response.getStatusLine().getStatusCode() == 200) {
+        	String responseBody = EntityUtils.toString(response.getEntity());
+        	return new ApiResponse<List<Loan>>(response.getStatusLine(),(List<Loan>) objectMapper.readValue(responseBody, new TypeReference<List<Loan>>() {}));
         }else {
         	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
