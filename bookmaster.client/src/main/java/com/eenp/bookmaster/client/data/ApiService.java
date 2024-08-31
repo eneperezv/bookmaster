@@ -339,4 +339,17 @@ public class ApiService {
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
         }
 	}
+
+	public ApiResponse<?> setPrestamoNuevo(Loan loan) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		String jsonCliente = objectMapper.writeValueAsString(loan);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_LOAN_CREATE);
+		HttpResponse response = apiDataService.connectToApi(url,"POST",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Loan>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Loan>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
+        }
+	}
 }
