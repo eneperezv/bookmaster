@@ -1,7 +1,5 @@
 package com.eenp.bookmaster.api.entity;
 
-import java.io.Serializable;
-
 /*
  * @(#)Client.java 1.0 07/08/2024
  * 
@@ -18,6 +16,8 @@ import java.io.Serializable;
  * @version 1.0 | 07/08/2024
  * @since 1.0
  */
+
+import java.io.Serializable;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
