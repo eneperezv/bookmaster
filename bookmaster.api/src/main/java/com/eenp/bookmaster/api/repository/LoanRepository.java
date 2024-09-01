@@ -20,11 +20,15 @@ package com.eenp.bookmaster.api.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.eenp.bookmaster.api.entity.Loan;
 
 public interface LoanRepository extends JpaRepository<Loan,Long> {
 	
 	List<Loan> findAll();
+	
+	@Query(value = "SELECT l.* FROM loans l WHERE l.id_prestamo = :idloan", nativeQuery = true)
+	Loan findByIdentificador(Integer idloan);
 
 }

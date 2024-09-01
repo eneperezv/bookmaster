@@ -4,10 +4,11 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +24,7 @@ import javax.swing.table.TableColumnModel;
 
 import org.apache.http.ParseException;
 
+import com.eenp.bookmaster.client.controller.LoanController;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class ReturnsMain extends JFrame {
@@ -32,6 +33,8 @@ public class ReturnsMain extends JFrame {
 	private JPanel contentPane;
     private JTable table;
     private DefaultTableModel tableModel;
+    
+    private final LoanController loanController = new LoanController();
 
 	Functions func = new Functions();
 	private JButton btnGuardar;
@@ -121,6 +124,16 @@ public class ReturnsMain extends JFrame {
 		lblNewLabel = new JLabel("Buscar por Cliente:");
 		
 		txtCliente = new JTextField();
+		txtCliente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					if(!txtCliente.getText().equals("")) {
+						
+					}
+				}
+			}
+		});
 		txtCliente.setColumns(10);
         
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
