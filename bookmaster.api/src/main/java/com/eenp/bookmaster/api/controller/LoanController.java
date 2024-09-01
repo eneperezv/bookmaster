@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.api.controller;
 
+import java.time.LocalDate;
+
 /*
  * @(#)LoanController.java 1.0 13/08/2024
  * 
@@ -79,16 +81,23 @@ public class LoanController {
 		}
 	}
 	
-	@PutMapping("/loan/{idloan}")
+	@PutMapping("/loan/update")
 	public ResponseEntity<?> updatePrestamo(@RequestBody Loan loan){
-		Loan savedLoan;
 		try{
-			savedLoan = loanRepository.save(loan);
+			Loan savedLoan = loanRepository.findByIdentificador(loan.getId());
 			if(savedLoan == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+loan+"> no registrado");
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<Loan>(savedLoan, HttpStatus.OK);
+			savedLoan.setFechaDevolucion(LocalDate.now().toString());
+			savedLoan.setEstado("2");
+			
+			Loan finalLoan = loanRepository.save(savedLoan);
+			if(finalLoan == null) {
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+finalLoan+"> no registrado");
+				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Loan>(finalLoan, HttpStatus.OK);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);

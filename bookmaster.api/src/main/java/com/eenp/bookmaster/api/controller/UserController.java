@@ -103,7 +103,6 @@ public class UserController {
 	    	UserMain result = userMainRepository.findByUsuario(user.getUsername());
 	        if (result == null) {
 	            ErrorDetails err = new ErrorDetails(new Date(), HttpStatus.NOT_FOUND.toString(), "Usuario <" + user.getUsername() + "> no existe");
-	            logger.error(err.toString());
 	            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
 	        }
 	        result.setPassword(user.getPassword());
@@ -111,7 +110,6 @@ public class UserController {
 	        UserMain savedUser = userMainRepository.save(user);
 	        if(savedUser == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Usuario <"+user+"> no existe");
-				logger.error(err.toString());
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<UserMain>(savedUser, HttpStatus.OK);
