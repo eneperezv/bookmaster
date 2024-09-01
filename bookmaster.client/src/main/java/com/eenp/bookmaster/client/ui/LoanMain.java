@@ -328,6 +328,14 @@ public class LoanMain extends JFrame {
 			List<Book> libros = (List<Book>) response.getResponse();
 			tableModelLibros.setNumRows(0);
     		for (Book libro : libros) {
+    			String dispo = "";
+    			if(libro.getDisponible() == 1) {
+    				dispo = "SI";
+    			}else if(libro.getDisponible() == 2) {
+    				dispo = "PRESTADO";
+    			}else {
+    				dispo = "NO";
+    			}
     			tableModelLibros.addRow(new Object[]{
                 		libro.getId(),
                 		libro.getAuthor().getId(),
@@ -336,7 +344,8 @@ public class LoanMain extends JFrame {
                 		libro.getPublisher().getId(),
                 		libro.getPublisher().getNombre(),
                 		libro.getAniopublicacion(),
-                		libro.getDisponible() == 1 ? "SI" : "NO"
+                		dispo
+                		//libro.getDisponible() == 1 ? "SI" : "NO"
                 });
             }
 		}else {
@@ -379,7 +388,12 @@ public class LoanMain extends JFrame {
 	protected boolean validarDatos() {
 		if(tableClientes.getSelectedRow() != -1) {
 			if(tableLibros.getSelectedRow() != -1) {
-				return true;
+				if(tableLibros.getValueAt(tableLibros.getSelectedRow(),7).toString().equals("SI")) {
+					return true;
+				}else {
+					func.showMSG("ERROR","El libro seleccionado no está disponible para prestamos.","Prestamos...");
+					return false;
+				}
 			}else {
 				func.showMSG("ERROR","Debe seleccionar un libro de la lista.","Prestamos...");
 				return false;
