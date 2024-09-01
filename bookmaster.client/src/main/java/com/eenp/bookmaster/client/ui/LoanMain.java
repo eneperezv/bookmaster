@@ -1,17 +1,26 @@
 package com.eenp.bookmaster.client.ui;
 
+import java.awt.Dimension;
+
 /*Incluir documentacion*/
 
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,11 +33,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.http.ParseException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
-import com.eenp.bookmaster.client.controller.AuthorController;
 import com.eenp.bookmaster.client.controller.BookController;
 import com.eenp.bookmaster.client.controller.ClientController;
-import com.eenp.bookmaster.client.controller.PublisherController;
+import com.eenp.bookmaster.client.controller.LoanController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
 import com.eenp.bookmaster.client.entity.Author;
 import com.eenp.bookmaster.client.entity.Book;
@@ -37,16 +47,6 @@ import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.Loan;
 import com.eenp.bookmaster.client.entity.Publisher;
 import com.eenp.bookmaster.client.util.Functions;
-import java.awt.Component;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.time.LocalDate;
-import java.util.List;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class LoanMain extends JFrame {
 
@@ -59,6 +59,7 @@ public class LoanMain extends JFrame {
     
     private final BookController bookController = new BookController();
     private final ClientController clientController = new ClientController();
+    private final LoanController loanController = new LoanController();
 	
 	Functions func = new Functions();
 	private JButton btnGuardar;
@@ -175,7 +176,7 @@ public class LoanMain extends JFrame {
         		if(validarDatos()) {
         			try {
 						guardarInformacion();
-					} catch (ParseException e1) {
+					} catch (ParseException | IOException | URISyntaxException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
@@ -389,7 +390,7 @@ public class LoanMain extends JFrame {
 		}
 	}
 	
-	protected void guardarInformacion() {
+	protected void guardarInformacion() throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
 		int filaCliente = tableClientes.getSelectedRow();
 		int filaLibro   = tableLibros.getSelectedRow();
 		Client client = new Client();
@@ -423,8 +424,21 @@ public class LoanMain extends JFrame {
 		loan.setId_cliente(client);
 		loan.setFechaPrestamo(LocalDate.now().toString());
 		loan.setFechaDevolucion(LocalDate.now().plusDays(30).toString());
+		loan.setEstado("1");
 		
-		System.out.println("LOAN-->"+loan.toString()+"<--");
+		ApiResponse<?> response = loanController.setPrestamoNuevo(loan);
+		if(response.getHttpResponse().getStatusCode() == 200) {
+    		func.showMSG("OK","El Prestamo se registró correctamente.","BookMaster...");
+    		limpiarCampos();
+    		cargarDatosLibros();
+    		return;
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			limpiarCampos();
+			return;
+		}
 		
 	}
 }

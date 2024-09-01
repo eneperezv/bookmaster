@@ -73,7 +73,7 @@ public class LoanController {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+loan+"> no registrado");
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
-			return new ResponseEntity<Loan>(savedLoan, HttpStatus.CREATED);
+			return new ResponseEntity<Loan>(savedLoan, HttpStatus.OK);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<ErrorDetails>(err, HttpStatus.INTERNAL_SERVER_ERROR);
