@@ -29,7 +29,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 	
 	List<Book> findAll();
 	
-	@Query(value = "SELECT b.* FROM books b INNER JOIN authors a ON b.idautor = a.id_autor WHERE a.nombre LIKE %:authorName%", nativeQuery = true)
+	@Query(value = "SELECT b.* FROM books b INNER JOIN authors a ON b.idautor = a.id_autor WHERE a.nombre LIKE %:authorName% AND b.disponible in ('1','2')", nativeQuery = true)
 	List<Book> findByAuthorNombre(String authorName);
 	
 	@Query(value = "SELECT b.* FROM books b WHERE b.titulo LIKE %:titulo% AND b.disponible in ('1','2')", nativeQuery = true)

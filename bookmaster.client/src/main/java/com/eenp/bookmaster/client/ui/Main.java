@@ -60,6 +60,7 @@ public class Main extends JFrame {
 	private JMenuItem mnuLibros;
 	private JMenu mnuMainOperaciones;
 	private JMenuItem mnuPrestamos;
+	private JMenuItem mnuDevoluciones;
 	
 	/**
 	 * Launch the application.
@@ -82,8 +83,6 @@ public class Main extends JFrame {
 	 * @throws URISyntaxException 
 	 */
 	public Main() throws URISyntaxException {
-		obtenerConfiguracion();
-
 		initObjects();
 		initData();
 		initComponents();
@@ -115,6 +114,7 @@ public class Main extends JFrame {
 		
 		mnuMainOperaciones = new JMenu("Operaciones");
 		mnuPrestamos = new JMenuItem("Prestamos");
+		mnuDevoluciones = new JMenuItem("Devoluciones");
 		
 		mnuMainSalir = new JMenuItem("Salir");
 	}
@@ -218,6 +218,12 @@ public class Main extends JFrame {
 				link.setVisible(true);
 			}
 		});
+		mnuDevoluciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReturnsMain link = new ReturnsMain();
+				link.setVisible(true);
+			}
+		});
 		mnuMainSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -246,20 +252,14 @@ public class Main extends JFrame {
 		menuBar.add(mnuMainOperaciones);
 		mnuPrestamos.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666671_briefcase_icon.png")));
 		mnuMainOperaciones.add(mnuPrestamos);
+		mnuDevoluciones.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666656_check_circle_icon.png")));
+		mnuMainOperaciones.add(mnuDevoluciones);
 		
 		mnuMainSalir.setIcon(new ImageIcon(Main.class.getResource("/com/eenp/bookmaster/client/images/UIUX_8666757_lock_security_icon.png")));
 		menuBar.add(mnuMainSalir);
-		
 		
 		lblUsuario.setText(UserSession.getInstance().getUsuario().getName() + " | " + UserSession.getInstance().getUsuario().getUsername());
 		lblUsuario.setSize(lblUsuario.getPreferredSize());
 	}
 
-	public void obtenerConfiguracion() throws URISyntaxException {
-		//ApiServiceConfig configuracion = ApiServiceConfig.obtenerInstancia();
-		//String url = configuracion.obtenerValor("API_URL");
-		//System.out.println("url->"+url);
-		//System.out.println("usuario->"+UserSession.getInstance().getUsuario().toString());
-		
-	}
 }
