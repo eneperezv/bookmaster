@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.entity.Loan;
+import com.eenp.bookmaster.api.repository.BookRepository;
 import com.eenp.bookmaster.api.repository.LoanRepository;
 
 @RestController
@@ -48,6 +49,9 @@ public class LoanController {
 	
 	@Autowired
 	LoanRepository loanRepository;
+	
+	@Autowired
+	BookRepository bookRepository;
 	
 	@GetMapping("/loan/todos")
 	public ResponseEntity<?> getPrestamos(){
@@ -68,12 +72,20 @@ public class LoanController {
 	@PostMapping("/loan/create")
 	public ResponseEntity<?> setPrestamo(@RequestBody Loan loan){
 		Loan savedLoan;
+		Book savedBook;
+		Book finalBook = null;
 		try{
 			savedLoan = loanRepository.save(loan);
 			if(savedLoan == null) {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+loan+"> no registrado");
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
+			savedBook = bookRepository.findByIdentificador(loan.getId_libro().getId());
+			if(savedBook != null) {
+				savedBook.setDisponible(2);
+				finalBook = bookRepository.save(savedBook);
+			}
+			savedLoan.setId_libro(finalBook);
 			return new ResponseEntity<Loan>(savedLoan, HttpStatus.OK);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");

@@ -34,5 +34,8 @@ public interface BookRepository extends JpaRepository<Book,Long> {
 	
 	@Query(value = "SELECT b.* FROM books b WHERE b.titulo LIKE %:titulo% AND b.disponible in ('1','2')", nativeQuery = true)
 	List<Book> findByTitulo(String titulo);
+	
+	@Query(value = "SELECT b.* FROM books b WHERE b.id_libro = :idlibro", nativeQuery = true)
+	Book findByIdentificador(Integer idlibro);
 
 }
