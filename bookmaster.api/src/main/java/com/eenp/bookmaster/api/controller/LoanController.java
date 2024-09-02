@@ -109,6 +109,15 @@ public class LoanController {
 				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NOT_FOUND.toString(),"Prestamo <"+finalLoan+"> no registrado");
 				return new ResponseEntity<ErrorDetails>(err,HttpStatus.NOT_FOUND);
 			}
+			
+			Book savedBook;
+			Book finalBook = null;
+			savedBook = bookRepository.findByIdentificador(finalLoan.getId_libro().getId());
+			if(savedBook != null) {
+				savedBook.setDisponible(1);
+				finalBook = bookRepository.save(savedBook);
+			}
+			savedLoan.setId_libro(finalBook);
 			return new ResponseEntity<Loan>(finalLoan, HttpStatus.OK);
 		}catch(Exception e){
 			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
