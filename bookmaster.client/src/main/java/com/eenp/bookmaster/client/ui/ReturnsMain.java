@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -25,6 +28,10 @@ import javax.swing.table.TableColumnModel;
 import org.apache.http.ParseException;
 
 import com.eenp.bookmaster.client.controller.LoanController;
+import com.eenp.bookmaster.client.entity.ApiResponse;
+import com.eenp.bookmaster.client.entity.Author;
+import com.eenp.bookmaster.client.entity.ErrorDetails;
+import com.eenp.bookmaster.client.entity.Loan;
 import com.eenp.bookmaster.client.util.Functions;
 
 public class ReturnsMain extends JFrame {
@@ -68,17 +75,32 @@ public class ReturnsMain extends JFrame {
         setLocationRelativeTo(null);
 
         initialize();
-        try {
-			cargarDatosPrestamos();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
-	private void cargarDatosPrestamos() {
-		// TODO Auto-generated method stub
-		
+	@SuppressWarnings("unchecked")
+	private void cargarDatosPrestamos() throws ParseException, URISyntaxException, IOException {
+		ApiResponse<?> response = loanController.getPrestamos();
+    	if(response.getHttpResponse().getStatusCode() == 200) {
+			List<Loan> prestamos = (List<Loan>) response.getResponse();
+    		tableModel.setNumRows(0);
+    		for (Loan loan : prestamos) {
+    			if(loan.getEstado().equals("1")) {
+    				tableModel.addRow(new Object[]{
+                		loan.getId(),
+                		loan.getId_cliente().getId(),
+                		loan.getId_cliente().getNombre(),
+                		loan.getId_libro().getId(),
+                		loan.getId_libro().getTitulo(),
+                		loan.getFechaPrestamo()
+                    });
+    			}
+            }
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			return;
+		}
 	}
 
 	private void initialize() {
@@ -90,15 +112,25 @@ public class ReturnsMain extends JFrame {
 
         tableModel = new DefaultTableModel();
         tableModel.addColumn("ID");
-        tableModel.addColumn("Autor");
+        tableModel.addColumn("ID_cliente");
+        tableModel.addColumn("Cliente");
+        tableModel.addColumn("ID_libro");
+        tableModel.addColumn("Titulo");
+        tableModel.addColumn("FechaPrestamo");
 
         table = new JTable(tableModel);
         
         TableColumnModel columnModel = table.getColumnModel();
-        
-        columnModel.getColumn(0).setMaxWidth(0);
+
+        columnModel.getColumn(0).setMaxWidth(0);						//id_prestamo
         columnModel.getColumn(0).setMinWidth(0);
         columnModel.getColumn(0).setPreferredWidth(0);
+        columnModel.getColumn(1).setMaxWidth(0);						//id_cliente
+        columnModel.getColumn(1).setMinWidth(0);
+        columnModel.getColumn(1).setPreferredWidth(0);
+        columnModel.getColumn(3).setMaxWidth(0);						//id_libro
+        columnModel.getColumn(3).setMinWidth(0);
+        columnModel.getColumn(3).setPreferredWidth(0);
         
         JScrollPane scrollPane = new JScrollPane(table);
 		
@@ -175,8 +207,12 @@ public class ReturnsMain extends JFrame {
 	}
 
 	private boolean validarCampos() {
-		// TODO Auto-generated method stub
-		return false;
+		if(table.getSelectedRow() != -1) {
+			return true;
+		}else {
+			func.showMSG("ERROR","Debe seleccionar un prestamo de la lista.","Prestamos...");
+			return false;
+		}
 	}
 
 }
