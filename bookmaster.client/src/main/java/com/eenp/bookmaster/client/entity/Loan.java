@@ -1,5 +1,7 @@
 package com.eenp.bookmaster.client.entity;
 
+import java.io.Serializable;
+
 /*
  * @(#)Loan.java 1.0 30/08/2024
  * 
@@ -17,7 +19,7 @@ package com.eenp.bookmaster.client.entity;
  * @since 1.0
  */
 
-public class Loan {
+public class Loan implements Serializable {
 	
 	private Integer id;
 	private Book id_libro;

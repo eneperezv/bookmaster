@@ -353,15 +353,35 @@ public class ApiService {
         }
 	}
 
+	@SuppressWarnings("unchecked")
 	public ApiResponse<?> getPrestamosByCliente(String nombre) throws URISyntaxException, ParseException, IOException {
-		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_LOAN_BYCLIENT);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_LOAN_BYCLIENT) + nombre;
 		HttpResponse response = apiDataService.connectToApi(url,"GET",UserSession.getInstance().getUsuario().getToken(),"");
 		if(response.getStatusLine().getStatusCode() == 200) {
         	String responseBody = EntityUtils.toString(response.getEntity());
-        	return new ApiResponse<List<Loan>>(response.getStatusLine(),(List<Loan>) objectMapper.readValue(responseBody, new TypeReference<List<Loan>>() {}));
+        	if(!responseBody.contains("NO CONTENT")) {
+        		return new ApiResponse<List<Loan>>(response.getStatusLine(),(List<Loan>) objectMapper.readValue(responseBody, new TypeReference<List<Loan>>() {}));
+        	}else {
+        		ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        	}
+        	//return new ApiResponse<List<Loan>>(response.getStatusLine(),(List<Loan>) objectMapper.readValue(responseBody, new TypeReference<List<Loan>>() {}));
         }else {
         	ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
         	return new ApiResponse<ErrorDetails>(response.getStatusLine(),responseError);
+        }
+	}
+
+	public ApiResponse<?> setPrestamoUpdate(Loan loan) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		String jsonCliente = objectMapper.writeValueAsString(loan);
+		String url = URL_API + ApiServiceConfig.obtenerInstancia().obtenerValor(ApiServiceConstants.ENDPOINT_LOAN_UPDATE);
+		HttpResponse response = apiDataService.connectToApi(url,"PUT",UserSession.getInstance().getUsuario().getToken(),jsonCliente);
+		if (response.getStatusLine().getStatusCode() == 200) {
+			String responseBody = EntityUtils.toString(response.getEntity());
+            return new ApiResponse<Loan>(response.getStatusLine(), objectMapper.readValue(responseBody, new TypeReference<Loan>() {}));
+        } else {
+            ErrorDetails responseError = func.obtenerRespuestaError(response.getStatusLine());
+            return new ApiResponse<ErrorDetails>(response.getStatusLine(), responseError);
         }
 	}
 }

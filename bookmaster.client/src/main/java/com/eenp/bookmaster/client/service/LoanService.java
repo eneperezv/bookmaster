@@ -48,4 +48,8 @@ public class LoanService {
 		return apiService.getPrestamosByCliente(nombre);
 	}
 
+	public ApiResponse<?> setPrestamoUpdate(Loan loan) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		return apiService.setPrestamoUpdate(loan);
+	}
+
 }

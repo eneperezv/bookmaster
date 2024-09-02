@@ -25,11 +25,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 
 import com.eenp.bookmaster.client.controller.LoanController;
 import com.eenp.bookmaster.client.entity.ApiResponse;
-import com.eenp.bookmaster.client.entity.Author;
+import com.eenp.bookmaster.client.entity.Book;
+import com.eenp.bookmaster.client.entity.Client;
 import com.eenp.bookmaster.client.entity.ErrorDetails;
 import com.eenp.bookmaster.client.entity.Loan;
 import com.eenp.bookmaster.client.util.Functions;
@@ -84,16 +89,14 @@ public class ReturnsMain extends JFrame {
 			List<Loan> prestamos = (List<Loan>) response.getResponse();
     		tableModel.setNumRows(0);
     		for (Loan loan : prestamos) {
-    			if(loan.getEstado().equals("1")) {
-    				tableModel.addRow(new Object[]{
-                		loan.getId(),
-                		loan.getId_cliente().getId(),
-                		loan.getId_cliente().getNombre(),
-                		loan.getId_libro().getId(),
-                		loan.getId_libro().getTitulo(),
-                		loan.getFechaPrestamo()
-                    });
-    			}
+				tableModel.addRow(new Object[]{
+            		loan.getId(),
+            		loan.getId_cliente().getId(),
+            		loan.getId_cliente().getNombre(),
+            		loan.getId_libro().getId(),
+            		loan.getId_libro().getTitulo(),
+            		loan.getFechaPrestamo()
+                });
             }
 		}else {
 			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
@@ -138,7 +141,12 @@ public class ReturnsMain extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		if(validarCampos()) {
-        			guardarInformacion();
+        			try {
+						guardarInformacion();
+					} catch (IOException | URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
         		}
 			}
 		});
@@ -206,9 +214,36 @@ public class ReturnsMain extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 
-	private void guardarInformacion() {
-		// TODO Auto-generated method stub
+	private void guardarInformacion() throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException {
+		int filaSel = table.getSelectedRow();
+		Client client = new Client();
+		client.setId(Integer.parseInt(table.getValueAt(filaSel,1).toString()));
 		
+		Book book = new Book();
+		book.setId(Integer.parseInt(table.getValueAt(filaSel,3).toString()));
+
+		Loan loan = new Loan();
+		loan.setId(Integer.parseInt(table.getValueAt(filaSel,0).toString()));
+		loan.setId_cliente(client);
+		loan.setId_libro(book);
+		
+		ApiResponse<?> response = loanController.setPrestamoUpdate(loan);
+		if(response.getHttpResponse().getStatusCode() == 200) {
+    		func.showMSG("OK","El Prestamo se registró correctamente.","BookMaster...");
+    		limpiarCampos();
+    		return;
+		}else {
+			ErrorDetails errorDetails = (ErrorDetails) response.getResponse();
+			func.showMSG("ERROR","Ha ocurrido un error al procesar la solicitud\n\nDetalles: " +
+					errorDetails.getMessage() + "|" + errorDetails.getDetails(),"BookMaster...");
+			limpiarCampos();
+			return;
+		}
+	}
+
+	private void limpiarCampos() {
+		tableModel.setNumRows(0);
+		txtCliente.setText("");
 	}
 
 	private boolean validarCampos() {

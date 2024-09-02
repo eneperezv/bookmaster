@@ -132,12 +132,12 @@ public class LoanController {
 		try{
 			loanRepository.findByClientNombre(client).forEach(lista::add);
 			if(lista.isEmpty()) {
-				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.OK.toString(),"NO CONTENT");
-				return new ResponseEntity<>(err,HttpStatus.OK);
+				ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"NO CONTENT");
+				return new ResponseEntity<>(err,HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<>(lista, HttpStatus.OK);
 		}catch(Exception e){
-			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.NO_CONTENT.toString(),"INTERNAL SERVER ERROR");
+			ErrorDetails err = new ErrorDetails(new Date(),HttpStatus.INTERNAL_SERVER_ERROR.toString(),"INTERNAL SERVER ERROR");
 			return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
