@@ -41,7 +41,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
-@RequestMapping("/api/bookmaster")
+@RequestMapping("/api/v1/bookmaster")
 public class AuthController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);

@@ -39,7 +39,7 @@ import com.eenp.bookmaster.api.entity.UserMain;
 import com.eenp.bookmaster.api.repository.UserMainRepository;
 
 @RestController
-@RequestMapping("/api/bookmaster")
+@RequestMapping("/api/v1/bookmaster")
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);

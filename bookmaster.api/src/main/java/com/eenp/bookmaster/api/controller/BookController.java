@@ -38,7 +38,7 @@ import com.eenp.bookmaster.api.entity.ErrorDetails;
 import com.eenp.bookmaster.api.repository.BookRepository;
 
 @RestController
-@RequestMapping("/api/bookmaster")
+@RequestMapping("/api/v1/bookmaster")
 public class BookController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BookController.class);

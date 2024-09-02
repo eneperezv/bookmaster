@@ -43,7 +43,7 @@ import com.eenp.bookmaster.api.repository.BookRepository;
 import com.eenp.bookmaster.api.repository.LoanRepository;
 
 @RestController
-@RequestMapping("/api/bookmaster")
+@RequestMapping("/api/v1/bookmaster")
 public class LoanController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LoanController.class);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-09-2024 a las 05:28:16
+-- Tiempo de generación: 01-09-2024 a las 06:42:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -67,12 +67,12 @@ CREATE TABLE `books` (
 --
 
 INSERT INTO `books` (`id_libro`, `aniopublicacion`, `idautor`, `ideditorial`, `titulo`, `id_autor`, `id_publisher`, `disponible`) VALUES
-(1, 2024, 1, 1, 'El Hechizo de una Marca', 1, 1, 2),
-(2, 1996, 3, 3, 'Juego de Tronos 1: Canción de Hielo y Fuego', 3, 3, 2),
-(3, 1990, 2, 2, 'Harry Potter y la Piedra Filosofal', 2, 2, 1),
-(4, 1992, 2, 2, 'Harry Potter y la Camara Secreta', 2, 2, 1),
+(1, 2024, 1, 1, 'El Hechizo de una Marca', 1, 1, 1),
+(2, 1996, 3, 3, 'Juego de Tronos 1: Canción de Hielo y Fuego', 3, 3, 1),
+(3, 1990, 2, 2, 'Harry Potter y la Piedra Filosofal', 2, 2, 2),
+(4, 1992, 2, 2, 'Harry Potter y la Camara Secreta', 2, 2, 2),
 (5, 1996, 4, 4, 'Armand El Vampiro', 4, 4, 1),
-(6, 2024, 5, 2, 'El caballo soñador', 5, 2, 2),
+(6, 2024, 5, 2, 'El caballo soñador', 5, 2, 1),
 (7, 1994, 2, 2, 'Harry Potter y el Prisionero de Askaban', 2, 2, 1);
 
 -- --------------------------------------------------------
@@ -118,13 +118,13 @@ CREATE TABLE `loans` (
 --
 
 INSERT INTO `loans` (`id_prestamo`, `fecha_devolucion`, `fecha_prestamo`, `id_cliente`, `id_libro`, `estado`) VALUES
-(1, '2024-09-01', '2024-08-29', 1, 1, '2'),
-(2, '2024-09-01', '2024-08-29', 2, 2, '2'),
-(3, '2024-09-01', '2024-08-29', 3, 3, '2'),
+(1, '2024-08-31', '2024-08-29', 1, 1, '1'),
+(2, '2024-08-30', '2024-08-29', 2, 2, '1'),
+(3, '2024-09-01', '2024-08-29', 3, 3, '1'),
 (4, '2024-08-31', '2024-08-29', 3, 6, '1'),
+(5, '2024-08-31', '2024-08-29', 3, 6, '1'),
 (6, '2024-09-30', '2024-08-31', 2, 2, '1'),
-(7, '2024-09-30', '2024-08-31', 3, 2, '1'),
-(8, '2024-09-01', '2024-09-01', 1, 4, '2');
+(7, '2024-09-30', '2024-08-31', 3, 2, '1');
 
 -- --------------------------------------------------------
 
@@ -238,7 +238,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT de la tabla `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_prestamo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `publishers`
