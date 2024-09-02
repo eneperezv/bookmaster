@@ -43,5 +43,9 @@ public class LoanController {
 	public ApiResponse<?> setPrestamoNuevo(Loan loan) throws JsonGenerationException, JsonMappingException, IOException, URISyntaxException{
 		return loanService.setPrestamoNuevo(loan);
 	}
+	
+	public ApiResponse<?> getPrestamosByCliente(String nombre) throws ParseException, URISyntaxException, IOException{
+		return loanService.getPrestamosByCliente(nombre);
+	}
 
 }

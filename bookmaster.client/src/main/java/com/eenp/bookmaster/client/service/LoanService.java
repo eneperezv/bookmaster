@@ -44,4 +44,8 @@ public class LoanService {
 		return apiService.setPrestamoNuevo(loan);
 	}
 
+	public ApiResponse<?> getPrestamosByCliente(String nombre) throws ParseException, URISyntaxException, IOException {
+		return apiService.getPrestamosByCliente(nombre);
+	}
+
 }

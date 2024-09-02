@@ -22,6 +22,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.eenp.bookmaster.api.entity.Book;
 import com.eenp.bookmaster.api.entity.Loan;
 
 public interface LoanRepository extends JpaRepository<Loan,Long> {
@@ -30,5 +31,8 @@ public interface LoanRepository extends JpaRepository<Loan,Long> {
 	
 	@Query(value = "SELECT l.* FROM loans l WHERE l.id_prestamo = :idloan", nativeQuery = true)
 	Loan findByIdentificador(Integer idloan);
+
+	@Query(value = "SELECT l.* FROM loans l INNER JOIN clients c ON l.id_cliente = c.id_cliente WHERE c.nombre LIKE %:clientnombre% AND l.estado = 1;", nativeQuery = true)
+	List<Loan> findByClientNombre(String clientnombre);
 
 }

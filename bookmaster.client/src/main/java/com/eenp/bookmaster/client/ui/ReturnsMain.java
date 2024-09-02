@@ -78,8 +78,8 @@ public class ReturnsMain extends JFrame {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void cargarDatosPrestamos() throws ParseException, URISyntaxException, IOException {
-		ApiResponse<?> response = loanController.getPrestamos();
+	private void cargarDatosPrestamosByCliente(String cliente) throws ParseException, URISyntaxException, IOException {
+		ApiResponse<?> response = loanController.getPrestamosByCliente(cliente);
     	if(response.getHttpResponse().getStatusCode() == 200) {
 			List<Loan> prestamos = (List<Loan>) response.getResponse();
     		tableModel.setNumRows(0);
@@ -161,7 +161,12 @@ public class ReturnsMain extends JFrame {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER){
 					if(!txtCliente.getText().equals("")) {
-						
+						try {
+							cargarDatosPrestamosByCliente(txtCliente.getText());
+						} catch (ParseException | URISyntaxException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				}
 			}

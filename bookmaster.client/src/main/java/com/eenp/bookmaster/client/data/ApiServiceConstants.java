@@ -38,5 +38,6 @@ public class ApiServiceConstants {
 	static final String ENDPOINT_BOOK_BYTITLE      = "ENDPOINT_BOOK_BYTITLE";
 	static final String ENDPOINT_LOAN_TODOS        = "ENDPOINT_LOAN_TODOS";
 	static final String ENDPOINT_LOAN_CREATE       = "ENDPOINT_LOAN_CREATE";
+	static final String ENDPOINT_LOAN_BYCLIENT     = "ENDPOINT_LOAN_BYCLIENT";
 
 }
