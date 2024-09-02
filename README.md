@@ -66,28 +66,28 @@ La aplicación BookMaster permite gestionar una colección de libros, incluyendo
 
 ## Endpoints de la API
 
-| Método | Endpoint                                             | Descripción                            |
-|--------|------------------------------------------------------|----------------------------------------|
-| POST   | `/api/v1/bookmaster/auth`                            | Autenticacion para crear TOKEN         |
-| GET    | `/api/v1/bookmaster/user/todos`                      | Consultar todos los usuarios           |
-| GET    | `/api/v1/bookmaster/user/{usuario}`                  | Consultar usuario                      |
-| POST   | `/api/v1/bookmaster/user/create`                     | Crear nuevo usuario                    |
-| PUT    | `/api/v1/bookmaster/user/update`                     | Actualizar datos de usuario            |
-| GET    | `/api/v1/bookmaster/author/todos`                    | Consultar todos los autores            |
-| POST   | `/api/v1/bookmaster/author/create`                   | Crear nuevo autor                      |
-| GET    | `/api/v1/bookmaster/book/todos`                      | Consultar todos los libros             |
-| POST   | `/api/v1/bookmaster/book/create`                     | Crear nuevo libro                      |
-| GET    | `/api/v1/bookmaster/book/by-author/{nombreAutor}`    | Consultar libros por autor             |
-| GET    | `/api/v1/bookmaster/book/by-title/{tituloLibro}`     | Consultar libros por titulo            |
-| GET    | `/api/v1/bookmaster/publisher/todos`                 | Consultar todas las casas editoriales  |
-| POST   | `/api/v1/bookmaster/publisher/create`                | Crear nueva casa editorial             |
-| GET    | `/api/v1/bookmaster/client/todos`                    | Consultar todos los clientes           |
-| POST   | `/api/v1/bookmaster/client/create`                   | Crear nuevo cliente                    |
-| GET    | `/api/v1/bookmaster/client/by-nombre/{nombrCliente}` | Consultar clientes por nombre          |
-| GET    | `/api/v1/bookmaster/loan/todos`                      | Consultar todos los prestamos          |
-| POST   | `/api/v1/bookmaster/loan/create`                     | Crear nuevo prestamo                   |
-| PUT    | `/api/v1/bookmaster/loan/update`                     | Actualizar prestamo                    |
-| GET    | `/api/v1/bookmaster/loan/by-client/{nombrCliente}`   | Consultar prestamos por cliente        |
+| Método | Endpoint                                              | Descripción                            |
+|--------|-------------------------------------------------------|----------------------------------------|
+| POST   | `/api/v1/bookmaster/auth`                             | Autenticacion para crear TOKEN         |
+| GET    | `/api/v1/bookmaster/user/todos`                       | Consultar todos los usuarios           |
+| GET    | `/api/v1/bookmaster/user/{usuario}`                   | Consultar usuario                      |
+| POST   | `/api/v1/bookmaster/user/create`                      | Crear nuevo usuario                    |
+| PUT    | `/api/v1/bookmaster/user/update`                      | Actualizar datos de usuario            |
+| GET    | `/api/v1/bookmaster/author/todos`                     | Consultar todos los autores            |
+| POST   | `/api/v1/bookmaster/author/create`                    | Crear nuevo autor                      |
+| GET    | `/api/v1/bookmaster/book/todos`                       | Consultar todos los libros             |
+| POST   | `/api/v1/bookmaster/book/create`                      | Crear nuevo libro                      |
+| GET    | `/api/v1/bookmaster/book/by-author/{nombreAutor}`     | Consultar libros por autor             |
+| GET    | `/api/v1/bookmaster/book/by-title/{tituloLibro}`      | Consultar libros por titulo            |
+| GET    | `/api/v1/bookmaster/publisher/todos`                  | Consultar todas las casas editoriales  |
+| POST   | `/api/v1/bookmaster/publisher/create`                 | Crear nueva casa editorial             |
+| GET    | `/api/v1/bookmaster/client/todos`                     | Consultar todos los clientes           |
+| POST   | `/api/v1/bookmaster/client/create`                    | Crear nuevo cliente                    |
+| GET    | `/api/v1/bookmaster/client/by-nombre/{nombreCliente}` | Consultar clientes por nombre          |
+| GET    | `/api/v1/bookmaster/loan/todos`                       | Consultar todos los prestamos          |
+| POST   | `/api/v1/bookmaster/loan/create`                      | Crear nuevo prestamo                   |
+| PUT    | `/api/v1/bookmaster/loan/update`                      | Actualizar prestamo                    |
+| GET    | `/api/v1/bookmaster/loan/by-client/{nombreCliente}`   | Consultar prestamos por cliente        |
 
 ## Uso
 
