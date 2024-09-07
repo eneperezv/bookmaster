@@ -69,7 +69,6 @@ La aplicación BookMaster permite gestionar una colección de libros, incluyendo
 | Método | Endpoint                                              | Descripción                            |
 |--------|-------------------------------------------------------|----------------------------------------|
 | POST   | `/api/v1/bookmaster/auth`                             | Autenticacion para crear TOKEN         |
-| GET    | `/api/v1/bookmaster/user/todos`                       | Consultar todos los usuarios           |
 | GET    | `/api/v1/bookmaster/user/{usuario}`                   | Consultar usuario                      |
 | POST   | `/api/v1/bookmaster/user/create`                      | Crear nuevo usuario                    |
 | PUT    | `/api/v1/bookmaster/user/update`                      | Actualizar datos de usuario            |
